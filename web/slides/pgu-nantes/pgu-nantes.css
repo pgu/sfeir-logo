@@ -1,6 +1,12 @@
-.pgu-nt-article {
+.pgu-article-black {
     background:no-repeat scroll 710px 625px black !important;
 }
+.pgu-article {
+    position: relative;
+    overflow: hidden;
+}
+
+
 
 .pgu-nt {
     height: 200px;
