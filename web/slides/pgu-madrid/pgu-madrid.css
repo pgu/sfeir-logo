@@ -1,0 +1,17 @@
+.pgu-md-article {
+    background:no-repeat scroll 710px 625px black !important;
+}
+
+.pgu-md {
+    height: 200px;
+    width: 200px;
+}
+.pgu-md-sf {
+    background-color: green;
+}
+.pgu-md-e {
+    background-color: greenyellow;
+}
+.pgu-md-ir {
+    background-color: darkgreen;
+}

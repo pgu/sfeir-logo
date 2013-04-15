@@ -1,3 +1,17 @@
-.slides.template-default > article.pgu-nantes {
+.pgu-nt-article {
     background:no-repeat scroll 710px 625px black !important;
+}
+
+.pgu-nt {
+    height: 200px;
+    width: 200px;
+}
+.pgu-nt-sf {
+    background-color: pink;
+}
+.pgu-nt-e {
+    background-color: yellow;
+}
+.pgu-nt-ir {
+    background-color: blue;
 }
