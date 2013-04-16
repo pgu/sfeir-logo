@@ -9,3 +9,14 @@
 
     background: url('/img/ico_recrutement.png') no-repeat;
 }
+
+.pgu-article-black {
+    /* overrides the Google logo and the 'white' color */
+    background : black !important;
+}
+.pgu-article {
+    position: relative;
+    overflow: hidden;
+}
+
+
