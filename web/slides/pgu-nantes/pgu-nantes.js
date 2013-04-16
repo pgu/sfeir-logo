@@ -27,7 +27,6 @@
         'reset': function() {
                 console.log('reset nantes');
 
-//            $('#pgu-nt-cube-mask').fadeIn();
             $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
 
             window.killFirstRender('pgu-nt-cube-container');
@@ -57,6 +56,7 @@
                         $('#pgu-nt-cube').addClass('pgu-nt-cube-go-front');
 
                         setTimeout(function() {
+                            // hide mask
                             $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
                         }, 400);
 

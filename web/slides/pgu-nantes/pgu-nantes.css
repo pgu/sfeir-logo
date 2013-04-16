@@ -43,7 +43,8 @@
     width: 395px;
     height: 100%;
 
-    color: #E44B0F;
+    /*color: #E44B0F;*/
+    color: #F1471D;
     background-color: black;
 
     text-align: right;
@@ -69,7 +70,7 @@
     width: 180px;
     height: 160px;
 
-    color: #E44B0F;
+    color: #F1471D;
     /*background-color: violet;*/
 
     text-align: center;
@@ -97,7 +98,7 @@
     width: 395px;
     height: 200px;
 
-    color: #E44B0F;
+    color: #F1471D;
     background-color: black;
 
     text-align: left;
