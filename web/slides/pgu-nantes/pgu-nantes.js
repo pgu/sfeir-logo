@@ -1,5 +1,6 @@
 (function() {
 
+    // init DOM
     var dom_of_article = [
         , '  <div id="pgu-nt-sf" class="pgu-nt pgu-nt-sf">SF</div>'
         , '  <div id="pgu-nt-e" class="pgu-nt pgu-nt-e">≡</div>'
@@ -12,12 +13,24 @@
     article.addClass('pgu-article');
     article.addClass('pgu-article-black');
 
-    window.pgu_nantes_onslideenter = function() {
-        console.log('nantes enter');
-    };
 
-    window.pgu_nantes_onslideleave = function() {
-        console.log('nantes leave');
+
+
+
+
+
+
+
+
+    // when the user gets to the slide,
+    // animate it!
+    window.SLIDES['pgu-nantes'] = {
+        'reset': function() {
+                console.log('reset nantes');
+        }
+      , 'execute': function() {
+                console.log('execute nantes');
+        }
     };
 
 })();

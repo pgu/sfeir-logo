@@ -9,12 +9,13 @@
     $('#pgu-madrid').html(dom.join(''));
     $('#pgu-madrid').addClass('pgu-md-article');
 
-    window.pgu_madrid_onslideenter = function() {
-        console.log('madrid enter');
-    };
-
-    window.pgu_madrid_onslideleave = function() {
-        console.log('madrid leave');
+    window.SLIDES['pgu-madrid'] = {
+        'reset': function() {
+            console.log('reset madrid');
+        }
+        , 'execute': function() {
+            console.log('execute madrid');
+        }
     };
 
 })();

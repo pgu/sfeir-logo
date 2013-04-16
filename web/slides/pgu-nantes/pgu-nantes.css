@@ -1,5 +1,6 @@
 .pgu-article-black {
-    background:no-repeat scroll 710px 625px black !important;
+    /* no-repeat scroll 710px 625px */
+    background-color:black !important;
 }
 .pgu-article {
     position: relative;
