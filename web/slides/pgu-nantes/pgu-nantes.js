@@ -27,7 +27,8 @@
         'reset': function() {
                 console.log('reset nantes');
 
-            $('#pgu-nt-cube-mask').fadeIn();
+//            $('#pgu-nt-cube-mask').fadeIn();
+            $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
 
             window.killFirstRender('pgu-nt-cube-container');
             $('#pgu-nt-cube').removeClass('pgu-nt-cube-go-front');
@@ -55,7 +56,9 @@
                         // avance mask & container
                         $('#pgu-nt-cube').addClass('pgu-nt-cube-go-front');
 
-                        $('#pgu-nt-cube-mask').delay(2700).fadeOut('slow');
+                        setTimeout(function() {
+                            $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
+                        }, 400);
 
                         var callback = function(scene) {
                             var loader = new THREE.ColladaLoader();
