@@ -65,7 +65,7 @@
 
                         }, 400);
 
-                        var callback = function(scene) {
+                        var render_callback = function(scene) {
                             var loader = new THREE.ColladaLoader();
                             loader.options.convertUpAxis= true;
                             loader.options.upAxis = 'Y';
@@ -89,7 +89,7 @@
                         // render cube
                         var config = {
                             id: 'pgu-nt-cube-container'
-                          , callback: callback
+                          , callback: render_callback
                           , wants_to_rotate: true
                         }
 
@@ -98,7 +98,6 @@
                 );
 
             });
-
 
         }
     };
