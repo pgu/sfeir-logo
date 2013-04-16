@@ -38,23 +38,23 @@
     var SLIDES = {};
     var current_slide = null;
 
-    function on_slide_enter(el) {
-
+    function reset_current_slide() {
         if (current_slide) {
+            hide_logo();
             current_slide.reset();
             current_slide = null;
         }
+    }
+
+    function on_slide_enter(el) {
+        reset_current_slide();
 
         current_slide = SLIDES[el.id];
         current_slide.execute();
     }
 
     function on_slide_leave() {
-
-        if (current_slide) {
-            current_slide.reset();
-            current_slide = null;
-        }
+        reset_current_slide();
     }
 
 </script>

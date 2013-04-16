@@ -89,3 +89,11 @@ function killFirstRender(id)
     }, 300);
 }
 
+function show_logo_when_animation_is_over(id) {
+    $('#' + id).append('<a href="http://www.sfeir.com/rejoignez-sfeir-2/" target="_blank" class="logo-of-careers" style="display: none;"></a>');
+    $('.logo-of-careers').delay(1000).fadeIn();
+}
+
+function hide_logo() {
+    $('.logo-of-careers').remove();
+}

@@ -24,7 +24,8 @@
     // when the user gets to the slide,
     // animate it!
     window.SLIDES['pgu-nantes'] = {
-        'reset': function() {
+        id: 'pgu-nantes'
+      , reset: function() {
                 console.log('reset nantes');
 
             $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
@@ -39,7 +40,7 @@
             $('#pgu-nt-close').removeClass('pgu-nt-go-to-right');
 
         }
-      , 'execute': function() {
+      , execute: function() {
                 console.log('execute nantes');
 
             $('#pgu-nt-e').off('click').on('click', function () {
@@ -58,6 +59,10 @@
                         setTimeout(function() {
                             // hide mask
                             $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
+
+                            // show end of animation
+                            show_logo_when_animation_is_over('pgu-nantes');
+
                         }, 400);
 
                         var callback = function(scene) {

@@ -1,0 +1,11 @@
+.logo-of-careers {
+    position: absolute;
+    top: 625px;
+    left: 780px;
+    z-index: 10000;
+
+    width: 30px;
+    height: 30px;
+
+    background: url('/img/ico_recrutement.png') no-repeat;
+}
