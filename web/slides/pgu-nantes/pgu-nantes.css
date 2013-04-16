@@ -1,24 +1,157 @@
 .pgu-article-black {
-    /* no-repeat scroll 710px 625px */
-    background-color:black !important;
+    /* overrides the Google logo and the 'white' color */
+    background : no-repeat scroll 710px 625px black !important;
 }
 .pgu-article {
     position: relative;
     overflow: hidden;
 }
 
-
-
-.pgu-nt {
-    height: 200px;
-    width: 200px;
-}
 .pgu-nt-sf {
-    background-color: pink;
+    position: absolute;
+    top: 250px;
+    left: 0px;
+    z-index: 10;
+
+    width: 395px;
+    height: 200px;
+
+    color: #ffffff;
+    background-color: deeppink;
+
+    text-align: center;
+    font-size: 200px;
+    line-height: 182px;
 }
+
+.pgu-nt-open {
+    position: absolute;
+    top: 250px;
+    left: 0px;
+    z-index: 11;
+
+    width: 395px;
+    height: 200px;
+
+    color: #E44B0F;
+    background-color: greenyellow;
+
+    text-align: right;
+    font-size: 225px;
+    line-height: 152px;
+
+    transition-timing-function: ease;
+
+    -moz-transition: -moz-transform 2s;
+    -webkit-transition: -webkit-transform 2s;
+    -o-transition: -o-transform 2s;
+    transition: transform 2s;
+}
+
 .pgu-nt-e {
-    background-color: yellow;
+    cursor: pointer;
+
+    position: absolute;
+    top: 270px;
+    left: 360px;
+    z-index: 12;
+
+    width: 180px;
+    height: 160px;
+
+    color: #E44B0F;
+    background-color: violet;
+
+    text-align: center;
+    font-size: 225px;
+    line-height: 138px;
+
+    -moz-transition: -moz-transform 2s;
+    -webkit-transition: -webkit-transform 2s;
+    -o-transition: -o-transform 2s;
+    transition: transform 2s;
 }
+
+.pgu-nt-close {
+    position: absolute;
+    top: 250px;
+    left: 504px;
+    z-index: 11;
+
+    width: 395px;
+    height: 200px;
+
+    color: #E44B0F;
+    background-color: greenyellow;
+
+    text-align: left;
+    font-size: 225px;
+    line-height: 152px;
+
+    transition-timing-function: ease;
+
+    -moz-transition: -moz-transform 2s;
+    -webkit-transition: -webkit-transform 2s;
+    -o-transition: -o-transform 2s;
+    transition: transform 2s;
+}
+
 .pgu-nt-ir {
+    position: absolute;
+    top: 250px;
+    left: 503px;
+    z-index: 10;
+
+    width: 395px;
+    height: 200px;
+
+    color: #ffffff;
+    background-color: deeppink;
+
+    text-align: center;
+    font-size: 200px;
+    line-height: 185px;
+}
+
+.pgu-nt-go-to-left {
+    -webkit-transform: translateX(-330px);
+    transform: translateX(-330px);
+}
+
+.pgu-nt-go-to-right {
+    -webkit-transform: translateX(330px);
+    transform: translateX(330px);
+}
+
+.pgu-nt-cube {
+    position: absolute;
+    top: 0px;
+    left: 305px;
+    z-index: 0;
+
+    width: 295px;
+    height: 700px;
+}
+
+.pgu-nt-cube-container {
+    width: 100%;
+    height: 100%;
+
+    background-color: darkred;
+}
+
+.pgu-nt-cube-mask {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+
     background-color: blue;
+}
+
+.pgu-nt-cube-go-front {
+    z-index: 20;
 }
