@@ -11,7 +11,7 @@
         , '  </div>'
         , '  <div id="pgu-nt-cube"       class="pgu-nt-cube">'
         , '    <div id="pgu-nt-cube-container"  class="pgu-nt-cube-container"></div>'
-        , '    <div id="pgu-nt-cube-mask"  class="pgu-nt-cube-mask"></div>'
+        , '    <div id="pgu-nt-cube-mask"       class="pgu-nt-cube-mask"></div>'
         , '  </div>'
     ]
 
@@ -31,6 +31,7 @@
 
             window.killFirstRender('pgu-nt-cube-container');
             $('#pgu-nt-cube').removeClass('pgu-nt-cube-go-front');
+            $('#pgu-nt-e').removeClass('pgu-nt-rotate');
 
             $('#pgu-nt-e').fadeIn();
 
@@ -44,6 +45,10 @@
             $('#pgu-nt-e').off('click').on('click', function () {
                 $('#pgu-nt-open').addClass('pgu-nt-go-to-left');
                 $('#pgu-nt-close').addClass('pgu-nt-go-to-right');
+
+                setTimeout(function() {
+                    $('#pgu-nt-e').addClass('pgu-nt-rotate');
+                }, 400);
 
                 $('#pgu-nt-e').delay(2700).fadeOut('slow',
                     function() {
