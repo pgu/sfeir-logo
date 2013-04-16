@@ -1,8 +1,8 @@
 // see http://animateyourhtml5.appspot.com/
-function firstRender(id, callback)
+function firstRender(config)
 {
     // dimensions
-    var canvascontainer = document.getElementById(id);
+    var canvascontainer = document.getElementById(config.id);
     // relaunch if not ready
     if (canvascontainer == null || canvascontainer.clientWidth == 0 || canvascontainer.clientHeight == 0 || canvascontainer.animation === -1) { window.setTimeout(function() {firstRender(id);}, 200); return; }
 
@@ -45,7 +45,7 @@ function firstRender(id, callback)
     scene.add(light3);
 
     // textured cube
-    callback(scene);
+    config.callback(scene);
 
     var t0 = new Date().getTime();
 
@@ -57,11 +57,13 @@ function firstRender(id, callback)
         {
             scene.traverse(function(object)
             {
-                // models: slow rotation
-                if (object instanceof THREE.Object3D)
-                {
-                    object.rotation.y = (t-t0)/1000 - Math.PI/2;
-                };
+                if (config.wants_to_rotate) {
+                    // models: slow rotation
+                    if (object instanceof THREE.Object3D)
+                    {
+                        object.rotation.y = (t-t0)/1000 - Math.PI/2;
+                    };
+                }
             } );
 
             renderer.render(scene, camera);

@@ -80,8 +80,15 @@
                                     scene.add(model);
                                 } );
                         }
+
                         // render cube
-                        window.firstRender('pgu-nt-cube-container', callback);
+                        var config = {
+                            id: 'pgu-nt-cube-container'
+                          , callback: callback
+                          , wants_to_rotate: true
+                        }
+
+                        window.firstRender(config);
                     }
                 );
 
