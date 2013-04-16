@@ -2,11 +2,13 @@
 
     // init DOM
     var dom_of_article = [
-        , '  <div id="pgu-nt-open"       class="pgu-nt-open">[</div>'
-        , '  <div id="pgu-nt-sf"         class="pgu-nt-sf">SF</div>'
-        , '  <div id="pgu-nt-e"          class="pgu-nt-e">≡</div>'
-        , '  <div id="pgu-nt-ir"         class="pgu-nt-ir">I R</div>'
-        , '  <div id="pgu-nt-close"      class="pgu-nt-close">]</div>'
+        , '  <div id="pgu-nt-logo"       class="pgu-nt-logo">'
+        , '    <div id="pgu-nt-open"       class="pgu-nt-open">[</div>'
+        , '    <div id="pgu-nt-sf"         class="pgu-nt-sf">SF</div>'
+        , '    <div id="pgu-nt-e"          class="pgu-nt-e">≡</div>'
+        , '    <div id="pgu-nt-ir"         class="pgu-nt-ir">I R</div>'
+        , '    <div id="pgu-nt-close"      class="pgu-nt-close">]</div>'
+        , '  </div>'
         , '  <div id="pgu-nt-cube"       class="pgu-nt-cube">'
         , '    <div id="pgu-nt-cube-container"  class="pgu-nt-cube-container"></div>'
         , '    <div id="pgu-nt-cube-mask"  class="pgu-nt-cube-mask"></div>'
@@ -18,15 +20,6 @@
 
     article.addClass('pgu-article');
     article.addClass('pgu-article-black');
-
-
-
-
-
-
-
-
-
 
     // when the user gets to the slide,
     // animate it!
