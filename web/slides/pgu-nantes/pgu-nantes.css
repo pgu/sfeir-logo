@@ -1,6 +1,6 @@
 .pgu-article-black {
     /* overrides the Google logo and the 'white' color */
-    background : no-repeat scroll 710px 625px black !important;
+    background : black !important;
 }
 .pgu-article {
     position: relative;
