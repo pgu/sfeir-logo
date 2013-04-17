@@ -87,3 +87,13 @@
     transition: transform 2s;
 }
 
+.pgu-go-to-left {
+    -webkit-transform: translateX(-330px);
+    transform: translateX(-330px);
+}
+
+.pgu-go-to-right {
+    -webkit-transform: translateX(330px);
+    transform: translateX(330px);
+}
+

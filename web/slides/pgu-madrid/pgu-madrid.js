@@ -27,6 +27,10 @@
 
         var logos = [
             {
+                id: 'pgu-md-sfeir'
+              , img: '/slides/pgu-madrid/img/sfeir_logo.png'
+            }
+          , {
                 id: 'pgu-md-android'
               , img: '/slides/pgu-madrid/img/android_logo.jpg'
             }
@@ -42,61 +46,63 @@
                 id: 'pgu-md-dart'
               , img: '/slides/pgu-madrid/img/dart_logo.png'
             }
-          , {
-                id: 'pgu-md-sfeir'
-              , img: '/slides/pgu-madrid/img/sfeir_logo.png'
-            }
           ];
-        var current_logo_idx = 0;
+
+        var render_logo = function(logo) {
+
+            var render = function() {
+                var render_callback = function(scene) {
+                    var texture = THREE.ImageUtils.loadTexture(logo.img);
+                    // textured cube
+                    var cube = new THREE.Mesh(
+                        new THREE.CubeGeometry(105, 105, 105),
+                        new THREE.MeshLambertMaterial({map: texture}) );
+                    cube.position.y = -7;
+                    cube.rotation.x = 0.5;
+                    cube.rotation.z = 0.5;
+                    cube.name = logo.id + "-cube";
+                    scene.add(cube);
+                }
+
+                var config = {
+                    id: logo.id
+                    , callback: render_callback
+                    , wants_to_rotate: true
+                }
+                window.firstRender(config);
+            }
+
+            var static_img = $('#' + logo.id + '-static');
+            if (static_img.length > 0) {
+                static_img.fadeOut('slow',
+                    function() {
+                        render();
+                    });
+
+            } else {
+                render();
+            }
+
+        };
+
+        var render_late = function(idx) {
+            return function() {
+                    setTimeout(function() {
+                        render_logo(logos[idx]);
+                    }, 1000*idx);
+            }
+        };
 
         return {
-            render_next_logo: function() {
-                if (current_logo_idx === logos.length) {
-                    return;
+            is_animation_on: false
+          , render_logos: function() {
+                for(var i = 0; i < logos.length; i++) {
+                    render_late(i)();
                 }
-
-                var next_logo_idx = current_logo_idx++;
-                var next_logo = logos[next_logo_idx];
-
-                if (next_logo_idx === logos.length - 1) {
-                    $('#pgu-md-logo').fadeOut('slow');
+                setTimeout(function() {
                     // show end of animation
                     window.show_logo_when_animation_is_over('pgu-madrid');
-                }
-
-                var render = function() {
-                    var render_callback = function(scene) {
-                        var texture = THREE.ImageUtils.loadTexture(next_logo.img);
-                        // textured cube
-                        var cube = new THREE.Mesh(
-                            new THREE.CubeGeometry(95, 95, 95),
-                            new THREE.MeshLambertMaterial({map: texture}) );
-                        cube.position.y = -7;
-                        cube.rotation.x = 0.5;
-                        cube.rotation.z = 0.5;
-                        cube.name = next_logo.id + "-cube";
-                        scene.add(cube);
-                    }
-
-                    var config = {
-                        id: next_logo.id
-                        , callback: render_callback
-                        , wants_to_rotate: true
-                    }
-                    window.firstRender(config);
-                }
-
-                var static_img = $('#' + next_logo.id + '-static');
-                if (static_img.length > 0) {
-                static_img.fadeOut('slow',
-                        function() {
-                            render();
-                        });
-
-                } else {
-                    render();
-                }
-
+                }, 200*logos.length);
             }
         }
     } ();
@@ -113,27 +119,39 @@
 
             $('#pgu-md-e').off('click').on('click', function () {
 
-                if (window.is_md_animation_on) {
+                if (window.pgu_madrid.is_animation_on) {
                     return;
                 }
 
-                window.is_md_animation_on = true;
+                window.pgu_madrid.is_animation_on = true;
 
-                $('#pgu-md-e').addClass('pgu-md-logo-small');
+                $('#pgu-md-e').addClass('pgu-md-logo-small-1');
                 setTimeout(function() {
-                    $('#pgu-md-e').removeClass('pgu-md-logo-small');
-                    $('#pgu-md-e').addClass('pgu-md-logo-big');
+                    $('#pgu-md-e').removeClass('pgu-md-logo-small-1');
+                    $('#pgu-md-e').addClass('pgu-md-logo-big-1');
 
                     setTimeout(function() {
-                        $('#pgu-md-e').removeClass('pgu-md-logo-big');
+                        $('#pgu-md-e').removeClass('pgu-md-logo-big-1');
+                        $('#pgu-md-e').addClass('pgu-md-logo-small-2');
 
-                        window.pgu_madrid.render_next_logo();
-                        window.is_md_animation_on = false;
+                        setTimeout(function() {
+                            $('#pgu-md-e').removeClass('pgu-md-logo-small-2');
+                            $('#pgu-md-e').addClass('pgu-md-logo-big-2');
 
+                            setTimeout(function() {
+                                $('#pgu-md-open').addClass('pgu-go-to-left');
+                                $('#pgu-md-close').addClass('pgu-go-to-right');
+                            }, 50);
+
+
+                            $('#pgu-md-logo').delay(1000).fadeOut('slow');
+//                            $('#pgu-md-open').delay(1000).fadeOut('slow');
+//                            $('#pgu-md-close').delay(1000).fadeOut('slow');
+
+                            window.pgu_madrid.render_logos();
+                        }, 1000);
                     }, 1000);
-
-                }, 1000);
-
+                }, 700);
             });
 
         }

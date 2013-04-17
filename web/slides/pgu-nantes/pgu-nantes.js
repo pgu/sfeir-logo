@@ -36,16 +36,16 @@
 
             $('#pgu-nt-e').fadeIn();
 
-            $('#pgu-nt-open').removeClass('pgu-nt-go-to-left');
-            $('#pgu-nt-close').removeClass('pgu-nt-go-to-right');
+            $('#pgu-nt-open').removeClass('pgu-go-to-left');
+            $('#pgu-nt-close').removeClass('pgu-go-to-right');
 
         }
       , execute: function() {
                 console.log('execute nantes');
 
             $('#pgu-nt-e').off('click').on('click', function () {
-                $('#pgu-nt-open').addClass('pgu-nt-go-to-left');
-                $('#pgu-nt-close').addClass('pgu-nt-go-to-right');
+                $('#pgu-nt-open').addClass('pgu-go-to-left');
+                $('#pgu-nt-close').addClass('pgu-go-to-right');
 
                 setTimeout(function() {
                     $('#pgu-nt-e').addClass('pgu-nt-rotate');

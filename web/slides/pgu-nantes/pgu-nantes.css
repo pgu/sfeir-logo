@@ -33,16 +33,6 @@
     line-height: 185px;
 }
 
-.pgu-nt-go-to-left {
-    -webkit-transform: translateX(-330px);
-    transform: translateX(-330px);
-}
-
-.pgu-nt-go-to-right {
-    -webkit-transform: translateX(330px);
-    transform: translateX(330px);
-}
-
 .pgu-nt-cube {
     position: absolute;
     top: 0px;
