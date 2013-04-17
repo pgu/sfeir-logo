@@ -19,12 +19,26 @@
     article.html(dom_of_article.join(''));
     article.addClass('pgu-article pgu-article-black');
 
+    window.pgu_nantes = function() {
+        var is_on = false;
+
+        return {
+            set_ON: function(on) {
+                is_on = on;
+            }
+          , is_ON: function() {
+                return is_on;
+            }
+        }
+    }();
+
     // when the user gets to the slide,
     // animate it!
     window.SLIDES['pgu-nantes'] = {
         id: 'pgu-nantes'
       , reset: function() {
-                console.log('reset nantes');
+            console.log('reset nantes');
+            window.pgu_nantes.set_ON(false);
 
             $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
 
@@ -39,22 +53,32 @@
 
         }
       , execute: function() {
-                console.log('execute nantes');
+            console.log('execute nantes');
+            window.pgu_nantes.set_ON(true);
 
             $('#pgu-nt-e').off('click').on('click', function () {
+
+                $('#pgu-nt-e').off('click');
+
                 $('#pgu-nt-open').addClass('pgu-go-to-left');
                 $('#pgu-nt-close').addClass('pgu-go-to-right');
 
                 setTimeout(function() {
+                    if (!window.pgu_nantes.is_ON()) {return;}
+
                     $('#pgu-nt-e').addClass('pgu-nt-rotate');
                 }, 400);
 
                 $('#pgu-nt-e').delay(2700).fadeOut('slow',
                     function() {
+                        if (!window.pgu_nantes.is_ON()) {return;}
+
                         // avance mask & container
                         $('#pgu-nt-cube').addClass('pgu-nt-cube-go-front');
 
                         setTimeout(function() {
+                            if (!window.pgu_nantes.is_ON()) {return;}
+
                             // hide mask
                             $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
 

@@ -23,7 +23,7 @@
 
     window.pgu_madrid = function() {
 
-        var delay = 800;
+        var delay = 1000;
         var is_on = false;
 
         var logos = [
