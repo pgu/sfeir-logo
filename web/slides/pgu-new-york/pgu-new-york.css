@@ -64,6 +64,12 @@
     text-shadow: 0 2px 3px darkorange;
 }
 
+.pgu-ny-cube-pause {
+    position: absolute;
+    top:  0px;
+    left: 0px;
+}
+
 .pgu-ny-cube-left {
     position: absolute;
     top: 50px;

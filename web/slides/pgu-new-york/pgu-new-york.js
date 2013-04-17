@@ -9,6 +9,7 @@
         , '  <div id="pgu-ny-cube"          class="pgu-ny-cube"></div>'
         , '  <div id="pgu-ny-cube-controls" class="pgu-ny-cube-controls">'
         , '    <div id="pgu-ny-cube-direction" class="pgu-ny-cube-direction pgu-ny-cube-control">'
+        , '      <div id="pgu-ny-cube-dir-pause" class="pgu-ny-cube-arrow pgu-ny-cube-pause">!!←</div>'
         , '      <div id="pgu-ny-cube-dir-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
         , '      <div id="pgu-ny-cube-dir-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
         , '      <div id="pgu-ny-cube-dir-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
@@ -42,16 +43,16 @@
         var interval_id_for_animation = null;
         var the_cube = null;
 
-        var z_max = 250;
+        var z_max = 188;
         var z_min = -500;
         var x_max_coef = -0.42; // parseFloat((-80/190).toFixed(2));
         var x_min_coef = 0.42; // parseFloat((79/190).toFixed(2));
         var y_max_coef = -0.305; // parseFloat((-58/190).toFixed(2));
         var y_min_coef = 0.335; // parseFloat((58/190).toFixed(2));
 
-        var is_changing = false;
+        var y = y_max = y_min = x = x_max = x_min = -1;
 
-        var y = x = y_max = y_min = x_max = x_min = 0;
+        var should_run = true;
 
         var move_cube = function(model) {
 
@@ -59,21 +60,21 @@
 
             var interval_id_for_animation = setInterval(function() {
 
-                if (is_changing) {
-                    return;
-                }
-
                 var z = the_cube.position.z;
                 x = the_cube.position.x;
                 y = the_cube.position.y;
 
-                y_max = parseFloat((y_max_coef * z).toFixed(1)) + 44;
-                y_min = parseFloat((y_min_coef * z).toFixed(1)) - 80;
+                y_max = (parseFloat((y_max_coef * z).toFixed(1)) + 44);
+                y_min = (parseFloat((y_min_coef * z).toFixed(1)) - 80);
 
-                x_max = parseFloat((x_max_coef * z).toFixed(1)) + 90;
-                x_min = parseFloat((x_min_coef * z).toFixed(1)) - 89;
+                x_max = (parseFloat((x_max_coef * z).toFixed(1)) + 90);
+                x_min = (parseFloat((x_min_coef * z).toFixed(1)) - 89);
 
-                console.log('x: ' + x + ', max: '+ x_max + ', min: ' + x_min);
+                if (should_run) {
+                    console.log('z: ' + z);
+                    console.log('x: ' + x + ', max: '+ x_max + ', min: ' + x_min);
+                    console.log('y: ' + y + ', max: '+ y_max + ', min: ' + y_min);
+                }
 
                 if (selected_axis === 'z') {
                     if (!(z_min < z && z < z_max)) {
@@ -91,8 +92,26 @@
                     return;
                 }
 
-                the_cube.position[selected_axis] = the_cube.position[selected_axis] + (4 * coeff_dir);
-            }, 500);
+                if (should_run) {
+                    the_cube.position[selected_axis] = the_cube.position[selected_axis] + (4 * coeff_dir);
+
+                    if ('z' === selected_axis) {
+                        if (x < x_min) {
+                            the_cube.position.x = x_min;
+
+                        } else if (x_max < x) {
+                            the_cube.position.x = x_max;
+
+                        } else if (y < y_min) {
+                            the_cube.position.y = y_min;
+
+                        } else if (y_max < y) {
+                            the_cube.position.y = y_max;
+                        }
+                    }
+                }
+
+            }, 50);
         }
 
         var render_callback = function(scene) {
@@ -106,7 +125,7 @@
                     var scale = new THREE.Vector3(1,1,1);
                     var model = collada.scene;
                     model.position.z = 0;
-                    model.position.y = -20;
+                    model.position.y = -17;
                     model.scale.copy(scale);
                     model.name = "pgu-ny-cube";
 
@@ -126,56 +145,46 @@
         }
 
         var initControls = function() {
-            $('#pgu-ny-cube-dir-left').off('click').on('click', function() {
-                is_changing = true;
+            $('#pgu-ny-cube-dir-pause').off('click').on('click', function() {
+                should_run = !should_run;
+            });
 
+            $('#pgu-ny-cube-dir-left').off('click').on('click', function() {
                 if (x_min < x && x < x_max) {
                     selected_axis = 'x';
                     coeff_dir = -1;
                 }
-
-                is_changing = false;
             });
 
             $('#pgu-ny-cube-dir-right').off('click').on('click', function() {
-                is_changing = true;
                 if (x_min < x && x < x_max) {
                     selected_axis = 'x';
                     coeff_dir = 1;
                 }
-                is_changing = false;
             });
 
             $('#pgu-ny-cube-dir-up').off('click').on('click', function() {
-                is_changing = true;
                 if (y_min < y && y < y_max) {
                     selected_axis = 'y';
                     coeff_dir = 1;
                 }
-                is_changing = false;
             });
 
             $('#pgu-ny-cube-dir-down').off('click').on('click', function() {
-                is_changing = true;
                 if (y_min < y && y < y_max) {
                     selected_axis = 'y';
                     coeff_dir = -1;
                 }
-                is_changing = false;
             });
 
             $('#pgu-ny-cube-dir-fg').off('click').on('click', function() {
-                is_changing = true;
                 selected_axis = 'z';
                 coeff_dir = 1;
-                is_changing = false;
             });
 
             $('#pgu-ny-cube-dir-bg').off('click').on('click', function() {
-                is_changing = true;
                 selected_axis = 'z';
                 coeff_dir = -1;
-                is_changing = false;
             });
 
             //
