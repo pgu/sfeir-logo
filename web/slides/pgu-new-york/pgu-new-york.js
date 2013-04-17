@@ -38,6 +38,24 @@
         , execute: function() {
             console.log('execute new-york');
             window.pgu_new_york.set_ON(true);
+
+            $('#pgu-ny-e').off('click').on('click', function () {
+
+                $('#pgu-ny-e').off('click');
+
+                $('#pgu-ny-open').addClass('pgu-ny-go-to-left');
+                $('#pgu-ny-close').addClass('pgu-ny-go-to-right');
+
+                $('#pgu-ny-e').addClass('pgu-ny-go-big');
+
+                $('#pgu-ny-logo').delay(1300).fadeOut('slow',
+                    function() {
+                        if (!window.pgu_new_york.is_ON()) {return;}
+
+                        console.log('do something');
+                });
+
+            });
         }
 
     };

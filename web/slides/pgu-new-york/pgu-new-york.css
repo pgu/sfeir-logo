@@ -1,0 +1,12 @@
+.pgu-ny-go-big {
+    -webkit-transform: scale(3);
+    transform: scale(3);
+}
+.pgu-ny-go-to-left {
+    -webkit-transform: translateX(-660px) scale(3);
+    transform: translateX(-660px) scale(3);
+}
+.pgu-ny-go-to-right {
+    -webkit-transform: translateX(660px) scale(3);
+    transform: translateX(660px) scale(3);
+}
