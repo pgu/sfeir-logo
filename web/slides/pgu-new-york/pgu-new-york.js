@@ -6,9 +6,24 @@
         , '    <div id="pgu-ny-e"          class="pgu-e">≡</div>'
         , '    <div id="pgu-ny-close"      class="pgu-close">]</div>'
         , '  </div>'
-        , '  <div id="pgu-ny-cube"       class="pgu-ny-cube">'
-        , '    <div id="pgu-ny-cube-container"  class="pgu-ny-cube-container"></div>'
-        , '    <div id="pgu-ny-cube-mask"       class="pgu-ny-cube-mask"></div>'
+        , '  <div id="pgu-ny-cube"          class="pgu-ny-cube"></div>'
+        , '  <div id="pgu-ny-cube-controls" class="pgu-ny-cube-controls">'
+        , '    <div id="pgu-ny-cube-direction" class="pgu-ny-cube-direction pgu-ny-cube-control">'
+        , '      <div id="pgu-ny-cube-dir-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
+        , '      <div id="pgu-ny-cube-dir-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
+        , '      <div id="pgu-ny-cube-dir-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
+        , '      <div id="pgu-ny-cube-dir-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">↓</div>'
+        , '      <div id="pgu-ny-cube-dir-bg" class="pgu-ny-cube-arrow pgu-ny-cube-bg"><div class="arr-bg">↑</div></div>'
+        , '      <div id="pgu-ny-cube-dir-fg" class="pgu-ny-cube-arrow pgu-ny-cube-fg"><div class="arr-fg">↓</div></div>'
+        , '    </div>'
+        , '    <div id="pgu-ny-cube-orientation" class="pgu-ny-cube-orientation pgu-ny-cube-control">'
+        , '      <div id="pgu-ny-cube-or-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
+        , '      <div id="pgu-ny-cube-or-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
+        , '      <div id="pgu-ny-cube-or-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
+        , '      <div id="pgu-ny-cube-or-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">↓</div>'
+        , '      <div id="pgu-ny-cube-or-bg" class="pgu-ny-cube-arrow pgu-ny-cube-bg"><div class="arr-bg">↑</div></div>'
+        , '      <div id="pgu-ny-cube-or-fg" class="pgu-ny-cube-arrow pgu-ny-cube-fg"><div class="arr-fg">↓</div></div>'
+        , '    </div>'
         , '  </div>'
     ]
 
@@ -16,17 +31,135 @@
     article.html(dom_of_article.join(''));
     article.addClass('pgu-article pgu-article-black');
 
+    $('#pgu-ny-cube-controls').fadeOut();
+
     window.pgu_new_york = function() {
         var is_on = false;
+
+        var selected_axis = 'y';
+        var coeff_dir = 1;
+
+        var interval_id_for_animation = null;
+        var the_cube = null;
+
+        var move_cube = function(model) {
+
+            the_cube = model;
+
+            var interval_id_for_animation = setInterval(function() {
+                the_cube.position[selected_axis] = the_cube.position[selected_axis] + (2 * coeff_dir);
+            }, 1000);
+        }
+
+        var render_callback = function(scene) {
+            var loader = new THREE.ColladaLoader();
+            loader.options.convertUpAxis= true;
+            loader.options.upAxis = 'Y';
+
+            loader.load('/slides/pgu-new-york/pgu-cube.dae',
+                function(collada)
+                {
+                    var scale = new THREE.Vector3(1,1,1);
+                    var model = collada.scene;
+                    model.position.z = 0;
+                    model.position.y = -20;
+                    model.scale.copy(scale);
+                    model.name = "pgu-ny-cube";
+
+                    scene.add(model);
+
+                    window.debug_model = model;
+
+                    move_cube(model);
+                } );
+        }
+
+        // render cube
+        var config = {
+            id: 'pgu-ny-cube'
+            , callback: render_callback
+            , wants_to_rotate: false
+        }
+
+        var initControls = function() {
+            $('#pgu-ny-cube-dir-left').off('click').on('click', function() {
+                selected_axis = 'x';
+                coeff_dir = -1;
+            });
+
+            $('#pgu-ny-cube-dir-right').off('click').on('click', function() {
+                selected_axis = 'x';
+                coeff_dir = 1;
+            });
+
+            $('#pgu-ny-cube-dir-up').off('click').on('click', function() {
+                selected_axis = 'y';
+                coeff_dir = 1;
+            });
+
+            $('#pgu-ny-cube-dir-down').off('click').on('click', function() {
+                selected_axis = 'y';
+                coeff_dir = -1;
+            });
+
+            $('#pgu-ny-cube-dir-fg').off('click').on('click', function() {
+                selected_axis = 'z';
+                coeff_dir = 1;
+            });
+
+            $('#pgu-ny-cube-dir-bg').off('click').on('click', function() {
+                selected_axis = 'z';
+                coeff_dir = -1;
+            });
+
+            //
+            // orientation
+            //
+            var coeff_rotation = 0.05;
+
+            $('#pgu-ny-cube-or-left').off('click').on('click', function() {
+                the_cube.rotation.y -= coeff_rotation;
+            });
+
+            $('#pgu-ny-cube-or-right').off('click').on('click', function() {
+                the_cube.rotation.y += coeff_rotation;
+            });
+
+            $('#pgu-ny-cube-or-up').off('click').on('click', function() {
+                the_cube.rotation.x -= coeff_rotation;
+            });
+
+            $('#pgu-ny-cube-or-down').off('click').on('click', function() {
+                the_cube.rotation.x += coeff_rotation;
+            });
+
+            $('#pgu-ny-cube-or-fg').off('click').on('click', function() {
+                the_cube.rotation.z += coeff_rotation;
+            });
+
+            $('#pgu-ny-cube-or-bg').off('click').on('click', function() {
+                the_cube.rotation.z -= coeff_rotation;
+            });
+
+        }
+
 
         return {
             set_ON: function(on) {
                 is_on = on;
             }
-            , is_ON: function() {
+          , is_ON: function() {
                 return is_on;
             }
-        }
+          , show_cube: function() {
+                window.firstRender(config);
+
+                initControls();
+                $('#pgu-ny-cube-controls').fadeIn('slow');
+                // show end of animation
+                show_logo_when_animation_is_over('pgu-new-york');
+            }
+    }
     }();
 
     window.SLIDES['pgu-new-york'] = {
@@ -51,8 +184,7 @@
                 $('#pgu-ny-logo').delay(1300).fadeOut('slow',
                     function() {
                         if (!window.pgu_new_york.is_ON()) {return;}
-
-                        console.log('do something');
+                        window.pgu_new_york.show_cube();
                 });
 
             });

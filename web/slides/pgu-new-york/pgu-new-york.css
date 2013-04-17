@@ -10,3 +10,100 @@
     -webkit-transform: translateX(660px) scale(3);
     transform: translateX(660px) scale(3);
 }
+.pgu-ny-cube {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 0;
+
+    width: 800px;
+    height: 600px;
+}
+
+.pgu-ny-cube-controls {
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+    z-index: 1;
+
+    width: 300px;
+    height: 150px;
+}
+.pgu-ny-cube-control {
+    width: 150px;
+    height: 150px;
+}
+.pgu-ny-cube-direction {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: yellow;
+}
+.pgu-ny-cube-orientation {
+    position: absolute;
+    top: 0px;
+    left: 150px;
+    color: white;
+}
+
+.pgu-ny-cube-arrow {
+    width: 50px;
+    height: 50px;
+
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    line-height: 50px;
+
+    cursor: pointer;
+}
+.pgu-ny-cube-arrow:hover {
+    text-shadow: 0 2px 3px white;
+}
+.pgu-ny-cube-arrow:active {
+    text-shadow: 0 2px 3px darkorange;
+}
+
+.pgu-ny-cube-left {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+}
+.pgu-ny-cube-up {
+    position: absolute;
+    top:   0px;
+    left: 50px;
+}
+.pgu-ny-cube-right {
+    position: absolute;
+    top:   50px;
+    left: 100px;
+}
+.pgu-ny-cube-down {
+    position: absolute;
+    top: 100px;
+    left: 50px;
+}
+.pgu-ny-cube-bg {
+    position: absolute;
+    top: 0px;
+    left: 100px;
+
+    overflow: hidden;
+}
+.pgu-ny-cube-fg {
+    position: absolute;
+    top: 100px;
+    left: 0px;
+
+    overflow: hidden;
+}
+
+.arr-bg {
+    -webkit-transform: skewX(-45deg) translate(6px, 10px);
+    transform: skewX(-45deg) translate(6px, 10px);
+}
+.arr-fg {
+    -webkit-transform: skewX(-45deg) translate(3px, -10px);
+    transform: skewX(-45deg) translate(3px, -10px);
+}
