@@ -1,51 +1,40 @@
+.pgu-md-cube {
+    width: 325px;
+    height: 325px;
+}
 .pgu-md-android {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 0;
-
-    width: 310px;
-    height: 245px;
 }
-
 .pgu-md-gwt {
     position: absolute;
     top: 0px;
-    left: 614px;
+    left: 548px;
     z-index: 0;
-
-    width: 285px;
-    height: 245px;
 }
-
 .pgu-md-angular {
     position: absolute;
-    top: 452px;
+    top: 348px;
     left: 0px;
     z-index: 0;
-
-    width: 310px;
-    height: 246px;
 }
-
 .pgu-md-dart {
     position: absolute;
-    top: 452px;
-    left: 614px;
+    top: 348px;
+    left: 548px;
     z-index: 0;
-
-    width: 284px;
-    height: 246px;
 }
 
 .pgu-md-sfeir {
     position: absolute;
-    top: 200px;
-    left: 300px;
-    z-index: 0;
+    top: 130px;
+    left: 250px;
+    z-index: 1;
 
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
 }
 
 .pgu-md-static {
