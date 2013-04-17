@@ -41,6 +41,8 @@
     function reset_current_slide() {
         if (current_slide) {
             hide_logo();
+            $('.frame-error-for-webgl').remove();
+
             current_slide.reset();
             current_slide = null;
         }
