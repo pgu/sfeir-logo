@@ -17,9 +17,7 @@
 
     var article = $('#pgu-nantes');
     article.html(dom_of_article.join(''));
-
-    article.addClass('pgu-article');
-    article.addClass('pgu-article-black');
+    article.addClass('pgu-article pgu-article-black');
 
     // when the user gets to the slide,
     // animate it!
