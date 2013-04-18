@@ -128,6 +128,10 @@
                 //
                 // animation for the user
                 //
+                if (!should_run) {
+                     return;
+                }
+
                 var z = the_cube.position.z;
                 x = the_cube.position.x;
                 y = the_cube.position.y;
@@ -137,12 +141,6 @@
 
                 x_max = x_max_coef * z + 90;
                 x_min = x_min_coef * z - 89;
-
-//                if (should_run) { // only for debug
-//                    console.log('z: ' + z);
-//                    console.log('x: ' + x + ', max: '+ x_max + ', min: ' + x_min);
-//                    console.log('y: ' + y + ', max: '+ y_max + ', min: ' + y_min);
-//                }
 
                 if (selected_axis === 'z') {
                     if (!(z_min < z && z < z_max)) {
@@ -160,23 +158,25 @@
                     throw 'No selected axis!';
                 }
 
-                if (should_run) {
-                    the_cube.position[selected_axis] = the_cube.position[selected_axis] + (4 * coeff_dir);
+                the_cube.position[selected_axis] = the_cube.position[selected_axis] + (4 * coeff_dir);
 
-                    // update borders
-                    if (x < x_min) {
-                        the_cube.position.x = x_min + 1;
-
-                    } else if (x_max < x) {
-                        the_cube.position.x = x_max - 1;
-
-                    } else if (y < y_min) {
-                        the_cube.position.y = y_min + 1;
-
-                    } else if (y_max < y) {
-                        the_cube.position.y = y_max - 1;
-                    }
+                // update borders
+                if (x < x_min) {
+                    the_cube.position.x = x_min + 1;
                 }
+                if (x_max < x) {
+                    the_cube.position.x = x_max - 1;
+                }
+                if (y < y_min) {
+                    the_cube.position.y = y_min + 1;
+                }
+                if (y_max < y) {
+                    the_cube.position.y = y_max - 1;
+                }
+
+                console.log('z: ' + the_cube.position.z);
+                console.log('x: ' + the_cube.position.x + ', max: '+ x_max + ', min: ' + x_min);
+                console.log('y: ' + the_cube.position.y + ', max: '+ y_max + ', min: ' + y_min);
 
             }, 50);
         }
