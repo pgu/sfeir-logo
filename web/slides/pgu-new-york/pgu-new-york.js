@@ -174,9 +174,10 @@
                     the_cube.position.y = y_max - 1;
                 }
 
-                console.log('z: ' + the_cube.position.z);
-                console.log('x: ' + the_cube.position.x + ', max: '+ x_max + ', min: ' + x_min);
-                console.log('y: ' + the_cube.position.y + ', max: '+ y_max + ', min: ' + y_min);
+                // only for debug
+//                console.log('z: ' + the_cube.position.z);
+//                console.log('x: ' + the_cube.position.x + ', max: '+ x_max + ', min: ' + x_min);
+//                console.log('y: ' + the_cube.position.y + ', max: '+ y_max + ', min: ' + y_min);
 
             }, 50);
         }
