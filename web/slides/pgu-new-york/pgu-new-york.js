@@ -59,7 +59,7 @@
 
         var reset_animation = function() {
 
-            console.log('reset animation');
+//            console.log('reset animation');
 
             clearInterval(interval_id_for_animation);
             killFirstRender('pgu-ny-cube');
@@ -85,13 +85,13 @@
 
         var move_cube = function(model) {
 
+            if (!is_on) {return;}
+
             the_cube = model;
 
             interval_id_for_animation = setInterval(function() {
 
-                if (!is_on) {
-                    return;
-                }
+                if (!is_on) {return;}
 
                 //
                 // opening scene, no controls for the user
@@ -309,7 +309,7 @@
         id: 'pgu-new-york'
 
         , reset: function() {
-            console.log('reset new-york');
+//            console.log('reset new-york');
             window.pgu_new_york.set_ON(false);
             window.pgu_new_york.reset();
 
@@ -322,7 +322,7 @@
         }
 
         , execute: function() {
-            console.log('execute new-york');
+//            console.log('execute new-york');
             window.pgu_new_york.set_ON(true);
 
             $('#pgu-ny-e').off('click').on('click', function () {
