@@ -35,6 +35,18 @@
     <article id='pgu-new-york' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
 </section>
 
+<div id="sfeir_social_btns"  class="sfeir-social-buttons">
+    <div id="sfeir_twitter" class="sfeir-social-button sfeir-social-twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button"data-text="Oserez-vous cliquer?" data-lang="fr" data-size="large" data-related="SFEIRfr" data-count="none" data-hashtags="html5,css3,Three.js,sfeir">Tweeter</a>
+    </div>
+    <div id="sfeir_g_plus" class="sfeir-social-button sfeir-social-g-plus">
+        <div class="g-plusone" data-annotation="none"></div>
+    </div>
+    <div id="sfeir_linkedin" class="sfeir-social-button sfeir-social-linkedin">
+        <script type="IN/Share"></script>
+    </div>
+</div>
+
 <script>
     var SLIDES = {};
     var current_slide = null;
@@ -60,6 +72,7 @@
         reset_current_slide();
     }
 
+    $('#sfeir_social_btns').fadeOut();
 </script>
 
 <!-- LOGOs -->
@@ -73,6 +86,23 @@
 
 <link rel="stylesheet" type="text/css" href="/slides/pgu-new-york/pgu-new-york.css" />
 <script src="/slides/pgu-new-york/pgu-new-york.js" ></script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Linkedin -->
+<script src="//platform.linkedin.com/in.js" type="text/javascript">
+    lang: en_US
+</script>
+
+<!-- Google Plus -->
+<script type="text/javascript">
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+</script>
 
 </body>
 </html>

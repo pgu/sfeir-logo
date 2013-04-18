@@ -97,11 +97,20 @@ function killFirstRender(id)
 
 function show_logo_when_animation_is_over(article_id) {
     $('#' + article_id).append('<a href="http://www.sfeir.com/rejoignez-sfeir-2/" target="_blank" class="logo-of-careers" style="display: none;"></a>');
-    $('.logo-of-careers').delay(1000).fadeIn();
+    $('.logo-of-careers').delay(1000).fadeIn(1000);
+
+    var article = $('#' + article_id)[0];
+
+    var social_btns = $('#sfeir_social_btns')[0];
+    social_btns.style.top =  article.offsetTop + 10 + 'px';
+    social_btns.style.left = article.offsetLeft + 325 + 'px';
+
+    $('#sfeir_social_btns').delay(1000).fadeIn();
 }
 
 function hide_logo() {
     $('.logo-of-careers').remove();
+    $('#sfeir_social_btns').fadeOut();
 }
 
 function inform_user_of_webgl_error() {
