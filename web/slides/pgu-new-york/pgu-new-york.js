@@ -9,7 +9,7 @@
         , '  <div id="pgu-ny-cube"          class="pgu-ny-cube"></div>'
         , '  <div id="pgu-ny-cube-controls" class="pgu-ny-cube-controls">'
         , '    <div id="pgu-ny-cube-direction" class="pgu-ny-cube-direction pgu-ny-cube-control">'
-        , '      <div id="pgu-ny-cube-dir-pause" class="pgu-ny-cube-arrow pgu-ny-cube-pause">!!←</div>'
+        , '      <div id="pgu-ny-cube-dir-pause" class="pgu-ny-cube-arrow pgu-ny-cube-pause">!!</div>'
         , '      <div id="pgu-ny-cube-dir-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
         , '      <div id="pgu-ny-cube-dir-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
         , '      <div id="pgu-ny-cube-dir-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
@@ -35,6 +35,13 @@
     $('#pgu-ny-cube-controls').fadeOut();
 
     window.pgu_new_york = function() {
+        var z_max = 188;
+        var z_min = -200;
+        var x_max_coef = -0.42; // parseFloat((-80/190).toFixed(2));
+        var x_min_coef = 0.42; // parseFloat((79/190).toFixed(2));
+        var y_max_coef = -0.305; // parseFloat((-58/190).toFixed(2));
+        var y_min_coef = 0.335; // parseFloat((58/190).toFixed(2));
+
         var is_on = false;
 
         var selected_axis = 'z';
@@ -43,13 +50,6 @@
         var interval_id_for_animation = null;
         var the_cube = null;
 
-        var z_max = 188;
-        var z_min = -200;
-        var x_max_coef = -0.42; // parseFloat((-80/190).toFixed(2));
-        var x_min_coef = 0.42; // parseFloat((79/190).toFixed(2));
-        var y_max_coef = -0.305; // parseFloat((-58/190).toFixed(2));
-        var y_min_coef = 0.335; // parseFloat((58/190).toFixed(2));
-
         var y = y_max = y_min = x = x_max = x_min = -1;
 
         var should_run = true;
@@ -57,11 +57,40 @@
         var is_opening_scene = true;
         var opening_coef = 1;
 
+        var reset_animation = function() {
+
+            console.log('reset animation');
+
+            clearInterval(interval_id_for_animation);
+            killFirstRender('pgu-ny-cube');
+
+            $('#pgu-ny-cube-controls').fadeOut();
+
+            is_on = false;
+
+            selected_axis = 'z';
+            coeff_dir = 1;
+
+            interval_id_for_animation = null;
+            the_cube = null;
+
+            y = y_max = y_min = x = x_max = x_min = -1;
+
+            should_run = true;
+
+            is_opening_scene = true;
+            opening_coef = 1;
+        }
+
         var move_cube = function(model) {
 
             the_cube = model;
 
-            var interval_id_for_animation = setInterval(function() {
+            interval_id_for_animation = setInterval(function() {
+
+                if (!is_on) {
+                    return;
+                }
 
                 //
                 // opening scene, no controls for the user
@@ -152,6 +181,7 @@
         }
 
         var render_callback = function(scene) {
+
             var loader = new THREE.ColladaLoader();
             loader.options.convertUpAxis= true;
             loader.options.upAxis = 'Y';
@@ -161,7 +191,7 @@
                 {
                     var scale = new THREE.Vector3(1,1,1);
                     var model = collada.scene;
-                    model.position.z = 4;
+                    model.position.z = 0;
                     model.position.y = -17;
                     model.scale.copy(scale);
                     model.name = "pgu-ny-cube";
@@ -257,7 +287,6 @@
 
         }
 
-
         return {
             set_ON: function(on) {
                 is_on = on;
@@ -268,19 +297,28 @@
           , show_cube: function() {
                 window.firstRender(config);
             }
+          , reset: function() {
+                reset_animation();
+            }
     }
     }();
 
     window.SLIDES['pgu-new-york'] = {
         id: 'pgu-new-york'
+
         , reset: function() {
             console.log('reset new-york');
             window.pgu_new_york.set_ON(false);
+            window.pgu_new_york.reset();
 
+            $('#pgu-ny-open').removeClass('pgu-ny-go-to-left');
+            $('#pgu-ny-close').removeClass('pgu-ny-go-to-right');
 
+            $('#pgu-ny-e').removeClass('pgu-ny-go-big');
 
-
+            $('#pgu-ny-logo').fadeIn();
         }
+
         , execute: function() {
             console.log('execute new-york');
             window.pgu_new_york.set_ON(true);
