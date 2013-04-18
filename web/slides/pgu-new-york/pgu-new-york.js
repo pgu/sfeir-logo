@@ -44,7 +44,7 @@
         var the_cube = null;
 
         var z_max = 188;
-        var z_min = -500;
+        var z_min = -200;
         var x_max_coef = -0.42; // parseFloat((-80/190).toFixed(2));
         var x_min_coef = 0.42; // parseFloat((79/190).toFixed(2));
         var y_max_coef = -0.305; // parseFloat((-58/190).toFixed(2));
@@ -54,21 +54,57 @@
 
         var should_run = true;
 
+        var is_opening_scene = true;
+        var opening_coef = 1;
+
         var move_cube = function(model) {
 
             the_cube = model;
 
             var interval_id_for_animation = setInterval(function() {
 
+                //
+                // opening scene, no controls for the user
+                //
+                if (is_opening_scene) {
+                    var current_z = the_cube.position.z;
+
+                    if (opening_coef === 1 && current_z > 300) {
+                        opening_coef = -1; // change direction
+                    }
+
+                    if (opening_coef === -1) {
+                        console.log('z: ' + current_z);
+                    }
+
+                    if (opening_coef === -1 && current_z === 40) {
+                        is_opening_scene = false;
+
+                        selected_axis = 'z';
+                        coeff_dir = 1;
+
+                        initControls();
+                        // show end of animation
+                        show_logo_when_animation_is_over('pgu-new-york');
+                        return;
+                    }
+
+                    the_cube.position.z = the_cube.position.z + 4 * opening_coef;
+                    return;
+                }
+
+                //
+                // animation for the user
+                //
                 var z = the_cube.position.z;
                 x = the_cube.position.x;
                 y = the_cube.position.y;
 
-                y_max = (parseFloat((y_max_coef * z).toFixed(1)) + 44);
-                y_min = (parseFloat((y_min_coef * z).toFixed(1)) - 80);
+                y_max = y_max_coef * z + 44;
+                y_min = y_min_coef * z - 80;
 
-                x_max = (parseFloat((x_max_coef * z).toFixed(1)) + 90);
-                x_min = (parseFloat((x_min_coef * z).toFixed(1)) - 89);
+                x_max = x_max_coef * z + 90;
+                x_min = x_min_coef * z - 89;
 
                 if (should_run) {
                     console.log('z: ' + z);
@@ -124,7 +160,7 @@
                 {
                     var scale = new THREE.Vector3(1,1,1);
                     var model = collada.scene;
-                    model.position.z = 0;
+                    model.position.z = 4;
                     model.position.y = -17;
                     model.scale.copy(scale);
                     model.name = "pgu-ny-cube";
@@ -145,6 +181,8 @@
         }
 
         var initControls = function() {
+            $('#pgu-ny-cube-controls').fadeIn('slow');
+
             $('#pgu-ny-cube-dir-pause').off('click').on('click', function() {
                 should_run = !should_run;
             });
@@ -190,7 +228,7 @@
             //
             // orientation
             //
-            var coeff_rotation = 0.05;
+            var coeff_rotation = 1;
 
             $('#pgu-ny-cube-or-left').off('click').on('click', function() {
                 the_cube.rotation.y -= coeff_rotation;
@@ -228,11 +266,6 @@
             }
           , show_cube: function() {
                 window.firstRender(config);
-
-                initControls();
-                $('#pgu-ny-cube-controls').fadeIn('slow');
-                // show end of animation
-                show_logo_when_animation_is_over('pgu-new-york');
             }
     }
     }();
