@@ -9,19 +9,19 @@
         , '  <div id="pgu-ny-cube"          class="pgu-ny-cube"></div>'
         , '  <div id="pgu-ny-cube-controls" class="pgu-ny-cube-controls">'
         , '    <div id="pgu-ny-cube-direction" class="pgu-ny-cube-direction pgu-ny-cube-control">'
-        , '      <div id="pgu-ny-cube-dir-pause" class="pgu-ny-cube-arrow pgu-ny-cube-pause">!!</div>'
-        , '      <div id="pgu-ny-cube-dir-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
-        , '      <div id="pgu-ny-cube-dir-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
-        , '      <div id="pgu-ny-cube-dir-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
-        , '      <div id="pgu-ny-cube-dir-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">↓</div>'
+        , '      <div id="pgu-ny-cube-dir-pause" class="pgu-ny-cube-arrow pgu-ny-cube-pause">≡</div>' //∞
+        , '      <div id="pgu-ny-cube-dir-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">◄</div>'
+        , '      <div id="pgu-ny-cube-dir-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">▲</div>'
+        , '      <div id="pgu-ny-cube-dir-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">►</div>'
+        , '      <div id="pgu-ny-cube-dir-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">▼</div>'
         , '      <div id="pgu-ny-cube-dir-bg" class="pgu-ny-cube-arrow pgu-ny-cube-bg"><div class="arr-bg">↑</div></div>'
         , '      <div id="pgu-ny-cube-dir-fg" class="pgu-ny-cube-arrow pgu-ny-cube-fg"><div class="arr-fg">↓</div></div>'
         , '    </div>'
         , '    <div id="pgu-ny-cube-orientation" class="pgu-ny-cube-orientation pgu-ny-cube-control">'
-        , '      <div id="pgu-ny-cube-or-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">←</div>'
-        , '      <div id="pgu-ny-cube-or-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">↑</div>'
-        , '      <div id="pgu-ny-cube-or-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">→</div>'
-        , '      <div id="pgu-ny-cube-or-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">↓</div>'
+        , '      <div id="pgu-ny-cube-or-left" class="pgu-ny-cube-arrow pgu-ny-cube-left">◄</div>'
+        , '      <div id="pgu-ny-cube-or-up" class="pgu-ny-cube-arrow pgu-ny-cube-up">▲</div>'
+        , '      <div id="pgu-ny-cube-or-right" class="pgu-ny-cube-arrow pgu-ny-cube-right">►</div>'
+        , '      <div id="pgu-ny-cube-or-down" class="pgu-ny-cube-arrow pgu-ny-cube-down">▼</div>'
         , '      <div id="pgu-ny-cube-or-bg" class="pgu-ny-cube-arrow pgu-ny-cube-bg"><div class="arr-bg">↑</div></div>'
         , '      <div id="pgu-ny-cube-or-fg" class="pgu-ny-cube-arrow pgu-ny-cube-fg"><div class="arr-fg">↓</div></div>'
         , '    </div>'
@@ -77,6 +77,7 @@
             y = y_max = y_min = x = x_max = x_min = -1;
 
             should_run = true;
+            $('#pgu-ny-cube-dir-pause')[0].innerHTML = '≡';
 
             is_opening_scene = true;
             opening_coef = 1;
@@ -216,6 +217,7 @@
 
             $('#pgu-ny-cube-dir-pause').off('click').on('click', function() {
                 should_run = !should_run;
+                $('#pgu-ny-cube-dir-pause')[0].innerHTML = should_run ? '≡' : '∞';
             });
 
             $('#pgu-ny-cube-dir-left').off('click').on('click', function() {
