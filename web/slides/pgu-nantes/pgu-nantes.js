@@ -37,7 +37,7 @@
     window.SLIDES['pgu-nantes'] = {
         id: 'pgu-nantes'
       , reset: function() {
-            console.log('reset nantes');
+//            console.log('reset nantes');
             window.pgu_nantes.set_ON(false);
 
             $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
@@ -53,7 +53,7 @@
 
         }
       , execute: function() {
-            console.log('execute nantes');
+//            console.log('execute nantes');
             window.pgu_nantes.set_ON(true);
 
             $('#pgu-nt-e').off('click').on('click', function () {

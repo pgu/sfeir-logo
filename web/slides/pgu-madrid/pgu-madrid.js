@@ -132,7 +132,7 @@
         id: 'pgu-madrid'
 
       , reset: function() {
-            console.log('reset madrid');
+//            console.log('reset madrid');
 
             window.pgu_madrid.set_ON(false);
             window.pgu_madrid.clear_logos();
@@ -146,7 +146,7 @@
         }
 
       , execute: function() {
-            console.log('execute madrid');
+//            console.log('execute madrid');
             window.pgu_madrid.set_ON(true);
 
             $('#pgu-md-e').off('click').on('click', function () {

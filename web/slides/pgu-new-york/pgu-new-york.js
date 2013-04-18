@@ -69,26 +69,28 @@
                 if (is_opening_scene) {
                     var current_z = the_cube.position.z;
 
+                    // once the cube came to user, makes it come back
                     if (opening_coef === 1 && current_z > 300) {
-                        opening_coef = -1; // change direction
+                        opening_coef = -1;
                     }
 
-                    if (opening_coef === -1) {
-                        console.log('z: ' + current_z);
-                    }
-
+                    // the opening scene is over, let the user handles the cube
                     if (opening_coef === -1 && current_z === 40) {
                         is_opening_scene = false;
 
+                        // let the cube going on
                         selected_axis = 'z';
-                        coeff_dir = 1;
+                        coeff_dir = opening_coef;
 
+                        // show controls
                         initControls();
+
                         // show end of animation
                         show_logo_when_animation_is_over('pgu-new-york');
                         return;
                     }
 
+                    // animate the cube
                     the_cube.position.z = the_cube.position.z + 4 * opening_coef;
                     return;
                 }
@@ -106,11 +108,11 @@
                 x_max = x_max_coef * z + 90;
                 x_min = x_min_coef * z - 89;
 
-                if (should_run) {
-                    console.log('z: ' + z);
-                    console.log('x: ' + x + ', max: '+ x_max + ', min: ' + x_min);
-                    console.log('y: ' + y + ', max: '+ y_max + ', min: ' + y_min);
-                }
+//                if (should_run) { // only for debug
+//                    console.log('z: ' + z);
+//                    console.log('x: ' + x + ', max: '+ x_max + ', min: ' + x_min);
+//                    console.log('y: ' + y + ', max: '+ y_max + ', min: ' + y_min);
+//                }
 
                 if (selected_axis === 'z') {
                     if (!(z_min < z && z < z_max)) {
@@ -125,25 +127,24 @@
                         coeff_dir *= -1;
                     }
                 } else {
-                    return;
+                    throw 'No selected axis!';
                 }
 
                 if (should_run) {
                     the_cube.position[selected_axis] = the_cube.position[selected_axis] + (4 * coeff_dir);
 
-                    if ('z' === selected_axis) {
-                        if (x < x_min) {
-                            the_cube.position.x = x_min;
+                    // update borders
+                    if (x < x_min) {
+                        the_cube.position.x = x_min + 1;
 
-                        } else if (x_max < x) {
-                            the_cube.position.x = x_max;
+                    } else if (x_max < x) {
+                        the_cube.position.x = x_max - 1;
 
-                        } else if (y < y_min) {
-                            the_cube.position.y = y_min;
+                    } else if (y < y_min) {
+                        the_cube.position.y = y_min + 1;
 
-                        } else if (y_max < y) {
-                            the_cube.position.y = y_max;
-                        }
+                    } else if (y_max < y) {
+                        the_cube.position.y = y_max - 1;
                     }
                 }
 
@@ -167,7 +168,7 @@
 
                     scene.add(model);
 
-                    window.debug_model = model;
+//                    window.debug_model = model; // only for debug
 
                     move_cube(model);
                 } );
@@ -228,7 +229,7 @@
             //
             // orientation
             //
-            var coeff_rotation = 1;
+            var coeff_rotation = 0.75;
 
             $('#pgu-ny-cube-or-left').off('click').on('click', function() {
                 the_cube.rotation.y -= coeff_rotation;
@@ -275,6 +276,10 @@
         , reset: function() {
             console.log('reset new-york');
             window.pgu_new_york.set_ON(false);
+
+
+
+
         }
         , execute: function() {
             console.log('execute new-york');
