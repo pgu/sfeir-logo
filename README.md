@@ -41,13 +41,13 @@ Here are the steps to follow:
 
 **That's it!**
 
-Why this slides?
+Why these slides?
 ----------------
 After viewing the awesome [presentation] [2] of Marting Gorner's team, it obviously makes you want to use all those new features.
 And the [Sfeir] [3] logo, especially this form [≡], inspires some funny moves :-)
 
 [1]: http://sfeir-logo.appspot.com/ "Slides with the Sfeir logo"
-[2]: http://animateyourhtml5.appspot.com/ "animate your html5"
+[2]: http://animateyourhtml5.appspot.com/ "Animate your html5"
 [3]: http://www.sfeir.com/ "Sfeir"
 
 
