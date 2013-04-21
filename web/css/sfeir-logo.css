@@ -1,9 +1,15 @@
 .logo-of-careers {
-    position: absolute;
+    /*
+
     top: 625px;
     left: 780px;
     z-index: 10000;
+      */
 
+    position: absolute;
+    top: 19px;
+    left: 21px;
+    /*display: inline-block;*/
     width: 30px;
     height: 30px;
 
@@ -39,11 +45,17 @@
     z-index: 100000;
 
     border-radius: 5px;
-    background-color: #666;
+    /*background-color: #666;*/
     padding: 10px;
 }
 
 .sfeir-social-button {
     display: inline-block;
     margin: 10px;
+    margin-top: 20px;
+    z-index: 1;
+}
+
+#sfeir_twitter iframe {
+    width: 70px !important;
 }
