@@ -100,7 +100,7 @@ function show_social_bar_when_animation_is_over(article_id) {
 
     var social_bar = $('#sfeir_social_bar')[0];
     social_bar.style.top =  article.offsetTop + 10 + 'px';
-    social_bar.style.left = article.offsetLeft + 293 + 'px';
+    social_bar.style.left = article.offsetLeft + 289 + 'px';
 
     $('#sfeir_social_bar').delay(1000).fadeIn();
 }
