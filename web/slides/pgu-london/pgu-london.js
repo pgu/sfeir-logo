@@ -1,8 +1,7 @@
 (function() {
-    var dom_of_article = '<canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas>';   // Here is the dom that will be appended to your 'article'
 
     var article = $('#pgu-london');
-    article.html(dom_of_article.join(''));
+    article.html('<canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas>');
     article.addClass('pgu-article pgu-article-black');
 
     var pgu_london = function() {
@@ -33,19 +32,37 @@
     }
 
     var game = new function() {
-        var KEY_CODES = { 106: 'left', 108: 'right', 107: 'fire' };
-        this.keys = {};
 
-        this.initialize = function(canvas_dom, callbacks) {
-            this.canvas_elem = $(canvas_dom)[0];
-            this.canvas = this.canvas_elem.getContext('2d');
+        var board = {};
+
+        this.initialize = function(canvas_id, callbacks) {
+
             this.width = 800;
             this.height = 700;
 
+            this.canvas = document.getElementById(canvas_id);
+
+            this.ctx = this.canvas.getContext && this.canvas.getContext('2d');
+            if(!this.ctx) { return alert("Please upgrade your browser to play"); }
+
+            this.setupInput();
+
+            this.loop();
+
+            // TODO pictures.load();
+
+            this.callbacks = callbacks;
+        }
+
+        var KEY_CODES = { 106: 'left', 108: 'right', 107: 'fire' };
+        this.keys = {};
+
+        this.setupInput = function() {
             $(window).keydown(function(event) {
                 var action = KEY_CODES[event.keyCode];
                 if (action) {
                     game.keys[action] = true;
+                    event.preventDefault();
                 }
             });
 
@@ -53,64 +70,89 @@
                 var action = KEY_CODES[event.keyCode];
                 if (action) {
                     game.keys[action] = false;
+                    event.preventDefault();
                 }
             });
-
-            this.callbacks = callbacks;
         }
 
-        this.loadBoard = function(board) {
-            game.board = board;
-        }
+        var lastTime = new Date().getTime();
+        var maxTime = 1/30;
 
         this.loop = function() {
-            game.board.step(30/100);
-            game.board.render(game.canvas);
-            setTimeout(game.loop, 30);
+//            game.board.step(30/100);
+//            game.board.render(game.canvas);
+//            setTimeout(game.loop, 30);
+
+            var curTime = new Date().getTime();
+            requestAnimationFrame(game.loop);
+            var dt = (curTime - lastTime)/1000;
+            if(dt > maxTime) { dt = maxTime; }
+
+            board.step(dt);
+            board.draw(game.ctx);
+            lastTime = curTime;
         }
-    }
 
-    var pictures = new function() {
-
-        this.map = {};
-
-        var img_android = new Image();
-        img_android.src = '/slides/pgu-london/img/android.png';
-
-        var img_angular = new Image();
-        img_android.src = '/slides/pgu-london/img/angularjs.png';
-
-        var img_appengine = new Image();
-        img_appengine.src = '/slides/pgu-london/img/appengine.png';
-
-        var img_bug = new Image();
-        img_bug.src = '/slides/pgu-london/img/bug.png';
-
-        var img_cloud = new Image();
-        img_cloud.src = '/slides/pgu-london/img/cloud.png';
-
-        var img_compute = new Image();
-        img_compute.src = '/slides/pgu-london/img/compute.png';
-
-        var img_dart = new Image();
-        img_dart.src = '/slides/pgu-london/img/dart.png';
-
-        var img_sfeir = new Image();
-        img_sfeir.src = '/slides/pgu-london/img/sfeir.png';
-
-        this.draw = function(canvas, img_name, x, y, frame) {
-            var img = this.map[img_name];
-            if(!frame) frame = 0;
-            canvas.drawImage(img, x, y);
+        this.setBoard = function(a_board) {
+            board = a_board;
         }
+
     }
 
     var pictures_data = {
         'bug': { cls: Bug, w: 110, h: 110}
-      , 'player': { cls: Player, w: 110, h: 110}
-      , 'missile': { cls: Missile, w: 50, h: 50}
+        , 'player': { cls: Player, w: 110, h: 110}
+        , 'missile': { cls: Missile, w: 50, h: 50}
     }
 
+    var pictures = new function() {
+
+        // my_map
+        this.my_map = {};
+
+        var pics = ['bug', 'sfeir', 'android', 'angularjs', 'appengine', 'cloud', 'compute', 'dart'];
+        for (var i = 0; i < pics.length; i++) {
+            var pic_name = pics[i];
+
+            var pic = new Image();
+            pic.src = '/slides/pgu-london/img/' + pic_name + '.png';
+
+            this.my_map[pic_name] = pic;
+        }
+
+
+        // pictures
+        this.map = {};
+
+        this.load = function(pictures_data, callback) {
+            this.map = pictures_data;
+        }
+
+        this.draw = function(ctx, img_name, x, y, frame) {
+
+            var pic_name = null;
+
+            if ('bug' === img_name) {
+                pic_name = 'bug';
+
+            } else if ('player' === img_name) {
+                pic_name = 'sfeir';
+
+            } else if ('missile' === img_name) {
+                pic_name = 'android';
+                // TODO aleatoire
+
+            } else {
+                throw 'unknown img_name: ' + img_name;
+            }
+
+            var pic = this.my_map[pic_name];
+            var img_data = this.map[img_name];
+
+            if(!frame) frame = 0;
+            ctx.drawImage(pic, Math.floor(x), Math.floor(y), img_data.w, img_data.h);
+        }
+    }
 
     var GameScreen = function(text, text2, callback) {
         this.step = function(dt) {
@@ -222,7 +264,7 @@
     this.loadLevel = function(level) {
 
         this.objects = [];
-        this.player = this.addPicture('player'
+        this.player = game.board.addPicture('player'
             , game.width / 2 // x
             , game.height - pictures.map['player'].h - 10 // y
         );
@@ -232,7 +274,7 @@
             for (var x = 0, cols = level[y].length; x < cols; x++) {
                 var bug = pictures.map['bug'];
                 if(bug) {
-                    this.addPicture('bug',
+                    game.board.addPicture('bug',
                         (bug.w + 10) * x,
                         bug.h * y,
                         {flock : flock} // options
@@ -245,5 +287,147 @@
 
     this.loadLevel(game_level);
 
+    var Missile = function() {
+    }
+
+    Missile.prototype.draw = function(canvas) {
+        pictures.draw(canvas, 'missile', this.x, this.y);
+    }
+
+    Missile.prototype.step = function(dt) {
+        this.y += this.dy *dt;
+
+        var enemy = this.board.collide(this);
+        if (enemy) {
+            enemy.die();
+            return false;
+        }
+
+        return !(this.y < 0 || this.y > game.height);
+    }
+
+    Missile.prototype.die = function() {
+        if(this.player) {
+            this.board.missiles--;
+        }
+
+        if (this.board.missiles < 0) {
+            this.board.missiles = 0;
+        }
+
+        this.board.remove(this);
+    }
+
+    var Player = function Player(opts) {
+        this.reloading = 0;
+    }
+
+    Player.prototype.draw = function(canvas) {
+        pictures.draw(canvas, 'player', this.x, this.y);
+    }
+
+    Player.prototype.die = function() {
+        game.callbacks['die']();
+    }
+
+    Player.prototype.step = function(dt) {
+        if (game.keys['left']) { this.x -= 100 *dt; }
+        if (game.keys['right']) { this.x += 100 *dt; }
+
+        if (this.x < 0) this.x = 0;
+        if (this.x > game.width - this.w) this.x = game.width = this.w;
+
+        this.reloading--;
+
+        if (game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
+            this.board.addPicture('missile',
+                this.x + this.w / 2 - pictures.map.missile.w / 2,
+                this.y - this.h,
+                { dy: -100, player: true}
+            );
+            this.board.missiles++;
+            this.reloading = 10;
+        }
+        return true;
+    }
+
+    var BugFlock = function() {
+        this.dx = 10; this.dy = 10;
+        this.hit = 1; this.lastHit = 0;
+        this.speed = 10;
+
+        this.draw = function() {};
+
+        this.die = function() {
+            game.callbacks['win']();
+        }
+    }
+
+    this.step = function(dt) {
+        if (this.hit && this.hit != this.lastHit) {
+            this.lastHit = this.hit;
+            this.dy = this.speed;
+        } else {
+            this.dy = 0;
+        }
+        this.dx = this.speed * this.hit;
+
+        var max = {}, cnt = 0;
+
+        this.board.iterate(function() {
+            if (this instanceof Bug) {
+                if (!max[this.x] || this.y > max[this.x]) {
+                    max[this.x] = this.y;
+                }
+                cnt++;
+            }
+        });
+
+        if(cnt ==0) {this.die();}
+
+        this.max_y = max;
+        return true;
+    }
+
+    var Bug = function (opts) {
+        this.flock = opts['flock'];
+        this.frame = 0;
+        this.mx = 0;
+    }
+
+    Bug.prototype.draw = function(canvas) {
+        pictures.draw(canvas, this.name, this.x, this.y);
+//        pictures.draw(canvas, this.name, this.x, this.y, this.frame);
+    }
+
+    Bug.prototype.die = function() {
+        this.flock.speed +=1;
+        this.board.remove(this);
+    }
+
+    Bug.prototype.step = function(dt) {
+        this.mx += dt * this.flock.dx;
+        this.y += this.flock.dy;
+
+        if(Math.abs(this.mx) > 10) {
+            if (this.y == this.flock.max_y[this.x]) {
+                this.fireSometimes();
+            }
+            this.x += this.mx;
+            this.mx = 0;
+            this.frame = (this.frame+1) % 2;
+            if (this.x > game.width - pictures.map.bug.w *2) this.flock.hit = -1;
+            if (this.x < pictures.map.bug.w) this.flock.hit = 1;
+        }
+        return true;
+    }
+
+    Bug.prototype.fireSometimes = function() {
+        if (Math.random() * 100 < 10) {
+            this.board.addPicture('missile', this.x + this.w/2 - pictures.map.missile.w / 2,
+                this.y + this.h,
+                {dy: 100});
+        }
+    }
 
 })();
