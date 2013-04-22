@@ -1,7 +1,7 @@
 (function() {
 
     var dom_of_article = [
-        , '  <div id="pgu-ny-logo"       class="pgu-row-logo">'
+          '  <div id="pgu-ny-logo"       class="pgu-row-logo">'
         , '    <div id="pgu-ny-open"       class="pgu-open">[</div>'
         , '    <div id="pgu-ny-e"          class="pgu-e">≡</div>'
         , '    <div id="pgu-ny-close"      class="pgu-close">]</div>'
@@ -26,7 +26,7 @@
         , '      <div id="pgu-ny-cube-or-fg" class="pgu-ny-cube-arrow pgu-ny-cube-fg"><div class="arr-fg">↓</div></div>'
         , '    </div>'
         , '  </div>'
-    ]
+    ];
 
     var article = $('#pgu-new-york');
     article.html(dom_of_article.join(''));

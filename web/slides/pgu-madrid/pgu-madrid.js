@@ -15,7 +15,7 @@
         , '  <div id="pgu-md-angular-static"  class="pgu-md-static pgu-md-logo-angular"></div>'
         , '  <div id="pgu-md-dart"            class="pgu-md-cube pgu-md-dart"></div>'
         , '  <div id="pgu-md-dart-static"     class="pgu-md-static pgu-md-logo-dart"></div>'
-    ]
+    ];
 
     var article = $('#pgu-madrid');
     article.html(dom_of_article.join(''));

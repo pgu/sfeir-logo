@@ -13,7 +13,7 @@
         , '    <div id="pgu-nt-cube-container"  class="pgu-nt-cube-container"></div>'
         , '    <div id="pgu-nt-cube-mask"       class="pgu-nt-cube-mask"></div>'
         , '  </div>'
-    ]
+    ];
 
     var article = $('#pgu-nantes');
     article.html(dom_of_article.join(''));
