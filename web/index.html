@@ -35,9 +35,9 @@
     <article id='pgu-new-york' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
 </section>
 
-<div id="sfeir_social_btns"  class="sfeir-social-buttons" style="width: 290px;height: 45px;">
-    <div style="width: 100%;height: 100%;background-color: #808080;opacity: 0.3;position: absolute;top: 0;left: 0;border-radius: 5px;"></div>
-    <div style="width: 100%;height: 100%;position: absolute;top: 0;left: 0">
+<div id="sfeir_social_bar"  class="sfeir-social-bar">
+    <div class="sfeir-social-bar-bg"></div>
+    <div class="sfeir-social-btns">
         <div id="sfeir_recruit" class="sfeir-social-button" style="width: 30px;">
             <a href="http://www.sfeir.com/rejoignez-sfeir-2/" target="_blank" class="logo-of-careers"></a>
         </div>
@@ -48,7 +48,7 @@
             <div class="g-plusone" data-annotation="none" data-href="http://sfeir-logo.appspot.com/"></div>
         </div>
         <div id="sfeir_linkedin" class="sfeir-social-button">
-            <script type="IN/Share"></script>
+            <script type="IN/Share" data-url="http://sfeir-logo.appspot.com/"></script>
         </div>
     </div>
 </div>
@@ -80,7 +80,7 @@
         reset_current_slide();
     }
 
-    $('#sfeir_social_btns').fadeOut();
+    $('#sfeir_social_bar').fadeOut();
 </script>
 
 <!-- LOGOs -->
