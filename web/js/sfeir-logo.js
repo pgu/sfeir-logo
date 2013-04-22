@@ -106,7 +106,7 @@ function show_social_bar_when_animation_is_over(article_id) {
 }
 
 function hide_social_bar() {
-    $('#sfeir_social_bar').fadeOut();
+    $('#sfeir_social_bar').fadeOut('fast');
 }
 
 function inform_user_of_webgl_error() {
