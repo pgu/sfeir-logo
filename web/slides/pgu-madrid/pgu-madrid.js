@@ -21,7 +21,7 @@
     article.html(dom_of_article.join(''));
     article.addClass('pgu-article pgu-article-black');
 
-    window.pgu_madrid = function() {
+    var pgu_madrid = function() {
 
         var delay = 1000;
         var is_on = false;
@@ -134,8 +134,8 @@
       , reset: function() {
 //            console.log('reset madrid');
 
-            window.pgu_madrid.set_ON(false);
-            window.pgu_madrid.clear_logos();
+            pgu_madrid.set_ON(false);
+            pgu_madrid.clear_logos();
 
             $('#pgu-md-e').removeClass();
             $('#pgu-md-e').addClass('pgu-e pgu-md-e');
@@ -147,7 +147,7 @@
 
       , execute: function() {
 //            console.log('execute madrid');
-            window.pgu_madrid.set_ON(true);
+            pgu_madrid.set_ON(true);
 
             $('#pgu-md-e').off('click').on('click', function () {
 
@@ -155,25 +155,25 @@
 
                 $('#pgu-md-e').addClass('pgu-md-logo-small-1');
                 setTimeout(function() {
-                    if (!window.pgu_madrid.is_ON()) {return;}
+                    if (!pgu_madrid.is_ON()) {return;}
 
                     $('#pgu-md-e').removeClass('pgu-md-logo-small-1');
                     $('#pgu-md-e').addClass('pgu-md-logo-big-1');
 
                     setTimeout(function() {
-                        if (!window.pgu_madrid.is_ON()) {return;}
+                        if (!pgu_madrid.is_ON()) {return;}
 
                         $('#pgu-md-e').removeClass('pgu-md-logo-big-1');
                         $('#pgu-md-e').addClass('pgu-md-logo-small-2');
 
                         setTimeout(function() {
-                            if (!window.pgu_madrid.is_ON()) {return;}
+                            if (!pgu_madrid.is_ON()) {return;}
 
                             $('#pgu-md-e').removeClass('pgu-md-logo-small-2');
                             $('#pgu-md-e').addClass('pgu-md-logo-big-2');
 
                             setTimeout(function() {
-                                if (!window.pgu_madrid.is_ON()) {return;}
+                                if (!pgu_madrid.is_ON()) {return;}
 
                                 $('#pgu-md-open').addClass('pgu-go-to-left');
                                 $('#pgu-md-close').addClass('pgu-go-to-right');
@@ -181,8 +181,8 @@
 
                             $('#pgu-md-logo').delay(1000).fadeOut(600);
                             setTimeout(function() {
-                                if (!window.pgu_madrid.is_ON()) {return;}
-                                window.pgu_madrid.render_logos();
+                                if (!pgu_madrid.is_ON()) {return;}
+                                pgu_madrid.render_logos();
                             }, 620);
 
                         }, 1000);

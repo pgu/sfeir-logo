@@ -34,7 +34,7 @@
 
     $('#pgu-ny-cube-controls').fadeOut();
 
-    window.pgu_new_york = function() {
+    var pgu_new_york = function() {
         var z_max = 188;
         var z_min = -200;
         var x_max_coef = -0.42; // parseFloat((-80/190).toFixed(2));
@@ -311,8 +311,8 @@
 
         , reset: function() {
 //            console.log('reset new-york');
-            window.pgu_new_york.set_ON(false);
-            window.pgu_new_york.reset();
+            pgu_new_york.set_ON(false);
+            pgu_new_york.reset();
 
             $('#pgu-ny-open').removeClass('pgu-ny-go-to-left');
             $('#pgu-ny-close').removeClass('pgu-ny-go-to-right');
@@ -324,7 +324,7 @@
 
         , execute: function() {
 //            console.log('execute new-york');
-            window.pgu_new_york.set_ON(true);
+            pgu_new_york.set_ON(true);
 
             $('#pgu-ny-e').off('click').on('click', function () {
 
@@ -337,8 +337,8 @@
 
                 $('#pgu-ny-logo').delay(1300).fadeOut('slow',
                     function() {
-                        if (!window.pgu_new_york.is_ON()) {return;}
-                        window.pgu_new_york.show_cube();
+                        if (!pgu_new_york.is_ON()) {return;}
+                        pgu_new_york.show_cube();
                 });
 
             });

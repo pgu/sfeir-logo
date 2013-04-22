@@ -19,7 +19,7 @@
     article.html(dom_of_article.join(''));
     article.addClass('pgu-article pgu-article-black');
 
-    window.pgu_nantes = function() {
+    var pgu_nantes = function() {
         var is_on = false;
 
         return {
@@ -38,7 +38,7 @@
         id: 'pgu-nantes'
       , reset: function() {
 //            console.log('reset nantes');
-            window.pgu_nantes.set_ON(false);
+            pgu_nantes.set_ON(false);
 
             $('#pgu-nt-cube-mask').removeClass('pgu-nt-transparency');
 
@@ -54,7 +54,7 @@
         }
       , execute: function() {
 //            console.log('execute nantes');
-            window.pgu_nantes.set_ON(true);
+            pgu_nantes.set_ON(true);
 
             $('#pgu-nt-e').off('click').on('click', function () {
 
@@ -64,20 +64,20 @@
                 $('#pgu-nt-close').addClass('pgu-go-to-right');
 
                 setTimeout(function() {
-                    if (!window.pgu_nantes.is_ON()) {return;}
+                    if (!pgu_nantes.is_ON()) {return;}
 
                     $('#pgu-nt-e').addClass('pgu-nt-rotate');
                 }, 400);
 
                 $('#pgu-nt-e').delay(2700).fadeOut('slow',
                     function() {
-                        if (!window.pgu_nantes.is_ON()) {return;}
+                        if (!pgu_nantes.is_ON()) {return;}
 
                         // avance mask & container
                         $('#pgu-nt-cube').addClass('pgu-nt-cube-go-front');
 
                         setTimeout(function() {
-                            if (!window.pgu_nantes.is_ON()) {return;}
+                            if (!pgu_nantes.is_ON()) {return;}
 
                             // hide mask
                             $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
