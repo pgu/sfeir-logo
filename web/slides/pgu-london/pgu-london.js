@@ -1,5 +1,5 @@
 (function() {
-    var dom_of_article = '<canvas class="sfeir-invaders-container"></canvas>';   // Here is the dom that will be appended to your 'article'
+    var dom_of_article = '<canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas>';   // Here is the dom that will be appended to your 'article'
 
     var article = $('#pgu-london');
     article.html(dom_of_article.join(''));
@@ -24,7 +24,11 @@
 
         }
         , execute: function() {
-
+            game.initialize('#sfeir-invaders', {
+                'start': start_game(),
+                'die': end_game(),
+                'wind': win_game()
+            });
         }
     }
 
@@ -101,7 +105,14 @@
         }
     }
 
-    var game_screen = function(text, text2, callback) {
+    var pictures_data = {
+        'bug': { cls: Bug, w: 110, h: 110}
+      , 'player': { cls: Player, w: 110, h: 110}
+      , 'missile': { cls: Missile, w: 50, h: 50}
+    }
+
+
+    var GameScreen = function(text, text2, callback) {
         this.step = function(dt) {
             if (game.keys['fire'] && callback) callback();
         }
@@ -121,10 +132,65 @@
     }
 
     function start_game() {
-        var screen = new GameScreen('Sfeir Invaders', 'press "k" to start', function() {
-//            game.loadBoard(new );
-        })
+        var screen = new GameScreen('Sfeir Invaders', 'press "k" to start',
+            function() {
+                game.loadBoard(new GameBoard());
+            }
+        );
+        game.loadBoard(screen);
+        game.loop();
     }
 
+    var GameBoard = function()  {
+        this.removed_objs = [];
+        this.missiles = 0;
+
+        var board = this;
+
+        this.add = function(obj) { obj.board = this; this.objects.push(obj); return obj;}
+        this.remove = function(obj) { this.removed_objs.push(obj); }
+
+        this.addPicture = function(name, x, y, opts) {
+            var ref = pictures.map[name];
+            var picture = this.add(new ref.cls(opts));
+            picture.name = name;
+            picture.x = x; picture.y = y;
+            picture.w = ref.w;
+            picture.h = ref.h;
+            return picture;
+        }
+    }
+
+    this.iterate = function(fn) {
+        for (var i= 0, len=this.objects.length; i<len; i++) {
+            fn.call(this.objects[i]);
+        }
+    }
+
+    this.detect = function(fn) {
+        for (var i= 0, val = null, len = this.objects.length; i< len; i++) {
+            if (fn.call(this.objects[i])) return this.objects[i];
+        }
+        return false;
+    }
+
+    this.step = function(dt) {
+        this.removed_objs = [];
+        this.iterate(function() {
+            if (!this.step(dt)) this.die();
+        });
+
+        for(var i = 0, len = this.removed_objs.length; i < len; i++) {
+            var idx = this.objects.indexOf(this.removed_objs[i]);
+            if(idx != -1) this.objects.splice(idx, 1);
+        }
+    }
+
+    this.render = function(canvas) {
+        canvas.clearRect(0, 0, game.width, game.height);
+        this.iterate(function() {
+            this.draw(canvas);
+        })
+    }
 
 })();
