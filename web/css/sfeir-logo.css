@@ -40,7 +40,9 @@
     width: 285px;
     height: 45px;
 
+    -webkit-border-radius: 5px;
     border-radius: 5px;
+
     padding: 10px;
 }
 .sfeir-social-bar-bg {
@@ -53,6 +55,7 @@
 
     background-color: #808080;
     opacity: 0.3;
+    filter: alpha(opacity=0.3);
 
     border-radius: 5px;
 }

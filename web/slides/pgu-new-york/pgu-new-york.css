@@ -1,13 +1,19 @@
 .pgu-ny-go-big {
+    -moz-transform: scale(3);
     -webkit-transform: scale(3);
+    -o-transform: scale(3);
     transform: scale(3);
 }
 .pgu-ny-go-to-left {
+    -moz-transform: translateX(-660px) scale(3);
     -webkit-transform: translateX(-660px) scale(3);
+    -o-transform: translateX(-660px) scale(3);
     transform: translateX(-660px) scale(3);
 }
 .pgu-ny-go-to-right {
+    -moz-transform: translateX(660px) scale(3);
     -webkit-transform: translateX(660px) scale(3);
+    -o-transform: translateX(660px) scale(3);
     transform: translateX(660px) scale(3);
 }
 .pgu-ny-cube {
@@ -59,9 +65,11 @@
 }
 .pgu-ny-cube-arrow:hover {
     text-shadow: 0 2px 3px white;
+    filter: dropshadow(color=white, offx=0, offy=2);
 }
 .pgu-ny-cube-arrow:active {
     text-shadow: 0 2px 3px darkorange;
+    filter: dropshadow(color=darkorange, offx=0, offy=2);
 }
 
 .pgu-ny-cube-pause {
@@ -106,10 +114,14 @@
 }
 
 .arr-bg {
+    -moz-transform: skewX(-45deg) translate(6px, 10px);
     -webkit-transform: skewX(-45deg) translate(6px, 10px);
+    -o-transform: skewX(-45deg) translate(6px, 10px);
     transform: skewX(-45deg) translate(6px, 10px);
 }
 .arr-fg {
+    -moz-transform: skewX(-45deg) translate(3px, -10px);
     -webkit-transform: skewX(-45deg) translate(3px, -10px);
+    -o-transform: skewX(-45deg) translate(3px, -10px);
     transform: skewX(-45deg) translate(3px, -10px);
 }

@@ -77,22 +77,30 @@
 }
 
 .pgu-md-logo-small-1 {
+    -moz-transform: scale(0.9, 0.5) translateY(30px);
     -webkit-transform: scale(0.9, 0.5) translateY(30px);
+    -o-transform: scale(0.9, 0.5) translateY(30px);
     transform: scale(0.9, 0.5) translateY(30px);
 }
 
 .pgu-md-logo-big-1 {
+    -moz-transform: scale(1.1, 1.4) translateY(-10px);
     -webkit-transform: scale(1.1, 1.4) translateY(-10px);
+    -o-transform: scale(1.1, 1.4) translateY(-10px);
     transform: scale(1.1, 1.4) translateY(-10px);
 }
 
 .pgu-md-logo-small-2 {
+    -moz-transform: scale(0.7, 0.2) translateY(100px);
     -webkit-transform: scale(0.7, 0.2) translateY(100px);
+    -o-transform: scale(0.7, 0.2) translateY(100px);
     transform: scale(0.7, 0.2) translateY(100px);
 }
 
 .pgu-md-logo-big-2 {
+    -moz-transform: scale(3)  translateY(-10px);
     -webkit-transform: scale(3)  translateY(-10px);
+    -o-transform: scale(3)  translateY(-10px);
     transform: scale(3)  translateY(-10px);
 }
 
