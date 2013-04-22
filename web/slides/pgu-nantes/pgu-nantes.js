@@ -83,7 +83,7 @@
                             $('#pgu-nt-cube-mask').addClass('pgu-nt-transparency');
 
                             // show end of animation
-                            show_logo_when_animation_is_over('pgu-nantes');
+                            show_social_bar_when_animation_is_over('pgu-nantes');
 
                         }, 400);
 

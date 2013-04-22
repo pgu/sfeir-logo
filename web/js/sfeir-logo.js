@@ -95,7 +95,7 @@ function killFirstRender(id)
     }, 300);
 }
 
-function show_logo_when_animation_is_over(article_id) {
+function show_social_bar_when_animation_is_over(article_id) {
     var article = $('#' + article_id)[0];
 
     var social_bar = $('#sfeir_social_bar')[0];
@@ -105,7 +105,7 @@ function show_logo_when_animation_is_over(article_id) {
     $('#sfeir_social_bar').delay(1000).fadeIn();
 }
 
-function hide_logo() {
+function hide_social_bar() {
     $('#sfeir_social_bar').fadeOut();
 }
 

@@ -110,7 +110,7 @@
                     if (!is_on) {return;}
 
                     // show end of animation
-                    window.show_logo_when_animation_is_over('pgu-madrid');
+                    window.show_social_bar_when_animation_is_over('pgu-madrid');
                 }, delay * logos.length);
             }
           , clear_logos: function() {

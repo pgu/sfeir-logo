@@ -116,7 +116,7 @@
                         initControls();
 
                         // show end of animation
-                        show_logo_when_animation_is_over('pgu-new-york');
+                        show_social_bar_when_animation_is_over('pgu-new-york');
                         return;
                     }
 
