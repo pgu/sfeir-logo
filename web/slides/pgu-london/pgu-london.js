@@ -1,3 +1,6 @@
+//https://github.com/cykod/AlienInvasion/blob/master/engine.js
+//https://github.com/cykod/AlienInvasion/blob/master/game.js
+
 (function() {
 
     var article = $('#pgu-london');
@@ -139,8 +142,7 @@
                 pic_name = 'sfeir';
 
             } else if ('missile' === img_name) {
-                pic_name = 'android';
-                // TODO aleatoire
+                pic_name = 'android'; // TODO aleatoire
 
             } else {
                 throw 'unknown img_name: ' + img_name;
@@ -151,30 +153,34 @@
 
             if(!frame) frame = 0;
             ctx.drawImage(pic, Math.floor(x), Math.floor(y), img_data.w, img_data.h);
-        }
+        };
+
+        return this;
     }
 
-    var GameScreen = function(text, text2, callback) {
+    var TitleScreen = function(title, subtitle, callback) {
+        var up = false;
+
         this.step = function(dt) {
-            if (game.keys['fire'] && callback) callback();
+            if (!game.keys['fire']) up = true;
+            if (up && game.keys['fire'] && callback) callback();
         }
 
-        this.render = function(canvas) {
-            canvas.clearRect(0, 0, game.width, game.height);
-            canvas.font = "bold 40px arial";
+        this.draw = function(ctx) {
+            ctx.fillStyle = "#FFFFFF";
 
-            var measure = canvas.measureText(text);
-            canvas.fillStyle = "#FFF";
-            canvas.fillText(text, game.width /2 - measure.width/2, game.height/2);
-            canvas.font = "bold 20px arial";
+            ctx.font = "bold 40px bangers";
+            var measure = ctx.measureText(title);
+            ctx.fillText(title, game.width/2 - measure.width/2, game.height/2);
 
-            var measure2 = canvas.measureText(text2);
-            canvas.fillText(text2, game.width/2 - measure2.width/2, game.height/2 + 40);
+            ctx.font = "bold 20px bangers";
+            var measure2 = ctx.measureText(subtitle);
+            ctx.fillText(subtitle, game.width/2 - measure2.width/2, game.height/2 + 40);
         }
     }
 
     function start_game() {
-        var screen = new GameScreen('Sfeir Invaders', 'press "k" to start',
+        var screen = new TitleScreen('Sfeir Invaders', 'press "k" to start',
             function() {
                 game.loadBoard(new GameBoard());
             }
