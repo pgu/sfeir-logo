@@ -193,4 +193,57 @@
         })
     }
 
+    this.collision = function(o1, o2) {
+        return !(
+                 (o1.y + o1.h -1 < o2.y)
+              || (o1.y > o2.y + o2.h -1)
+              || (o1.x + o1.w -1 < o2.x)
+              || (o1.x > o2.x + o2.w - 1)
+            );
+    }
+
+    this.collide = function(obj) {
+        return this.detect(function() {
+            if(obj != this) {
+                return board.collision(obj, this) ? this: false;
+            }
+        })
+    }
+
+    var game_level = [
+        [1, 1, 1, 1, 1, 1, 1]
+      , [1, 1, 1, 1, 1, 1, 1]
+      , [1, 1, 1, 1, 1, 1, 1]
+      , [1, 1, 1, 1, 1, 1, 1]
+      , [1, 1, 1, 1, 1, 1, 1]
+      , [1, 1, 1, 1, 1, 1, 1]
+    ]
+
+    this.loadLevel = function(level) {
+
+        this.objects = [];
+        this.player = this.addPicture('player'
+            , game.width / 2 // x
+            , game.height - pictures.map['player'].h - 10 // y
+        );
+
+        var flock = this.add(new BugFlock());
+        for (var y = 0, rows = level.length; y < rows; y++) {
+            for (var x = 0, cols = level[y].length; x < cols; x++) {
+                var bug = pictures.map['bug'];
+                if(bug) {
+                    this.addPicture('bug',
+                        (bug.w + 10) * x,
+                        bug.h * y,
+                        {flock : flock} // options
+                    );
+                }
+            }
+        }
+
+    }
+
+    this.loadLevel(game_level);
+
+
 })();
