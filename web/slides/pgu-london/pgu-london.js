@@ -24,11 +24,32 @@
         id: 'pgu-london'
         , reset: function() {
 
+            // TODO reset
+            // TODO clean console.log
+            // TODO ref github project
+            if (request_id) {
+                window.cancelAnimationFrame(request_id);
+            }
+            var canvas = document.getElementById('sfeir-invaders');
+            canvas.animation = -1;
+
+            window.setTimeout(function()
+            {
+                // signal death of this animation
+                delete canvas.animation;
+                if (canvas.firstChild !== null) {
+                    canvas.innerHTML = "";
+                }
+
+            }, 300);
+
         }
         , execute: function() {
             Game.initialize("sfeir-invaders",sprites,startGame);
         }
     }
+
+    var request_id = null;
 
     // engine.js
     var Game = new function() {
@@ -80,14 +101,14 @@
             },false);
         };
 
-        console.log('v 36');
+        console.log('v 43');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
         // Game Loop
         this.loop = function() {
             var curTime = new Date().getTime();
-            requestAnimationFrame(Game.loop);
+            request_id = requestAnimationFrame(Game.loop);
 
             // slow the game
             var dt = (curTime - lastTime)/3000;
@@ -571,10 +592,39 @@
             playGame));
     };
 
-    var level1 = [
+    var levels = [
+        [
+            [ 0,       4000, 250, 'step' ],
+            [ 6000,   13000, 800, 'circle' ],
+            [ 10000,  16000, 400, 'ltr' ],
+            [ 17800,  20000, 500, 'wiggle', { x: 50 } ]
+        ]   // level1
+      , [
+            [ 0,       4000, 500, 'circle' ],
+            [ 6000,   13000, 500, 'step' ],
+            [ 10000,  16000, 500, 'straight', { x: 50 } ],
+            [ 17800,  20000, 400, 'wiggle', { x: 100 } ]
+        ]
+      , [
+            [ 0,       4000, 400, 'step' ],
+            [ 6000,   13000, 800, 'ltr' ],
+            [ 10000,  16000, 400, 'circle' ],
+            [ 17800,  20000, 500, 'straight', { x: 10 } ]
+        ]
+      , [
+            [ 0,       4000, 250, 'wiggle', { x: 150 } ],
+            [ 6000,   13000, 800, 'straight', { x: 50 } ],
+            [ 10000,  16000, 400, 'ltr' ],
+            [ 17800,  20000, 500, 'wiggle', { x: 100 } ]
+        ]
+    ];
+
+//    var level1 = [
         // Start,   End, Gap,  Type,   Override
-        [ 0,       4000, 500, 'step' ],
-        [ 6000,   13000, 800, 'ltr' ]
+//        [ 0,       4000, 250, 'step' ],
+//        [ 6000,   13000, 800, 'circle' ],
+//        [ 10000,  16000, 400, 'ltr' ],
+//        [ 17800,  20000, 500, 'wiggle', { x: 50 } ]
 //        [ 0,       4000, 500, 'step' ],
 //        [ 6000,   13000, 800, 'ltr' ],
 //        [ 10000,  16000, 400, 'circle' ],
@@ -583,7 +633,7 @@
 //        [ 18200,  20000, 500, 'straight', { x: 10 } ],
 //        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
 //        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
-    ];
+//    ];
 
 
 
@@ -592,9 +642,14 @@
 
         var board = new GameBoard();
         board.add(new PlayerShip());
-        console.log('level1');
-        console.log(level1);
-        board.add(new Level(level1,winGame));
+
+        var min = 0;
+        var max = levels.length - 1;
+        var idx = getRandomInt(min, max);
+
+        var levelX = levels[idx];
+
+        board.add(new Level(levelX,winGame));
         Game.setBoard(3,board);
         Game.setBoard(5,new GamePoints(0));
     };
@@ -702,7 +757,7 @@
 
                 var min = 0;
                 var max = player_missiles_sprite.length - 1;
-                var idx = Math.floor(Math.random() * (max - min + 1)) + min;
+                var idx = getRandomInt(min, max);
 
                 var missile_sprite = player_missiles_sprite[idx];
 
@@ -711,6 +766,10 @@
             }
         };
     };
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
     PlayerShip.prototype = new Sprite();
     PlayerShip.prototype.type = OBJECT_PLAYER;
