@@ -176,26 +176,25 @@
             var s = this.map[sprite];
             var the_image = null;
             if ('ship' === sprite) {
-                the_image = this.pictures.sfeir;
+                the_image = this.pictures['sfeir'];
 
             } else if ('missile' === sprite) {
-                the_image = this.pictures.android;
+                the_image = this.pictures['android'];
 
             } else if (sprite.indexOf('enemy') > -1 && sprite.indexOf('missile') === -1) {
-                the_image = this.pictures.bug;
+                the_image = this.pictures['bug'];
 
             } else if ('explosion' === sprite) {
-                the_image = this.pictures.computer;
+                the_image = this.pictures['compute'];
 
             } else if ('enemy_missile' === sprite) {
-                the_image = this.pictures.appengine;
+                the_image = this.pictures['appengine'];
 
             } else {
                 throw 'Unknown sprite ' + sprite;
             }
 
-            ctx.drawImage(
-                the_image,
+            ctx.drawImage(the_image,
                 Math.floor(x), Math.floor(y),
                 s.w, s.h);
         };
@@ -213,13 +212,11 @@
         this.draw = function(ctx) {
             ctx.fillStyle = "#FFFFFF";
 
-//            ctx.font = "bold 40px bangers";
-            ctx.font = "bold 40px arial";
+            ctx.font = "bold 40px bangers";
             var measure = ctx.measureText(title);
             ctx.fillText(title,Game.width/2 - measure.width/2,Game.height/2);
 
-            ctx.font = "bold 20px arial";
-//            ctx.font = "bold 20px bangers";
+            ctx.font = "bold 20px bangers";
             var measure2 = ctx.measureText(subtitle);
             ctx.fillText(subtitle,Game.width/2 - measure2.width/2,Game.height/2 + 40);
         };
@@ -552,14 +549,14 @@
 
     var level1 = [
         // Start,   End, Gap,  Type,   Override
-        [ 0,      4000,  500, 'step' ],
-        [ 6000,   13000, 800, 'ltr' ],
-        [ 10000,  16000, 400, 'circle' ],
-        [ 17800,  20000, 500, 'straight', { x: 50 } ],
-        [ 18200,  20000, 500, 'straight', { x: 90 } ],
-        [ 18200,  20000, 500, 'straight', { x: 10 } ],
-        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
-        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+        [ 0,      1000,  500, 'ltr' ]
+//        [ 6000,   13000, 800, 'ltr' ],
+//        [ 10000,  16000, 400, 'circle' ],
+//        [ 17800,  20000, 500, 'straight', { x: 50 } ],
+//        [ 18200,  20000, 500, 'straight', { x: 90 } ],
+//        [ 18200,  20000, 500, 'straight', { x: 10 } ],
+//        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
+//        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
     ];
 
 
@@ -567,6 +564,8 @@
     var playGame = function() {
         var board = new GameBoard();
         board.add(new PlayerShip());
+        console.log('level1');
+        console.log(level1);
         board.add(new Level(level1,winGame));
         Game.setBoard(3,board);
         Game.setBoard(5,new GamePoints(0));
