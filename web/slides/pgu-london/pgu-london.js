@@ -37,6 +37,8 @@
 
         this.initialize = function(canvas_id, sprite_data, callback) {
 
+            console.log('init');
+
             this.width = 800;
             this.height = 700;
 
@@ -52,12 +54,15 @@
             SpriteSheet.load(sprite_data, callback);
         }
 
-        var KEY_CODES = { 106: 'left', 108: 'right', 107: 'fire' };
+        var KEY_CODES = { 74: 'left', 75: 'right', 76: 'fire' };
         this.keys = {};
 
         this.setupInput = function() {
+            console.log('setup input');
+
             $(window).keydown(function(event) {
                 var action = KEY_CODES[event.keyCode];
+                console.log('down ' + event.keyCode);
                 if (action) {
                     Game.keys[action] = true;
                     event.preventDefault();
@@ -66,6 +71,7 @@
 
             $(window).keyup(function(event) {
                 var action = KEY_CODES[event.keyCode];
+                console.log('up ' + event.keyCode);
                 if (action) {
                     Game.keys[action] = false;
                     event.preventDefault();
@@ -120,6 +126,9 @@
         this.map = {};
 
         this.load = function(spriteData, callback) {
+
+            console.log('load pictures');
+
             this.map = spriteData;
             callback();
         }
@@ -161,11 +170,13 @@
         var up = false;
 
         this.step = function(dt) {
+//            console.log('step ' + up);
             if (!Game.keys['fire']) up = true;
             if (up && Game.keys['fire'] && callback) callback();
         }
 
         this.draw = function(ctx) {
+//            console.log('draw title ');
             ctx.fillStyle = "#FFFFFF";
 
             ctx.font = "bold 40px bangers";
@@ -415,7 +426,7 @@
         OBJECT_POWERUP = 16;
 
     function start_game() {
-        coonsole.log('start game');
+        console.log('start game');
         Game.setBoard(0,new Starfield(20,0.4,100,true));
         Game.setBoard(1,new Starfield(50,0.6,100));
         Game.setBoard(2,new Starfield(100,1.0,50));
