@@ -80,7 +80,7 @@
             },false);
         };
 
-        console.log('v 33');
+        console.log('v 36');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
@@ -154,8 +154,8 @@
 
         this.pictures = {};
 
-        var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'cloud', 'compute', 'dart'];
-        var picture_names = ['bug', 'sfeir', 'missile_enemy'].concat(pictures_missiles_names);
+        var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'compute', 'dart'];
+        var picture_names = ['bug', 'sfeir', 'cloud', 'missile_enemy'].concat(pictures_missiles_names);
 
         for (var i = 0; i < picture_names.length; i++) {
 
@@ -190,8 +190,6 @@
                 the_image = this.pictures['angularjs'];
             } else if ('missile_app' === sprite) {
                 the_image = this.pictures['appengine'];
-            } else if ('missile_clo' === sprite) {
-                the_image = this.pictures['cloud'];
             } else if ('missile_com' === sprite) {
                 the_image = this.pictures['compute'];
             } else if ('missile_dar' === sprite) {
@@ -201,7 +199,7 @@
                 the_image = this.pictures['bug'];
 
             } else if ('explosion' === sprite) {
-                the_image = this.pictures['compute'];
+                the_image = this.pictures['cloud'];
 
             } else if ('enemy_missile' === sprite) {
                 the_image = this.pictures['missile_enemy'];
@@ -522,7 +520,6 @@
         missile_and: { w: 20, h: 15, frames: 1 },
         missile_ang: { w: 20, h: 15, frames: 1 },
         missile_app: { w: 20, h: 15, frames: 1 },
-        missile_clo: { w: 20, h: 15, frames: 1 },
         missile_com: { w: 20, h: 15, frames: 1 },
         missile_dar: { w: 20, h: 15, frames: 1 },
         enemy_purple: { w: 30, h: 20, frames: 1 },
@@ -533,7 +530,7 @@
         enemy_missile: { w: 3, h: 10, frame: 1}
     };
 
-    var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_clo', 'missile_com', 'missile_dar'];
+    var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_com', 'missile_dar'];
 
     var enemies = {
         straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
@@ -591,6 +588,8 @@
 
 
     var playGame = function() {
+        hide_social_bar();
+
         var board = new GameBoard();
         board.add(new PlayerShip());
         console.log('level1');
@@ -601,14 +600,16 @@
     };
 
     var winGame = function() {
+        show_social_bar_when_animation_is_over('pgu-london');
         Game.setBoard(3,new TitleScreen("You win!",
             "Press fire to play again",
             playGame));
     };
 
     var loseGame = function() {
+        show_social_bar_when_animation_is_over('pgu-london');
         Game.setBoard(3,new TitleScreen("You lose!",
-            "Press fire to play again",
+            "42nd is waiting for you...",
             playGame));
     };
 
