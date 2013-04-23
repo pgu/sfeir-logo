@@ -39,6 +39,8 @@
 
     width: 285px;
     height: 45px;
+    min-width: 285px;
+    min-height: 45px;
 
     -webkit-border-radius: 5px;
     border-radius: 5px;

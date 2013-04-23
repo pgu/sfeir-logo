@@ -579,7 +579,7 @@
         if(ua.match(/android/)) {
             Game.setBoard(0,new Starfield(50,0.6,100,true));
         } else {
-            // shlow the stars
+            // slow the stars
             Game.setBoard(0,new Starfield(10,0.4,10,true));
             Game.setBoard(1,new Starfield(25,0.6,10));
             Game.setBoard(2,new Starfield(50,1.0,5));
