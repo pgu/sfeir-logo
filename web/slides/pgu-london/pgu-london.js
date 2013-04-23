@@ -26,23 +26,24 @@
 
         }
         , execute: function() {
-            Game.initialize('sfeir-invaders', sprites, start_game);
+            Game.initialize("sfeir-invaders",sprites,startGame);
         }
     }
 
     // engine.js
     var Game = new function() {
-
         var boards = [];
 
-        this.initialize = function(canvas_id, sprite_data, callback) {
+        // Game Initialization
+        this.initialize = function(canvasElementId,sprite_data,callback) {
+            this.canvas = document.getElementById(canvasElementId);
 
-            console.log('init');
+            this.playerOffset = 10;
+            this.canvasMultiplier= 1;
+            this.setupMobile();
 
-            this.width = 800;
-            this.height = 700;
-
-            this.canvas = document.getElementById(canvas_id);
+            this.width = this.canvas.width;
+            this.height= this.canvas.height;
 
             this.ctx = this.canvas.getContext && this.canvas.getContext('2d');
             if(!this.ctx) { return alert("Please upgrade your browser to play"); }
@@ -51,42 +52,38 @@
 
             this.loop();
 
-            SpriteSheet.load(sprite_data, callback);
-        }
+            if(this.mobile) {
+                this.setBoard(4,new TouchControls());
+            }
 
-        var KEY_CODES = { 74: 'left', 75: 'right', 76: 'fire' };
+            SpriteSheet.load(sprite_data,callback);
+        };
+
+        // Handle Input
+        var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
         this.keys = {};
 
         this.setupInput = function() {
-            console.log('setup input');
-
-            $(window).keydown(function(event) {
-                var action = KEY_CODES[event.keyCode];
-                console.log('down ' + event.keyCode);
-                if (action) {
-                    Game.keys[action] = true;
-                    event.preventDefault();
+            window.addEventListener('keydown',function(e) {
+                if(KEY_CODES[event.keyCode]) {
+                    Game.keys[KEY_CODES[event.keyCode]] = true;
+                    e.preventDefault();
                 }
-            });
+            },false);
 
-            $(window).keyup(function(event) {
-                var action = KEY_CODES[event.keyCode];
-                console.log('up ' + event.keyCode);
-                if (action) {
-                    Game.keys[action] = false;
-                    event.preventDefault();
+            window.addEventListener('keyup',function(e) {
+                if(KEY_CODES[event.keyCode]) {
+                    Game.keys[KEY_CODES[event.keyCode]] = false;
+                    e.preventDefault();
                 }
-            });
-        }
+            },false);
+        };
+
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
-
+        // Game Loop
         this.loop = function() {
-//            game.board.step(30/100);
-//            game.board.render(game.canvas);
-//            setTimeout(game.loop, 30);
-
             var curTime = new Date().getTime();
             requestAnimationFrame(Game.loop);
             var dt = (curTime - lastTime)/1000;
@@ -98,107 +95,149 @@
                     boards[i].draw(Game.ctx);
                 }
             }
-
             lastTime = curTime;
-        }
+        };
 
         // Change an active game board
         this.setBoard = function(num,board) { boards[num] = board; };
-    }
-
-    var SpriteSheet = new function() {
-
-        // my_map
-        this.my_map = {};
-
-        var pics = ['bug', 'sfeir', 'android', 'angularjs', 'appengine', 'cloud', 'compute', 'dart'];
-        for (var i = 0; i < pics.length; i++) {
-            var pic_name = pics[i];
-
-            var pic = new Image();
-            pic.src = '/slides/pgu-london/img/' + pic_name + '.png';
-
-            this.my_map[pic_name] = pic;
-        }
 
 
-        // pictures
-        this.map = {};
+        this.setupMobile = function() {
+            var container = document.getElementById("container"),
+                hasTouch =  !!('ontouchstart' in window),
+                w = window.innerWidth, h = window.innerHeight;
 
-        this.load = function(spriteData, callback) {
+            if(hasTouch) { this.mobile = true; }
 
-            console.log('load pictures');
+            if(screen.width >= 1280 || !hasTouch) { return false; }
 
-            this.map = spriteData;
-            callback();
-        }
-
-        this.draw = function(ctx, img_name, x, y, frame) {
-
-            var pic_name = null;
-
-            if ('enemy' === img_name) {
-                pic_name = 'bug';
-
-            } else if ('enemy_missile' === img_name) {
-                pic_name = 'dart'; // TODO fixit
-
-            } else if ('player' === img_name) {
-                pic_name = 'sfeir';
-
-            } else if ('missile' === img_name) {
-                pic_name = 'android'; // TODO aleatoire
-
-            } else if ('explosion' === img_name) {
-                pic_name = 'angularjs'; // TODO fixit
-
-            } else {
-                throw 'unknown img_name: ' + img_name;
+            if(w > h) {
+                alert("Please rotate the device and then click OK");
+                w = window.innerWidth; h = window.innerHeight;
             }
 
-            var pic = this.my_map[pic_name];
-            var img_data = this.map[img_name];
+            container.style.height = h*2 + "px";
+            window.scrollTo(0,1);
 
+            h = window.innerHeight + 2;
+            container.style.height = h + "px";
+            container.style.width = w + "px";
+            container.style.padding = 0;
+
+            if(h >= this.canvas.height * 1.75 || w >= this.canvas.height * 1.75) {
+                this.canvasMultiplier = 2;
+                this.canvas.width = w / 2;
+                this.canvas.height = h / 2;
+                this.canvas.style.width = w + "px";
+                this.canvas.style.height = h + "px";
+            } else {
+                this.canvas.width = w;
+                this.canvas.height = h;
+            }
+
+            this.canvas.style.position='absolute';
+            this.canvas.style.left="0px";
+            this.canvas.style.top="0px";
+
+        };
+
+    };
+
+
+    var SpriteSheet = new function() {
+        this.map = { };
+
+        this.pictures = {};
+
+        var pic_names = ['android', 'angularjs', 'appengine', 'bug', 'cloud', 'compute', 'dart', 'sfeir'];
+        for (var i = 0; i < pic_names.length; i++) {
+
+            var pic_name = pic_names[i];
+
+            var img = new Image();
+            img.src = '/slides/pgu-london/img/' + pic_name + '.png';
+
+            this.pictures[pic_name] = img;
+        }
+
+        this.load = function(spriteData,callback) {
+            this.map = spriteData;
+
+            callback();
+//            this.image = new Image();
+//            this.image.onload = callback;
+//            this.image.src = '/slides/pgu-london/img/sprites.png';
+        };
+
+        this.draw = function(ctx,sprite,x,y,frame) {
             if(!frame) frame = 0;
-            ctx.drawImage(pic, Math.floor(x), Math.floor(y), img_data.w, img_data.h);
+
+            var s = this.map[sprite];
+            var the_image = null;
+            if ('ship' === sprite) {
+                the_image = this.pictures.sfeir;
+
+            } else if ('missile' === sprite) {
+                the_image = this.pictures.android;
+
+            } else if (sprite.indexOf('enemy') > -1 && sprite.indexOf('missile') === -1) {
+                the_image = this.pictures.bug;
+
+            } else if ('explosion' === sprite) {
+                the_image = this.pictures.computer;
+
+            } else if ('enemy_missile' === sprite) {
+                the_image = this.pictures.appengine;
+
+            } else {
+                throw 'Unknown sprite ' + sprite;
+            }
+
+
+            // TODO
+
+            ctx.drawImage(
+                the_image,
+//                this.image,
+//                s.sx + frame * s.w,
+//                s.sy,
+//                s.w, s.h,
+                Math.floor(x), Math.floor(y),
+                s.w, s.h);
         };
 
         return this;
-    }
+    };
 
-    var TitleScreen = function(title, subtitle, callback) {
+    var TitleScreen = function TitleScreen(title,subtitle,callback) {
         var up = false;
-
         this.step = function(dt) {
-//            console.log('step ' + up);
-            if (!Game.keys['fire']) up = true;
-            if (up && Game.keys['fire'] && callback) callback();
-        }
+            if(!Game.keys['fire']) up = true;
+            if(up && Game.keys['fire'] && callback) callback();
+        };
 
         this.draw = function(ctx) {
-//            console.log('draw title ');
             ctx.fillStyle = "#FFFFFF";
 
             ctx.font = "bold 40px bangers";
             var measure = ctx.measureText(title);
-            ctx.fillText(title, Game.width/2 - measure.width/2, Game.height/2);
+            ctx.fillText(title,Game.width/2 - measure.width/2,Game.height/2);
 
             ctx.font = "bold 20px bangers";
             var measure2 = ctx.measureText(subtitle);
-            ctx.fillText(subtitle, Game.width/2 - measure2.width/2, Game.height/2 + 40);
-        }
-    }
+            ctx.fillText(subtitle,Game.width/2 - measure2.width/2,Game.height/2 + 40);
+        };
+    };
 
-    var GameBoard = function()  {
+
+    var GameBoard = function() {
         var board = this;
 
+        // The current list of objects
         this.objects = [];
         this.cnt = {};
 
-        this.removed_objs = [];
-        this.missiles = 0;
-
-
+        // Add a new object to the object list
         this.add = function(obj) {
             obj.board=this;
             this.objects.push(obj);
@@ -256,16 +295,7 @@
             this.finalizeRemoved();
         };
 
-        this.addPicture = function(name, x, y, opts) {
-            var ref = SpriteSheet.map[name];
-            var picture = this.add(new ref.cls(opts));
-            picture.name = name;
-            picture.x = x; picture.y = y;
-            picture.w = ref.w;
-            picture.h = ref.h;
-            return picture;
-        }
-
+        // Draw all the objects
         this.draw= function(ctx) {
             this.iterate('draw',ctx);
         };
@@ -287,6 +317,7 @@
                 }
             });
         };
+
 
     };
 
@@ -315,6 +346,7 @@
     Sprite.prototype.hit = function(damage) {
         this.board.remove(this);
     };
+
 
     var Level = function(levelData,callback) {
         this.levelData = [];
@@ -368,6 +400,82 @@
 
     Level.prototype.draw = function(ctx) { };
 
+
+    var TouchControls = function() {
+
+        var gutterWidth = 10;
+        var unitWidth = Game.width/5;
+        var blockWidth = unitWidth-gutterWidth;
+
+        this.drawSquare = function(ctx,x,y,txt,on) {
+            ctx.globalAlpha = on ? 0.9 : 0.6;
+            ctx.fillStyle =  "#CCC";
+            ctx.fillRect(x,y,blockWidth,blockWidth);
+
+            ctx.fillStyle = "#FFF";
+            ctx.globalAlpha = 1.0;
+            ctx.font = "bold " + (3*unitWidth/4) + "px arial";
+
+            var txtSize = ctx.measureText(txt);
+
+            ctx.fillText(txt,
+                x+blockWidth/2-txtSize.width/2,
+                y+3*blockWidth/4+5);
+        };
+
+        this.draw = function(ctx) {
+            ctx.save();
+
+            var yLoc = Game.height - unitWidth;
+            this.drawSquare(ctx,gutterWidth,yLoc,"\u25C0", Game.keys['left']);
+            this.drawSquare(ctx,unitWidth + gutterWidth,yLoc,"\u25B6", Game.keys['right']);
+            this.drawSquare(ctx,4*unitWidth,yLoc,"A",Game.keys['fire']);
+
+            ctx.restore();
+        };
+
+        this.step = function(dt) { };
+
+        this.trackTouch = function(e) {
+            var touch, x;
+
+            e.preventDefault();
+            Game.keys['left'] = false;
+            Game.keys['right'] = false;
+            for(var i=0;i<e.targetTouches.length;i++) {
+                touch = e.targetTouches[i];
+                x = touch.pageX / Game.canvasMultiplier - Game.canvas.offsetLeft;
+                if(x < unitWidth) {
+                    Game.keys['left'] = true;
+                }
+                if(x > unitWidth && x < 2*unitWidth) {
+                    Game.keys['right'] = true;
+                }
+            }
+
+            if(e.type == 'touchstart' || e.type == 'touchend') {
+                for(i=0;i<e.changedTouches.length;i++) {
+                    touch = e.changedTouches[i];
+                    x = touch.pageX / Game.canvasMultiplier - Game.canvas.offsetLeft;
+                    if(x > 4 * unitWidth) {
+                        Game.keys['fire'] = (e.type == 'touchstart');
+                    }
+                }
+            }
+        };
+
+        Game.canvas.addEventListener('touchstart',this.trackTouch,true);
+        Game.canvas.addEventListener('touchmove',this.trackTouch,true);
+        Game.canvas.addEventListener('touchend',this.trackTouch,true);
+
+        // For Android
+        Game.canvas.addEventListener('dblclick',function(e) { e.preventDefault(); },true);
+        Game.canvas.addEventListener('click',function(e) { e.preventDefault(); },true);
+
+        Game.playerOffset = unitWidth + 20;
+    };
+
+
     var GamePoints = function() {
         Game.points = 0;
 
@@ -391,32 +499,37 @@
     };
 
     // game.js
-
-//    var pictures_data = {
-//        'bug': { cls: Bug, w: 110, h: 110}
-//        , 'player': { cls: Player, w: 110, h: 110}
-//        , 'missile': { cls: Missile, w: 50, h: 50}
-//    }
-
     var sprites = {
-        player: { w: 110, h: 110, frames: 1 },
-        missile: { w: 50, h: 50, frames: 1 },
-        enemy: { w: 110, h: 110, frames: 1 },
-        enemy_missile: { w: 50, h: 50, frame: 1 },
-        explosion: { w: 50, h: 50, frames: 1 }
+//        ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
+//        missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 },
+//        enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
+//        enemy_bee: { sx: 79, sy: 0, w: 37, h: 43, frames: 1 },
+//        enemy_ship: { sx: 116, sy: 0, w: 42, h: 43, frames: 1 },
+//        enemy_circle: { sx: 158, sy: 0, w: 32, h: 33, frames: 1 },
+//        explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 },
+//        enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1}
+//
+        ship: { w: 30, h: 30, frames: 1 },
+        missile: { w: 20, h: 20, frames: 1 },
+        enemy_purple: { w: 30, h: 30, frames: 1 },
+        enemy_bee: { w: 30, h: 30, frames: 1 },
+        enemy_ship: { w: 30, h: 30, frames: 1 },
+        enemy_circle: { w: 30, h: 30, frames: 1 },
+        explosion: { w: 20, h: 20, frames: 12 },
+        enemy_missile: { w: 20, h: 20, frame: 1}
     };
 
     var enemies = {
-//        straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
-//            E: 100, missiles: 2 },
-        ltr:      { x: 0,   y: -100, sprite: 'enemy', health: 10,
-            B: 75, C: 1, E: 100, missiles: 2  }
-//        circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10,
-//            A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-//        wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20,
-//            B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
-//        step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
-//            B: 150, C: 1.2, E: 75 }
+        straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
+            E: 100 },
+        ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10,
+            B: 75, C: 1, E: 100, missiles: 2  },
+        circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10,
+            A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
+        wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20,
+            B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
+        step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
+            B: 150, C: 1.2, E: 75 }
     };
 
     var OBJECT_PLAYER = 1,
@@ -425,28 +538,35 @@
         OBJECT_ENEMY_PROJECTILE = 8,
         OBJECT_POWERUP = 16;
 
-    function start_game() {
-        console.log('start game');
-        Game.setBoard(0,new Starfield(20,0.4,100,true));
-        Game.setBoard(1,new Starfield(50,0.6,100));
-        Game.setBoard(2,new Starfield(100,1.0,50));
-        Game.setBoard(3,new TitleScreen("Sfeir Invasion",
-            'press "k" to start',
-            playGame));
-    }
+    var startGame = function() {
+        var ua = navigator.userAgent.toLowerCase();
 
-    // TODO keep only 1 level
+        // Only 1 row of stars
+        if(ua.match(/android/)) {
+            Game.setBoard(0,new Starfield(50,0.6,100,true));
+        } else {
+            Game.setBoard(0,new Starfield(20,0.4,100,true));
+            Game.setBoard(1,new Starfield(50,0.6,100));
+            Game.setBoard(2,new Starfield(100,1.0,50));
+        }
+        Game.setBoard(3,new TitleScreen("Alien Invasion",
+            "Press fire to start playing",
+            playGame));
+    };
+
     var level1 = [
         // Start,   End, Gap,  Type,   Override
-        [ 0,      4000,  500, 'ltr' ]
-        // [ 6000,   13000, 800, 'ltr' ],
-        // [ 10000,  16000, 400, 'circle' ],
-        // [ 17800,  20000, 500, 'straight', { x: 50 } ],
-        // [ 18200,  20000, 500, 'straight', { x: 90 } ],
-        // [ 18200,  20000, 500, 'straight', { x: 10 } ],
-        // [ 22000,  25000, 400, 'wiggle', { x: 150 }],
-        // [ 22000,  25000, 400, 'wiggle', { x: 100 }]
+        [ 0,      4000,  500, 'step' ],
+        [ 6000,   13000, 800, 'ltr' ],
+        [ 10000,  16000, 400, 'circle' ],
+        [ 17800,  20000, 500, 'straight', { x: 50 } ],
+        [ 18200,  20000, 500, 'straight', { x: 90 } ],
+        [ 18200,  20000, 500, 'straight', { x: 10 } ],
+        [ 22000,  25000, 400, 'wiggle', { x: 150 }],
+        [ 22000,  25000, 400, 'wiggle', { x: 100 }]
     ];
+
+
 
     var playGame = function() {
         var board = new GameBoard();
@@ -530,7 +650,7 @@
     };
 
     var PlayerShip = function() {
-        this.setup('player', { vx: 0, reloadTime: 0.25, maxVel: 200 });
+        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
 
         this.reload = this.reloadTime;
         this.x = Game.width/2 - this.w / 2;
@@ -681,190 +801,12 @@
 
     Explosion.prototype.step = function(dt) {
         this.frame++;
-        if(this.frame >= 2) {
-        // if(this.frame >= 12) {
+        if(this.frame >= 12) {
             this.board.remove(this);
         }
     };
 
-            //TODO
-//    var game_level = [
-//        [1, 1, 1, 1, 1, 1, 1]
-//      , [1, 1, 1, 1, 1, 1, 1]
-//      , [1, 1, 1, 1, 1, 1, 1]
-//      , [1, 1, 1, 1, 1, 1, 1]
-//      , [1, 1, 1, 1, 1, 1, 1]
-//      , [1, 1, 1, 1, 1, 1, 1]
-//    ]
-//
-//    this.loadLevel = function(level) {
-//
-//        this.objects = [];
-//        this.player = Game.board.addPicture('player'
-//            , Game.width / 2 // x
-//            , Game.height - SpriteSheet.map['player'].h - 10 // y
-//        );
-//
-//        var flock = this.add(new BugFlock());
-//        for (var y = 0, rows = level.length; y < rows; y++) {
-//            for (var x = 0, cols = level[y].length; x < cols; x++) {
-//                var bug = SpriteSheet.map['bug'];
-//                if(bug) {
-//                    Game.board.addPicture('bug',
-//                        (bug.w + 10) * x,
-//                        bug.h * y,
-//                        {flock : flock} // options
-//                    );
-//                }
-//            }
-//        }
-//
-//    }
-//
-//    this.loadLevel(game_level);
-//
-//    var Missile = function() {
-//    }
-//
-//    Missile.prototype.draw = function(canvas) {
-//        SpriteSheet.draw(canvas, 'missile', this.x, this.y);
-//    }
-//
-//    Missile.prototype.step = function(dt) {
-//        this.y += this.dy *dt;
-//
-//        var enemy = this.board.collide(this);
-//        if (enemy) {
-//            enemy.die();
-//            return false;
-//        }
-//
-//        return !(this.y < 0 || this.y > Game.height);
-//    }
-//
-//    Missile.prototype.die = function() {
-//        if(this.player) {
-//            this.board.missiles--;
-//        }
-//
-//        if (this.board.missiles < 0) {
-//            this.board.missiles = 0;
-//        }
-//
-//        this.board.remove(this);
-//    }
-//
-//    var Player = function Player(opts) {
-//        this.reloading = 0;
-//    }
-//
-//    Player.prototype.draw = function(canvas) {
-//        SpriteSheet.draw(canvas, 'player', this.x, this.y);
-//    }
-//
-//    Player.prototype.die = function() {
-//        Game.callbacks['die']();
-//    }
-//
-//    Player.prototype.step = function(dt) {
-//        if (Game.keys['left']) { this.x -= 100 *dt; }
-//        if (Game.keys['right']) { this.x += 100 *dt; }
-//
-//        if (this.x < 0) this.x = 0;
-//        if (this.x > Game.width - this.w) this.x = Game.width = this.w;
-//
-//        this.reloading--;
-//
-//        if (Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
-//            this.board.addPicture('missile',
-//                this.x + this.w / 2 - SpriteSheet.map.missile.w / 2,
-//                this.y - this.h,
-//                { dy: -100, player: true}
-//            );
-//            this.board.missiles++;
-//            this.reloading = 10;
-//        }
-//        return true;
-//    }
-//
-//    var BugFlock = function() {
-//        this.dx = 10; this.dy = 10;
-//        this.hit = 1; this.lastHit = 0;
-//        this.speed = 10;
-//
-//        this.draw = function() {};
-//
-//        this.die = function() {
-//            Game.callbacks['win']();
-//        }
-//    }
-//
-//    this.step = function(dt) {
-//        if (this.hit && this.hit != this.lastHit) {
-//            this.lastHit = this.hit;
-//            this.dy = this.speed;
-//        } else {
-//            this.dy = 0;
-//        }
-//        this.dx = this.speed * this.hit;
-//
-//        var max = {}, cnt = 0;
-//
-//        this.board.iterate(function() {
-//            if (this instanceof Bug) {
-//                if (!max[this.x] || this.y > max[this.x]) {
-//                    max[this.x] = this.y;
-//                }
-//                cnt++;
-//            }
-//        });
-//
-//        if(cnt ==0) {this.die();}
-//
-//        this.max_y = max;
-//        return true;
-//    }
-//
-//    var Bug = function (opts) {
-//        this.flock = opts['flock'];
-//        this.frame = 0;
-//        this.mx = 0;
-//    }
-//
-//    Bug.prototype.draw = function(canvas) {
-//        SpriteSheet.draw(canvas, this.name, this.x, this.y);
-////        pictures.draw(canvas, this.name, this.x, this.y, this.frame);
-//    }
-//
-//    Bug.prototype.die = function() {
-//        this.flock.speed +=1;
-//        this.board.remove(this);
-//    }
-//
-//    Bug.prototype.step = function(dt) {
-//        this.mx += dt * this.flock.dx;
-//        this.y += this.flock.dy;
-//
-//        if(Math.abs(this.mx) > 10) {
-//            if (this.y == this.flock.max_y[this.x]) {
-//                this.fireSometimes();
-//            }
-//            this.x += this.mx;
-//            this.mx = 0;
-//            this.frame = (this.frame+1) % 2;
-//            if (this.x > Game.width - SpriteSheet.map.bug.w *2) this.flock.hit = -1;
-//            if (this.x < SpriteSheet.map.bug.w) this.flock.hit = 1;
-//        }
-//        return true;
-//    }
-//
-//    Bug.prototype.fireSometimes = function() {
-//        if (Math.random() * 100 < 10) {
-//            this.board.addPicture('missile', this.x + this.w/2 - SpriteSheet.map.missile.w / 2,
-//                this.y + this.h,
-//                {dy: 100});
-//        }
-//    }
+
 
 
 })();
