@@ -194,15 +194,8 @@
                 throw 'Unknown sprite ' + sprite;
             }
 
-
-            // TODO
-
             ctx.drawImage(
                 the_image,
-//                this.image,
-//                s.sx + frame * s.w,
-//                s.sy,
-//                s.w, s.h,
                 Math.floor(x), Math.floor(y),
                 s.w, s.h);
         };
