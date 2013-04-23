@@ -80,7 +80,7 @@
             },false);
         };
 
-        console.log('v 32');
+        console.log('v 33');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
@@ -155,7 +155,7 @@
         this.pictures = {};
 
         var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'cloud', 'compute', 'dart'];
-        var picture_names = ['bug', 'sfeir'].concat(pictures_missiles_names);
+        var picture_names = ['bug', 'sfeir', 'missile_enemy'].concat(pictures_missiles_names);
 
         for (var i = 0; i < picture_names.length; i++) {
 
@@ -204,7 +204,7 @@
                 the_image = this.pictures['compute'];
 
             } else if ('enemy_missile' === sprite) {
-                the_image = this.pictures['angularjs'];
+                the_image = this.pictures['missile_enemy'];
 
             } else {
                 throw 'Unknown sprite ' + sprite;
@@ -530,7 +530,7 @@
         enemy_ship: { w: 30, h: 20, frames: 1 },
         enemy_circle: { w: 30, h: 20, frames: 1 },
         explosion: { w: 20, h: 15, frames: 12 },
-        enemy_missile: { w: 20, h: 15, frame: 1}
+        enemy_missile: { w: 3, h: 10, frame: 1}
     };
 
     var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_clo', 'missile_com', 'missile_dar'];
@@ -569,8 +569,8 @@
 //            Game.setBoard(1,new Starfield(50,0.6,100));
 //            Game.setBoard(2,new Starfield(100,1.0,50));
         }
-        Game.setBoard(3,new TitleScreen("Alien Invasion",
-            "Press fire to start playing",
+        Game.setBoard(3,new TitleScreen("Bugs Attack !",
+            "' k ' fire ,  ' j ' left ,  ' l ' right .  Fire now!",
             playGame));
     };
 
@@ -700,10 +700,9 @@
                 this.reload = this.reloadTime;
 
                 var min = 0;
-                var max = player_missiles_sprite.length;
+                var max = player_missiles_sprite.length - 1;
                 var idx = Math.floor(Math.random() * (max - min + 1)) + min;
 
-                // TODO
                 var missile_sprite = player_missiles_sprite[idx];
 
                 this.board.add(new PlayerMissile(missile_sprite, this.x,this.y+this.h/2));
