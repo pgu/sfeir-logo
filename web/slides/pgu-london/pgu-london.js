@@ -588,7 +588,7 @@
 //            Game.setBoard(2,new Starfield(100,1.0,50));
         }
         Game.setBoard(3,new TitleScreen("Bugs Attack !",
-            "' k ' fire ,  ' j ' left ,  ' l ' right .  Fire now!",
+            "left ' j ', fire ' k ', ' l ' right .  Fire now!",
             playGame));
     };
 
@@ -612,7 +612,7 @@
             [ 17800,  20000, 500, 'straight', { x: 10 } ]
         ]
       , [
-            [ 0,       4000, 250, 'wiggle', { x: 150 } ],
+            [ 0,       4000, 500, 'wiggle', { x: 150 } ],
             [ 6000,   13000, 800, 'straight', { x: 50 } ],
             [ 10000,  16000, 400, 'ltr' ],
             [ 17800,  20000, 500, 'wiggle', { x: 100 } ]
@@ -664,7 +664,7 @@
     var loseGame = function() {
         show_social_bar_when_animation_is_over('pgu-london');
         Game.setBoard(3,new TitleScreen("You lose!",
-            "42nd is waiting for you...",
+            "42nd floor has won!",
             playGame));
     };
 
