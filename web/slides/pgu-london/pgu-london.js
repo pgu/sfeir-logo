@@ -60,7 +60,8 @@
         };
 
         // Handle Input
-        var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+//        var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+        var KEY_CODES = { 74:'left', 76:'right', 75 :'fire' };
         this.keys = {};
 
         this.setupInput = function() {
@@ -219,11 +220,13 @@
         this.draw = function(ctx) {
             ctx.fillStyle = "#FFFFFF";
 
-            ctx.font = "bold 40px bangers";
+//            ctx.font = "bold 40px bangers";
+            ctx.font = "bold 40px arial";
             var measure = ctx.measureText(title);
             ctx.fillText(title,Game.width/2 - measure.width/2,Game.height/2);
 
-            ctx.font = "bold 20px bangers";
+            ctx.font = "bold 20px arial";
+//            ctx.font = "bold 20px bangers";
             var measure2 = ctx.measureText(subtitle);
             ctx.fillText(subtitle,Game.width/2 - measure2.width/2,Game.height/2 + 40);
         };
