@@ -24,7 +24,7 @@
         id: 'pgu-london'
         , reset: function() {
 
-            // TODO reset
+            // TODO reset clear boards
             // TODO clean console.log
             // TODO ref github project
             if (request_id) {
@@ -37,6 +37,7 @@
             {
                 // signal death of this animation
                 delete canvas.animation;
+                Game.clearCtx();
                 if (canvas.firstChild !== null) {
                     canvas.innerHTML = "";
                 }
@@ -80,6 +81,10 @@
             SpriteSheet.load(sprite_data,callback);
         };
 
+        this.clearCtx = function() {
+            if (this.ctx) {this.ctx.clearRect(0,0,this.width,this.height);}
+        }
+
         // Handle Input
 //        var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
         var KEY_CODES = { 74:'left', 76:'right', 75 :'fire' };
@@ -101,7 +106,7 @@
             },false);
         };
 
-        console.log('v 43');
+        console.log('v 44');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
