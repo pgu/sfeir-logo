@@ -731,7 +731,7 @@
 
     var PlayerShip = function() {
         // increase player's speed
-        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 800 });
+        this.setup('ship', { vx: 0, reloadTime: 0.15, maxVel: 800 });
 //        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
 
         this.reload = this.reloadTime;
