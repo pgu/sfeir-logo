@@ -4,7 +4,7 @@
 (function() {
 
     var article = $('#pgu-london');
-    article.html('<canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas>');
+    article.html('<div id="container_invaders"><canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas></div>');
     article.addClass('pgu-article pgu-article-black');
 
     var pgu_london = function() {
@@ -80,6 +80,7 @@
             },false);
         };
 
+        console.log('v 32');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
@@ -87,7 +88,11 @@
         this.loop = function() {
             var curTime = new Date().getTime();
             requestAnimationFrame(Game.loop);
-            var dt = (curTime - lastTime)/1000;
+
+            // slow the game
+            var dt = (curTime - lastTime)/3000;
+//            var dt = (curTime - lastTime)/1000;
+
             if(dt > maxTime) { dt = maxTime; }
 
             for(var i=0,len = boards.length;i<len;i++) {
@@ -104,7 +109,7 @@
 
 
         this.setupMobile = function() {
-            var container = document.getElementById("container"),
+            var container = document.getElementById("container_invaders"),
                 hasTouch =  !!('ontouchstart' in window),
                 w = window.innerWidth, h = window.innerHeight;
 
@@ -144,16 +149,17 @@
 
     };
 
-
     var SpriteSheet = new function() {
         this.map = { };
 
         this.pictures = {};
 
-        var pic_names = ['android', 'angularjs', 'appengine', 'bug', 'cloud', 'compute', 'dart', 'sfeir'];
-        for (var i = 0; i < pic_names.length; i++) {
+        var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'cloud', 'compute', 'dart'];
+        var picture_names = ['bug', 'sfeir'].concat(pictures_missiles_names);
 
-            var pic_name = pic_names[i];
+        for (var i = 0; i < picture_names.length; i++) {
+
+            var pic_name = picture_names[i];
 
             var img = new Image();
             img.src = '/slides/pgu-london/img/' + pic_name + '.png';
@@ -178,8 +184,18 @@
             if ('ship' === sprite) {
                 the_image = this.pictures['sfeir'];
 
-            } else if ('missile' === sprite) {
+            } else if ('missile_and' === sprite) {
                 the_image = this.pictures['android'];
+            } else if ('missile_ang' === sprite) {
+                the_image = this.pictures['angularjs'];
+            } else if ('missile_app' === sprite) {
+                the_image = this.pictures['appengine'];
+            } else if ('missile_clo' === sprite) {
+                the_image = this.pictures['cloud'];
+            } else if ('missile_com' === sprite) {
+                the_image = this.pictures['compute'];
+            } else if ('missile_dar' === sprite) {
+                the_image = this.pictures['dart'];
 
             } else if (sprite.indexOf('enemy') > -1 && sprite.indexOf('missile') === -1) {
                 the_image = this.pictures['bug'];
@@ -188,7 +204,7 @@
                 the_image = this.pictures['compute'];
 
             } else if ('enemy_missile' === sprite) {
-                the_image = this.pictures['appengine'];
+                the_image = this.pictures['angularjs'];
 
             } else {
                 throw 'Unknown sprite ' + sprite;
@@ -502,15 +518,22 @@
 //        explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 },
 //        enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1}
 //
-        ship: { w: 30, h: 30, frames: 1 },
-        missile: { w: 20, h: 20, frames: 1 },
-        enemy_purple: { w: 30, h: 30, frames: 1 },
-        enemy_bee: { w: 30, h: 30, frames: 1 },
-        enemy_ship: { w: 30, h: 30, frames: 1 },
-        enemy_circle: { w: 30, h: 30, frames: 1 },
-        explosion: { w: 20, h: 20, frames: 12 },
-        enemy_missile: { w: 20, h: 20, frame: 1}
+        ship: { w: 30, h: 20, frames: 1 },
+        missile_and: { w: 20, h: 15, frames: 1 },
+        missile_ang: { w: 20, h: 15, frames: 1 },
+        missile_app: { w: 20, h: 15, frames: 1 },
+        missile_clo: { w: 20, h: 15, frames: 1 },
+        missile_com: { w: 20, h: 15, frames: 1 },
+        missile_dar: { w: 20, h: 15, frames: 1 },
+        enemy_purple: { w: 30, h: 20, frames: 1 },
+        enemy_bee: { w: 30, h: 20, frames: 1 },
+        enemy_ship: { w: 30, h: 20, frames: 1 },
+        enemy_circle: { w: 30, h: 20, frames: 1 },
+        explosion: { w: 20, h: 15, frames: 12 },
+        enemy_missile: { w: 20, h: 15, frame: 1}
     };
+
+    var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_clo', 'missile_com', 'missile_dar'];
 
     var enemies = {
         straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
@@ -538,9 +561,13 @@
         if(ua.match(/android/)) {
             Game.setBoard(0,new Starfield(50,0.6,100,true));
         } else {
-            Game.setBoard(0,new Starfield(20,0.4,100,true));
-            Game.setBoard(1,new Starfield(50,0.6,100));
-            Game.setBoard(2,new Starfield(100,1.0,50));
+            // shlow the stars
+            Game.setBoard(0,new Starfield(10,0.4,10,true));
+            Game.setBoard(1,new Starfield(25,0.6,10));
+            Game.setBoard(2,new Starfield(50,1.0,5));
+//            Game.setBoard(0,new Starfield(20,0.4,100,true));
+//            Game.setBoard(1,new Starfield(50,0.6,100));
+//            Game.setBoard(2,new Starfield(100,1.0,50));
         }
         Game.setBoard(3,new TitleScreen("Alien Invasion",
             "Press fire to start playing",
@@ -549,7 +576,9 @@
 
     var level1 = [
         // Start,   End, Gap,  Type,   Override
-        [ 0,      1000,  500, 'ltr' ]
+        [ 0,       4000, 500, 'step' ],
+        [ 6000,   13000, 800, 'ltr' ]
+//        [ 0,       4000, 500, 'step' ],
 //        [ 6000,   13000, 800, 'ltr' ],
 //        [ 10000,  16000, 400, 'circle' ],
 //        [ 17800,  20000, 500, 'straight', { x: 50 } ],
@@ -645,7 +674,9 @@
     };
 
     var PlayerShip = function() {
-        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
+        // increase player's speed
+        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 800 });
+//        this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
 
         this.reload = this.reloadTime;
         this.x = Game.width/2 - this.w / 2;
@@ -668,8 +699,15 @@
                 Game.keys['fire'] = false;
                 this.reload = this.reloadTime;
 
-                this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
-                this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
+                var min = 0;
+                var max = player_missiles_sprite.length;
+                var idx = Math.floor(Math.random() * (max - min + 1)) + min;
+
+                // TODO
+                var missile_sprite = player_missiles_sprite[idx];
+
+                this.board.add(new PlayerMissile(missile_sprite, this.x,this.y+this.h/2));
+                this.board.add(new PlayerMissile(missile_sprite, this.x+this.w,this.y+this.h/2));
             }
         };
     };
@@ -684,8 +722,9 @@
     };
 
 
-    var PlayerMissile = function(x,y) {
-        this.setup('missile',{ vy: -700, damage: 10 });
+    var PlayerMissile = function(sprite,x,y) {
+        this.setup(sprite,{ vy: -100, damage: 10 });
+//        this.setup('missile',{ vy: -700, damage: 10 });
         this.x = x - this.w/2;
         this.y = y - this.h;
     };
@@ -765,7 +804,8 @@
     };
 
     var EnemyMissile = function(x,y) {
-        this.setup('enemy_missile',{ vy: 200, damage: 10 });
+        this.setup('enemy_missile',{ vy: 100, damage: 10 });
+//        this.setup('enemy_missile',{ vy: 200, damage: 10 });
         this.x = x - this.w/2;
         this.y = y;
     };
@@ -784,8 +824,6 @@
         }
     };
 
-
-
     var Explosion = function(centerX,centerY) {
         this.setup('explosion', { frame: 0 });
         this.x = centerX - this.w/2;
@@ -800,8 +838,5 @@
             this.board.remove(this);
         }
     };
-
-
-
 
 })();
