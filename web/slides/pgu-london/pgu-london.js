@@ -15,19 +15,6 @@
     article.html('<div id="container_invaders"><canvas id="sfeir-invaders" class="sfeir-invaders-container"></canvas></div>');
     article.addClass('pgu-article pgu-article-black');
 
-    var pgu_london = function() {
-        var is_on = false;
-
-        return {
-            set_ON: function(on) {
-                is_on = on;
-            }
-            , is_ON: function() {
-                return is_on;
-            }
-        }
-    }();
-
     window.SLIDES['pgu-london'] = {
         id: 'pgu-london'
         , reset: function() {
@@ -188,10 +175,10 @@
         var pictures_enemies2 = ['bug_big2', 'bug_small2', 'bug_large2', 'bug_thin2'];
         var pictures_enemies_missiles = ['missile_big', 'missile_small', 'missile_large', 'missile_thin'];
 
-        var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'compute', 'dart'];
+        var pictures_missiles = ['android', 'angularjs', 'appengine', 'compute', 'dart'];
 
         var picture_names = ['sfeir', 'cloud']
-            .concat(pictures_missiles_names)
+            .concat(pictures_missiles)
             .concat(pictures_enemies)
             .concat(pictures_enemies2)
             .concat(pictures_enemies_missiles)
@@ -221,19 +208,26 @@
 
             var s = this.map[sprite];
             var the_image = null;
+
             if ('ship' === sprite) {
                 the_image = this.pictures['sfeir'];
 
+
             } else if ('missile_and' === sprite) {
                 the_image = this.pictures['android'];
+
             } else if ('missile_ang' === sprite) {
                 the_image = this.pictures['angularjs'];
+
             } else if ('missile_app' === sprite) {
                 the_image = this.pictures['appengine'];
+
             } else if ('missile_com' === sprite) {
                 the_image = this.pictures['compute'];
+
             } else if ('missile_dar' === sprite) {
                 the_image = this.pictures['dart'];
+
 
             } else if ('enemy_big' === sprite) {
                 the_image = (frame & 1) ? this.pictures['bug_big'] : this.pictures['bug_big2'] ;
@@ -247,15 +241,20 @@
             } else if ('enemy_thin' === sprite) {
                 the_image = (frame & 1) ? this.pictures['bug_thin'] : this.pictures['bug_thin2'] ;
 
+
             } else if ('explosion' === sprite) {
                 the_image = this.pictures['cloud'];
 
+
             } else if ('enemy_missile_big' === sprite) {
                 the_image = this.pictures['missile_big'];
+
             } else if ('enemy_missile_small' === sprite) {
                 the_image = this.pictures['missile_small'];
+
             } else if ('enemy_missile_large' === sprite) {
                 the_image = this.pictures['missile_large'];
+
             } else if ('enemy_missile_thin' === sprite) {
                 the_image = this.pictures['missile_thin'];
 
@@ -538,8 +537,6 @@
     };
 
 
-    console.log('v 59');
-
     var GamePoints = function() {
         Game.points = 0;
 
@@ -640,7 +637,7 @@
             [ 6000,   13000, 800, 'circle' ],
             [ 10000,  16000, 400, 'ltr' ],
             [ 17800,  20000, 500, 'wiggle', { x: 150, B: 160 } ]
-        ]   // level1
+        ]
       , [
             [ 0,       4000, 500, 'circle' ],
             [ 6000,   13000, 500, 'step' ],
@@ -663,10 +660,6 @@
 
 //    var level1 = [
         // Start,   End, Gap,  Type,   Override
-//        [ 0,       4000, 250, 'step' ],
-//        [ 6000,   13000, 800, 'circle' ],
-//        [ 10000,  16000, 400, 'ltr' ],
-//        [ 17800,  20000, 500, 'wiggle', { x: 50 } ]
 //        [ 0,       4000, 500, 'step' ],
 //        [ 6000,   13000, 800, 'ltr' ],
 //        [ 10000,  16000, 400, 'circle' ],
