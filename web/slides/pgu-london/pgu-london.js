@@ -538,7 +538,7 @@
     };
 
 
-    console.log('v 54');
+    console.log('v 58');
 
     var GamePoints = function() {
         Game.points = 0;
@@ -573,7 +573,7 @@
 //        explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 },
 //        enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1}
 //
-        ship: { w: 30, h: 20, frame: 1 },
+        ship: { w: 25, h: 14, frame: 1 },
         missile_and: { w: 20, h: 15, frame: 1 },
         missile_ang: { w: 20, h: 15, frame: 1 },
         missile_app: { w: 20, h: 15, frame: 1 },
