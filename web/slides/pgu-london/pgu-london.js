@@ -83,6 +83,7 @@
 
         this.clearCtx = function() {
             if (this.ctx) {this.ctx.clearRect(0,0,this.width,this.height);}
+            boards = [];
         }
 
         // Handle Input
@@ -105,8 +106,6 @@
                 }
             },false);
         };
-
-        console.log('v 44');
 
         var lastTime = new Date().getTime();
         var maxTime = 1/30;
@@ -508,6 +507,8 @@
         Game.playerOffset = unitWidth + 20;
     };
 
+
+    console.log('v 46');
 
     var GamePoints = function() {
         Game.points = 0;
