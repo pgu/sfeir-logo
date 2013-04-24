@@ -538,7 +538,7 @@
     };
 
 
-    console.log('v 58');
+    console.log('v 59');
 
     var GamePoints = function() {
         Game.points = 0;
@@ -602,7 +602,7 @@
             B: 75, C: 1, E: 100, missiles: 2  },
         circle:   { x: 250,   y: -50, sprite: 'enemy_thin', health: 10,
             A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-        wiggle:   { x: 100, y: -50, sprite: 'enemy_small', health: 20,
+        wiggle:   { x: 100, y: -50, sprite: 'enemy_small', health: 10,
             B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
         step:     { x: 0,   y: -50, sprite: 'enemy_large', health: 10,
             B: 150, C: 1.2, E: 75 }
@@ -622,9 +622,9 @@
             Game.setBoard(0,new Starfield(50,0.6,100,true));
         } else {
             // slow the stars
-            Game.setBoard(0,new Starfield(10,0.4,10,true));
-            Game.setBoard(1,new Starfield(25,0.6,10));
-            Game.setBoard(2,new Starfield(50,1.0,5));
+            Game.setBoard(0,new Starfield(15,0.4,10,true));
+            Game.setBoard(1,new Starfield(37,0.6,10));
+            Game.setBoard(2,new Starfield(75,1.0,5));
 //            Game.setBoard(0,new Starfield(20,0.4,100,true));
 //            Game.setBoard(1,new Starfield(50,0.6,100));
 //            Game.setBoard(2,new Starfield(100,1.0,50));
@@ -706,7 +706,7 @@
     var loseGame = function() {
         show_social_bar_when_animation_is_over('pgu-london');
         Game.setBoard(3,new TitleScreen("You lose!",
-            "42nd floor has won!",
+            "Press fire to play again",
             playGame));
     };
 
