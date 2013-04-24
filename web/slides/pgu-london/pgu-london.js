@@ -1,5 +1,13 @@
-//https://github.com/cykod/AlienInvasion/blob/master/engine.js
-//https://github.com/cykod/AlienInvasion/blob/master/game.js
+//
+// The original code is from https://github.com/cykod/AlienInvasion
+// A big thank to their team, they've made a wonderful work.
+//
+// Also, you can see their presentation at http://www.slideshare.net/cykod/html5-space-invaders
+// "Presentation at the Boston HTML5 Game Development Meetup: Building a Space Invaders clone from Scratch with HTML5"
+//
+
+// https://github.com/cykod/AlienInvasion/blob/master/engine.js
+// https://github.com/cykod/AlienInvasion/blob/master/game.js
 
 (function() {
 
