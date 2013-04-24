@@ -236,19 +236,28 @@
                 the_image = this.pictures['dart'];
 
             } else if ('enemy_big' === sprite) {
-                the_image = this.pictures['bug_big'];
+                the_image = (frame & 1) ? this.pictures['bug_big'] : this.pictures['bug_big2'] ;
+
             } else if ('enemy_small' === sprite) {
-                the_image = this.pictures['bug_small'];
+                the_image = (frame & 1) ? this.pictures['bug_small'] : this.pictures['bug_small2'] ;
+
             } else if ('enemy_large' === sprite) {
-                the_image = this.pictures['bug_large'];
+                the_image = (frame & 1) ? this.pictures['bug_large'] : this.pictures['bug_large2'] ;
+
             } else if ('enemy_thin' === sprite) {
-                the_image = this.pictures['bug_thin'];
+                the_image = (frame & 1) ? this.pictures['bug_thin'] : this.pictures['bug_thin2'] ;
 
             } else if ('explosion' === sprite) {
                 the_image = this.pictures['cloud'];
 
-            } else if ('enemy_missile' === sprite) {
+            } else if ('enemy_missile_big' === sprite) {
                 the_image = this.pictures['missile_big'];
+            } else if ('enemy_missile_small' === sprite) {
+                the_image = this.pictures['missile_small'];
+            } else if ('enemy_missile_large' === sprite) {
+                the_image = this.pictures['missile_large'];
+            } else if ('enemy_missile_thin' === sprite) {
+                the_image = this.pictures['missile_thin'];
 
             } else {
                 throw 'Unknown sprite ' + sprite;
@@ -529,7 +538,7 @@
     };
 
 
-    console.log('v 46');
+    console.log('v 54');
 
     var GamePoints = function() {
         Game.points = 0;
@@ -564,35 +573,38 @@
 //        explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 },
 //        enemy_missile: { sx: 9, sy: 42, w: 3, h: 20, frame: 1}
 //
-        ship: { w: 30, h: 20, frames: 1 },
-        missile_and: { w: 20, h: 15, frames: 1 },
-        missile_ang: { w: 20, h: 15, frames: 1 },
-        missile_app: { w: 20, h: 15, frames: 1 },
-        missile_com: { w: 20, h: 15, frames: 1 },
-        missile_dar: { w: 20, h: 15, frames: 1 },
+        ship: { w: 30, h: 20, frame: 1 },
+        missile_and: { w: 20, h: 15, frame: 1 },
+        missile_ang: { w: 20, h: 15, frame: 1 },
+        missile_app: { w: 20, h: 15, frame: 1 },
+        missile_com: { w: 20, h: 15, frame: 1 },
+        missile_dar: { w: 20, h: 15, frame: 1 },
 
-        enemy_big: { w: 30, h: 20, frames: 1 },
-        enemy_small: { w: 20, h: 10, frames: 1 },
-        enemy_large: { w: 30, h: 10, frames: 1 },
-        enemy_thin: { w: 20, h: 20, frames: 1 },
+        enemy_big: { w: 30, h: 20, frame: 1 },
+        enemy_small: { w: 20, h: 10, frame: 1 },
+        enemy_large: { w: 30, h: 10, frame: 1 },
+        enemy_thin: { w: 20, h: 20, frame: 1 },
 
-        explosion: { w: 20, h: 15, frames: 12 },
+        explosion: { w: 20, h: 15, frame: 12 },
 
-        enemy_missile: { w: 3, h: 10, frame: 1}
+        enemy_missile_big: { w: 10, h: 8, frame: 1},
+        enemy_missile_small: { w: 3, h: 6, frame: 1},
+        enemy_missile_large: { w: 10, h: 8, frame: 1},
+        enemy_missile_thin: { w: 3, h: 10, frame: 1}
     };
 
     var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_com', 'missile_dar'];
 
     var enemies = {
-        straight: { x: 0,   y: -50, sprite: 'enemy_big', health: 10,
+        straight: { x: 0,   y: -50, sprite: 'enemy_large', health: 10,
             E: 100 },
         ltr:      { x: 0,   y: -100, sprite: 'enemy_big', health: 10,
             B: 75, C: 1, E: 100, missiles: 2  },
-        circle:   { x: 250,   y: -50, sprite: 'enemy_big', health: 10,
+        circle:   { x: 250,   y: -50, sprite: 'enemy_thin', health: 10,
             A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-        wiggle:   { x: 100, y: -50, sprite: 'enemy_big', health: 20,
+        wiggle:   { x: 100, y: -50, sprite: 'enemy_small', health: 20,
             B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
-        step:     { x: 0,   y: -50, sprite: 'enemy_big', health: 10,
+        step:     { x: 0,   y: -50, sprite: 'enemy_large', health: 10,
             B: 150, C: 1.2, E: 75 }
     };
 
@@ -627,25 +639,25 @@
             [ 0,       4000, 250, 'step' ],
             [ 6000,   13000, 800, 'circle' ],
             [ 10000,  16000, 400, 'ltr' ],
-            [ 17800,  20000, 500, 'wiggle', { x: 50 } ]
+            [ 17800,  20000, 500, 'wiggle', { x: 150 } ]
         ]   // level1
       , [
             [ 0,       4000, 500, 'circle' ],
             [ 6000,   13000, 500, 'step' ],
-            [ 10000,  16000, 500, 'straight', { x: 50 } ],
-            [ 17800,  20000, 400, 'wiggle', { x: 100 } ]
+            [ 10000,  16000, 500, 'wiggle', { x: 100 } ],
+            [ 17800,  20000, 400, 'wiggle', { x: 200 } ]
         ]
       , [
             [ 0,       4000, 400, 'step' ],
             [ 6000,   13000, 800, 'ltr' ],
             [ 10000,  16000, 400, 'circle' ],
-            [ 17800,  20000, 500, 'straight', { x: 10 } ]
+            [ 17800,  20000, 500, 'wiggle', { x: 150 } ]
         ]
       , [
-            [ 0,       4000, 500, 'wiggle', { x: 150 } ],
-            [ 6000,   13000, 800, 'straight', { x: 50 } ],
+            [ 0,       4000, 500, 'wiggle', { x: 200 } ],
+            [ 6000,   13000, 800, 'circle'],
             [ 10000,  16000, 400, 'ltr' ],
-            [ 17800,  20000, 500, 'wiggle', { x: 100 } ]
+            [ 17800,  20000, 500, 'wiggle', { x: 150 } ]
         ]
     ];
 
@@ -837,6 +849,7 @@
         this.merge(this.baseParameters);
         this.setup(blueprint.sprite,blueprint);
         this.merge(override);
+        this.frame_delay = 20;
     };
 
     Enemy.prototype = new Sprite();
@@ -848,6 +861,13 @@
         reload: 0 };
 
     Enemy.prototype.step = function(dt) {
+        if (this.frame_delay === 0) {
+            this.frame++;
+            this.frame_delay = 20;
+        } else {
+            this.frame_delay--;
+        }
+
         this.t += dt;
 
         this.vx = this.A + this.B * Math.sin(this.C * this.t + this.D);
@@ -864,11 +884,29 @@
 
         if(Math.random() < 0.01 && this.reload <= 0) {
             this.reload = this.reloadTime;
-            if(this.missiles == 2) {
-                this.board.add(new EnemyMissile(this.x+this.w-2,this.y+this.h));
-                this.board.add(new EnemyMissile(this.x+2,this.y+this.h));
+
+            var missile_sprite = null;
+            if (this.sprite === 'enemy_big') {
+                missile_sprite = 'enemy_missile_big';
+
+            } else if (this.sprite === 'enemy_small') {
+                missile_sprite = 'enemy_missile_small';
+
+            } else if (this.sprite === 'enemy_large') {
+                missile_sprite = 'enemy_missile_thin';
+
+            } else if (this.sprite === 'enemy_thin') {
+                missile_sprite = 'enemy_missile_large';
+
             } else {
-                this.board.add(new EnemyMissile(this.x+this.w/2,this.y+this.h));
+                throw 'Unknown sprite ' + this.sprite;
+            }
+
+            if(this.missiles == 2) {
+                this.board.add(new EnemyMissile(missile_sprite, this.x+this.w-2,this.y+this.h));
+                this.board.add(new EnemyMissile(missile_sprite, this.x+2,this.y+this.h));
+            } else {
+                this.board.add(new EnemyMissile(missile_sprite, this.x+this.w/2,this.y+this.h));
             }
 
         }
@@ -892,8 +930,8 @@
         }
     };
 
-    var EnemyMissile = function(x,y) {
-        this.setup('enemy_missile',{ vy: 100, damage: 10 });
+    var EnemyMissile = function(sprite, x,y) {
+        this.setup(sprite,{ vy: 120, damage: 10 });
 //        this.setup('enemy_missile',{ vy: 200, damage: 10 });
         this.x = x - this.w/2;
         this.y = y;
