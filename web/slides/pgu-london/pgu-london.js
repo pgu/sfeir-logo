@@ -184,8 +184,18 @@
 
         this.pictures = {};
 
+        var pictures_enemies = ['bug_big', 'bug_small', 'bug_large', 'bug_thin'];
+        var pictures_enemies2 = ['bug_big2', 'bug_small2', 'bug_large2', 'bug_thin2'];
+        var pictures_enemies_missiles = ['missile_big', 'missile_small', 'missile_large', 'missile_thin'];
+
         var pictures_missiles_names = ['android', 'angularjs', 'appengine', 'compute', 'dart'];
-        var picture_names = ['bug', 'sfeir', 'cloud', 'missile_enemy'].concat(pictures_missiles_names);
+
+        var picture_names = ['sfeir', 'cloud']
+            .concat(pictures_missiles_names)
+            .concat(pictures_enemies)
+            .concat(pictures_enemies2)
+            .concat(pictures_enemies_missiles)
+            ;
 
         for (var i = 0; i < picture_names.length; i++) {
 
@@ -225,14 +235,20 @@
             } else if ('missile_dar' === sprite) {
                 the_image = this.pictures['dart'];
 
-            } else if (sprite.indexOf('enemy') > -1 && sprite.indexOf('missile') === -1) {
-                the_image = this.pictures['bug'];
+            } else if ('enemy_big' === sprite) {
+                the_image = this.pictures['bug_big'];
+            } else if ('enemy_small' === sprite) {
+                the_image = this.pictures['bug_small'];
+            } else if ('enemy_large' === sprite) {
+                the_image = this.pictures['bug_large'];
+            } else if ('enemy_thin' === sprite) {
+                the_image = this.pictures['bug_thin'];
 
             } else if ('explosion' === sprite) {
                 the_image = this.pictures['cloud'];
 
             } else if ('enemy_missile' === sprite) {
-                the_image = this.pictures['missile_enemy'];
+                the_image = this.pictures['missile_big'];
 
             } else {
                 throw 'Unknown sprite ' + sprite;
@@ -554,26 +570,29 @@
         missile_app: { w: 20, h: 15, frames: 1 },
         missile_com: { w: 20, h: 15, frames: 1 },
         missile_dar: { w: 20, h: 15, frames: 1 },
-        enemy_purple: { w: 30, h: 20, frames: 1 },
-        enemy_bee: { w: 30, h: 20, frames: 1 },
-        enemy_ship: { w: 30, h: 20, frames: 1 },
-        enemy_circle: { w: 30, h: 20, frames: 1 },
+
+        enemy_big: { w: 30, h: 20, frames: 1 },
+        enemy_small: { w: 20, h: 10, frames: 1 },
+        enemy_large: { w: 30, h: 10, frames: 1 },
+        enemy_thin: { w: 20, h: 20, frames: 1 },
+
         explosion: { w: 20, h: 15, frames: 12 },
+
         enemy_missile: { w: 3, h: 10, frame: 1}
     };
 
     var player_missiles_sprite = ['missile_and', 'missile_ang', 'missile_app', 'missile_com', 'missile_dar'];
 
     var enemies = {
-        straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10,
+        straight: { x: 0,   y: -50, sprite: 'enemy_big', health: 10,
             E: 100 },
-        ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10,
+        ltr:      { x: 0,   y: -100, sprite: 'enemy_big', health: 10,
             B: 75, C: 1, E: 100, missiles: 2  },
-        circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10,
+        circle:   { x: 250,   y: -50, sprite: 'enemy_big', health: 10,
             A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
-        wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20,
+        wiggle:   { x: 100, y: -50, sprite: 'enemy_big', health: 20,
             B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
-        step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
+        step:     { x: 0,   y: -50, sprite: 'enemy_big', health: 10,
             B: 150, C: 1.2, E: 75 }
     };
 
