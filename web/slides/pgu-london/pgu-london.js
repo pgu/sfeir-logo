@@ -32,9 +32,6 @@
         id: 'pgu-london'
         , reset: function() {
 
-            // TODO reset clear boards
-            // TODO clean console.log
-            // TODO ref github project
             if (request_id) {
                 window.cancelAnimationFrame(request_id);
             }
