@@ -4,9 +4,9 @@
     var dom_of_article = [
           '  <div id="pgu-nt-logo"       class="pgu-row-logo">'
         , '    <div id="pgu-nt-open"       class="pgu-open">[</div>'
-        , '    <div id="pgu-nt-sf"         class="pgu-nt-sf">SF</div>'
+        , '    <div id="pgu-nt-sf"         class="pgu-nt-sf">sf</div>'
         , '    <div id="pgu-nt-e"          class="pgu-e">≡</div>'
-        , '    <div id="pgu-nt-ir"         class="pgu-nt-ir">I R</div>'
+        , '    <div id="pgu-nt-ir"         class="pgu-nt-ir">ir</div>'
         , '    <div id="pgu-nt-close"      class="pgu-close">]</div>'
         , '  </div>'
         , '  <div id="pgu-nt-cube"       class="pgu-nt-cube">'

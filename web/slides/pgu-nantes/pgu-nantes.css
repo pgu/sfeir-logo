@@ -9,11 +9,12 @@
     height: 100%;
 
     color: white;
+    font-family: 'Source Code Pro', sans-serif;
     /*background-color: deeppink;*/
 
     text-align: center;
-    font-size: 200px;
-    line-height: 182px;
+    font-size: 180px;
+    line-height: 202px;
 }
 
 .pgu-nt-ir {
@@ -26,11 +27,12 @@
     height: 200px;
 
     color: white;
+    font-family: 'Source Code Pro', sans-serif;
     /*background-color: deeppink;*/
 
     text-align: center;
-    font-size: 200px;
-    line-height: 185px;
+    font-size: 180px;
+    line-height: 202px;
 }
 
 .pgu-nt-cube {
