@@ -627,7 +627,7 @@
 //            Game.setBoard(2,new Starfield(100,1.0,50));
         }
         Game.setBoard(3,new TitleScreen("Bugs Attack !",
-            "left ' j ', fire ' k ', ' l ' right,  Fire!",
+            "left ' j ', fire ' k ', right ' l '...  Fire!",
             playGame));
     };
 
