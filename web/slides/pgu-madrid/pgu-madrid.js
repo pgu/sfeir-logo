@@ -183,7 +183,7 @@
                             setTimeout(function() {
                                 if (!pgu_madrid.is_ON()) {return;}
                                 pgu_madrid.render_logos();
-                            }, 620);
+                            }, 750);
 
                         }, 1000);
                     }, 1000);
