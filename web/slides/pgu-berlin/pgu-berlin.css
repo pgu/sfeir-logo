@@ -6,17 +6,17 @@
     /*width: 800px;*/
     /*height: 700px;*/
 }
-.mash_block {
+.mash_row {
      height: 450px;
 }
-.mash_cell {
+.mash_col {
     float: left;
     width: 375px;
     cursor: pointer;
 
     margin-top: 50px;
 }
-.mash:hover {
+.mash_col:hover {
     box-shadow: 0 0 1em white;
 }
 .pic_mash {
@@ -25,15 +25,21 @@
 
     display: block;
     margin: 0px auto;
-
 }
 .txt_mash {
     text-align: center;
+    color: white;
 }
-.ranking_block {
+.ranking_row {
 
 }
-.ranking_cell {
+.ranking_col {
     float: left;
     width: 375px;
+}
+.high_ranking {
+    color: green;
+}
+.low_ranking {
+    color: brown;
 }
