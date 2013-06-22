@@ -80,3 +80,18 @@
 #sfeir_twitter iframe {
     width: 66px !important;
 }
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}

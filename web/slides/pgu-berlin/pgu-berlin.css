@@ -1,0 +1,30 @@
+.container_mash {
+    /*position: absolute;*/
+    /*top: 0px;*/
+    /*left: 50px;*/
+
+    /*width: 800px;*/
+    /*height: 700px;*/
+}
+.mash {
+    float: left;
+    width: 350px;
+}
+.entity_a {
+
+}
+.entity_b {
+
+}
+.pic_mash {
+    width: 200px;
+    height: 200px;
+
+    display: block;
+    margin: 0px auto;
+
+}
+.txt_mash {
+    text-align: center;
+}
+
