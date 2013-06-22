@@ -21,7 +21,7 @@
             //
 
                 console.log("GET");
-            $.getJSON('geekMash/compare', function (data) {
+            $.getJSON('mash', function (data) {
                 console.log("data");
                 console.log(data);
             });

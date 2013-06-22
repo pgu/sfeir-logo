@@ -1,6 +1,6 @@
-package server.geekMash;
+package server.mash;
 
-public class EloService {
+public class EloRatingService {
 
     private static class Player {
         public int rating;

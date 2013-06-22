@@ -6,13 +6,13 @@
            version="2.5">
 
     <servlet>
-        <servlet-name>geekMashCompare</servlet-name>
-        <servlet-class>server.geekMash.CompareServlet</servlet-class>
+        <servlet-name>mash</servlet-name>
+        <servlet-class>server.mash.MashServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>geekMashCompare</servlet-name>
-        <url-pattern>/geekMash/compare</url-pattern>
+        <servlet-name>mash</servlet-name>
+        <url-pattern>/mash</url-pattern>
     </servlet-mapping>
 
 
