@@ -6,15 +6,18 @@
     /*width: 800px;*/
     /*height: 700px;*/
 }
-.mash {
+.mash_block {
+     height: 450px;
+}
+.mash_cell {
     float: left;
-    width: 350px;
-}
-.entity_a {
+    width: 375px;
+    cursor: pointer;
 
+    margin-top: 50px;
 }
-.entity_b {
-
+.mash:hover {
+    box-shadow: 0 0 1em white;
 }
 .pic_mash {
     width: 200px;
@@ -27,4 +30,10 @@
 .txt_mash {
     text-align: center;
 }
+.ranking_block {
 
+}
+.ranking_cell {
+    float: left;
+    width: 375px;
+}

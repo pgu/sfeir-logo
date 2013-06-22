@@ -2,15 +2,22 @@
 
     var dom_of_article = [
           '<div class="container_mash">'
-        , ' <div class="mash entity_a">'
-        , '  <img id="pic_a" class="pic_mash" />'
-        , '  <p id="txt_a" class="txt_mash" />'
+        , ' <div class="mash_block">'
+        , '  <div class="mash_cell">'
+        , '   <img id="pic_a" class="pic_mash" />'
+        , '   <p id="txt_a" class="txt_mash" />'
+        , '  </div>'
+        , '  <div class="mash_cell">'
+        , '   <img id="pic_b" class="pic_mash" />'
+        , '   <p id="txt_b" class="txt_mash" />'
+        , '  </div>'
+        , '  <div class="clearfix"></div>'
         , ' </div>'
-        , ' <div class="mash entity_b">'
-        , '  <img id="pic_b" class="pic_mash" />'
-        , '  <p id="txt_b" class="txt_mash" />'
+        , ' <div class="ranking_block">'
+        , '  <div class="ranking_cell"><span title="Networking is only one letter away from Not working">Networking is...</span></div>'
+        , '  <div class="ranking_cell"><span title="Teamwork: tackle life side by side">Teamwork: tackle...</span></div>'
+        , '  <div class="clearfix"></div>'
         , ' </div>'
-        , ' <div class="clearfix"></div>'
         , '</div>'
     ];
 
@@ -56,6 +63,8 @@
 
             $('#txt_a').text(entity_a.text);
             $('#txt_b').text(entity_b.text);
+
+
 
         }
     };
