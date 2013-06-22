@@ -5,6 +5,17 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
+    <servlet>
+        <servlet-name>geekMashCompare</servlet-name>
+        <servlet-class>server.geekMash.CompareServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>geekMashCompare</servlet-name>
+        <url-pattern>/geekMash/compare</url-pattern>
+    </servlet-mapping>
+
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
