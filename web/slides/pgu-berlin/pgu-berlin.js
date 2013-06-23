@@ -43,7 +43,7 @@
             //
 
                 console.log("GET");
-            $.getJSON('mash', function (data) {
+            $.getJSON('mash/geek', function (data) {
                 console.log("data");
                 console.log(data);
             });
