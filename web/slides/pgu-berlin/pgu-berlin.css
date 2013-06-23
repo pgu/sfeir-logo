@@ -11,10 +11,11 @@
 }
 .mash_col {
     float: left;
-    width: 375px;
+    width: 360px;
     cursor: pointer;
 
     margin-top: 50px;
+    margin-right: 20px;
 }
 .mash_col:hover {
     box-shadow: 0 0 1em white;
@@ -35,13 +36,16 @@
 }
 .ranking_col {
     float: left;
-    width: 375px;
+    width: 360px;
+    margin-right: 20px;
 }
 .ranking_cell {
     white-space: nowrap;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    font-size: smaller;
 }
 .high_ranking {
     color: green;
