@@ -17,7 +17,7 @@
         , '  <div id="ranking_col_higher" class="ranking_col"></div>'
         , '  <div id="ranking_col_lower"  class="ranking_col"></div>'
         , '  <div class="clearfix"></div>'
-        , '  <div class="ranking_dl"><input type="button" class="ranking_dl_btn" value="Download all"/></div>'
+        , '  <div class="ranking_dl"><input type="button" class="ranking_dl_btn" value="The whole ranking"/></div>'
         , ' </div>'
         , '</div>'
     ];
