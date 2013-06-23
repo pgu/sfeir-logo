@@ -7,7 +7,7 @@
     /*height: 700px;*/
 }
 .mash_row {
-     height: 450px;
+     height: 420px;
 }
 .mash_col {
     float: left;
@@ -37,9 +37,24 @@
     float: left;
     width: 375px;
 }
+.ranking_cell {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .high_ranking {
     color: green;
 }
 .low_ranking {
     color: brown;
+}
+.ranking_dl {
+    margin-top: 20px;
+}
+.ranking_dl_btn {
+    margin: 0px auto;
+    display: block;
+
+    cursor: pointer;
 }
