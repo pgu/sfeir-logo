@@ -115,10 +115,14 @@ public class MashServletTest {
         Player p2 = new Player(2L, "p2", "picture2");
         BDDMockito.given(dbMock.getPlayer(2L)).willReturn(p2);
 
+        //
         // when
+        //
         servlet.doPost(req, resp);
 
+        //
         // then
+        //
         verify(dbMock, times(2)).savePlayer(argThat(new ArgumentMatcher<Player>() {
             @Override
             public boolean matches(Object argument) {
