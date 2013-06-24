@@ -2,11 +2,10 @@ package server.domain;
 
 public class Challenge {
     private Long id;
-    private Player player1;
-    private Player player2;
-    private String type;
-    private Player winner;
-    private Player loser;
+    private Long player1Id;
+    private Long player2Id;
+    private Long winnerId;
+    private Long loserId;
 
     public Challenge() {
     }
@@ -36,11 +35,10 @@ public class Challenge {
     public String toString() {
         return "Challenge{" +
                 "id=" + id +
-                ", player1=" + player1 +
-                ", player2=" + player2 +
-                ", type='" + type + '\'' +
-                ", winner=" + winner +
-                ", loser=" + loser +
+                ", player1Id=" + player1Id +
+                ", player2Id=" + player2Id +
+                ", winnerId=" + winnerId +
+                ", loserId=" + loserId +
                 '}';
     }
 
@@ -52,32 +50,35 @@ public class Challenge {
         this.id = id;
     }
 
-    public void putPlayers(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Long getPlayer1Id() {
+        return player1Id;
     }
 
-    public Player getPlayer1() {
-        return player1;
+    public void setPlayer1Id(Long player1Id) {
+        this.player1Id = player1Id;
     }
 
-    public Player getPlayer2() {
-        return player2;
+    public Long getPlayer2Id() {
+        return player2Id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPlayer2Id(Long player2Id) {
+        this.player2Id = player2Id;
     }
 
-    public String getType() {
-        return type;
+    public Long getWinnerId() {
+        return winnerId;
     }
 
-    public Player getWinner() {
-        return winner;
+    public void setWinnerId(Long winnerId) {
+        this.winnerId = winnerId;
     }
 
-    public Player getLoser() {
-        return loser;
+    public Long getLoserId() {
+        return loserId;
+    }
+
+    public void setLoserId(Long loserId) {
+        this.loserId = loserId;
     }
 }

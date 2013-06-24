@@ -26,24 +26,21 @@
     article.html(dom_of_article.join(''));
     article.addClass('pgu-article pgu-article-black');
 
-    var sendWinnerOfChallenge = function(winner, loser, challenge) {
+    var sendWinnerOfChallenge = function(winner, data) {
 
-        challenge.winner = winner;
-        challenge.loser = loser;
+        data.winnerId = winner.id;
+        $.post('mash', JSON.stringify(data));
 
-        $.post('mash/geek', JSON.stringify(challenge));
-
-        fetchAChallengeOfGeeks();
+        fetchAChallenge();
     };
 
-    var fetchAChallengeOfGeeks = function() {
-        $.getJSON('mash/geek', function (data) {
+    var fetchAChallenge = function() {
+        $.getJSON('mash', function (data) {
 
             console.log(data);
-            var challenge = data;
 
-            var player1 = challenge.player1;
-            var player2 = challenge.player2;
+            var player1 = data.player1;
+            var player2 = data.player2;
 
             $('#pic_a').attr('src', player1.pictureUrl);
             $('#pic_b').attr('src', player2.pictureUrl);
@@ -52,11 +49,11 @@
             $('#txt_b').text(player2.text);
 
             $('#col_a').off('click').on('click', function () {
-                sendWinnerOfChallenge(player1, player2, challenge);
+                sendWinnerOfChallenge(player1, data);
             });
 
             $('#col_b').off('click').on('click', function () {
-                sendWinnerOfChallenge(player2, player1, challenge);
+                sendWinnerOfChallenge(player2, data);
             });
 
         });
@@ -70,7 +67,7 @@
         , execute: function() {
             console.log('execute');
 
-            fetchAChallengeOfGeeks();
+            fetchAChallenge();
 
             var highers = [
                 {text: 'Networking is one letter from Not working'},

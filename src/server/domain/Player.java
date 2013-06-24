@@ -2,15 +2,16 @@ package server.domain;
 
 public class Player {
 
+    private Long id;
     private String text;
     private String pictureUrl;
-    private Long challengeId;
     private int rating = 2000;
 
     public Player() {
     }
 
-    public Player(String text, String pictureUrl) {
+    public Player(Long id, String text, String pictureUrl) {
+        this.id = id;
         this.text = text;
         this.pictureUrl = pictureUrl;
     }
@@ -20,24 +21,25 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Player Player = (Player) o;
+        Player player = (Player) o;
 
-        if (text != null ? !text.equals(Player.text) : Player.text != null) return false;
+        if (!id.equals(player.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return text != null ? text.hashCode() : 0;
+        return id.hashCode();
     }
 
     @Override
     public String toString() {
         return "Player{" +
-                "text='" + text + '\'' +
+                "id=" + id +
+                ", text='" + text + '\'' +
                 ", pictureUrl='" + pictureUrl + '\'' +
-                ", challengeId=" + challengeId +
+                ", rating=" + rating +
                 '}';
     }
 
@@ -57,10 +59,6 @@ public class Player {
         this.pictureUrl = pictureUrl;
     }
 
-    public void setChallengeId(Long challengeId) {
-        this.challengeId = challengeId;
-    }
-
     public int getRating() {
         return rating;
     }
@@ -69,7 +67,11 @@ public class Player {
         this.rating = rating;
     }
 
-    public Long getChallengeId() {
-        return challengeId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
