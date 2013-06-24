@@ -29,11 +29,11 @@ public class EloRatingServiceTest {
         Assertions.assertThat(loser.getRating()).isEqualTo(2000);
 
         // when
-        elo.updateRating(winner, loser);
+        EloRatingService.Result result = elo.updateRating(winner, loser);
 
         // then
-        Assertions.assertThat(winner.getRating()).isEqualTo(2016);
-        Assertions.assertThat(loser.getRating()).isEqualTo(1984);
+        Assertions.assertThat(result.winnerRatingDiff).isEqualTo(16);
+        Assertions.assertThat(result.loserRatingDiff).isEqualTo(-16);
     }
 
     @Test
@@ -46,11 +46,11 @@ public class EloRatingServiceTest {
         loser.setRating(2100);
 
         // when
-        elo.updateRating(winner, loser);
+        EloRatingService.Result result = elo.updateRating(winner, loser);
 
         // then
-        Assertions.assertThat(winner.getRating()).isEqualTo(2112);
-        Assertions.assertThat(loser.getRating()).isEqualTo(2088);
+        Assertions.assertThat(result.winnerRatingDiff).isEqualTo(12);
+        Assertions.assertThat(result.loserRatingDiff).isEqualTo(-12);
     }
 
     @Test
@@ -63,11 +63,11 @@ public class EloRatingServiceTest {
         loser.setRating(2400);
 
         // when
-        elo.updateRating(winner, loser);
+        EloRatingService.Result result = elo.updateRating(winner, loser);
 
         // then
-        Assertions.assertThat(winner.getRating()).isEqualTo(2408);
-        Assertions.assertThat(loser.getRating()).isEqualTo(2392);
+        Assertions.assertThat(result.winnerRatingDiff).isEqualTo(8);
+        Assertions.assertThat(result.loserRatingDiff).isEqualTo(-8);
     }
 
 
