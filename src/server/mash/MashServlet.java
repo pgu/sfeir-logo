@@ -1,8 +1,8 @@
 package server.mash;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.StringMap;
 import server.domain.Challenge;
+import server.domain.DAO;
 import server.domain.Player;
 
 import javax.servlet.ServletException;
@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MashServlet extends HttpServlet {
 
@@ -23,19 +21,19 @@ public class MashServlet extends HttpServlet {
     public static final String WINNER_ID = "winnerId";
 
     EloRatingService eloRatingService = new EloRatingService();
-    DBMock dbMock = new DBMock();
+    DBMash dbMash = new DAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Player[] players = dbMock.getPlayers();
+        Player[] players = dbMash.getPlayers();
         Player player1 = players[0];
         Player player2 = players[1];
 
         Challenge challenge = new Challenge();
         challenge.setPlayer1Id(player1.getId());
         challenge.setPlayer2Id(player2.getId());
-        dbMock.saveChallenge(challenge);
+        dbMash.saveChallenge(challenge);
 
         HashMap<String, Object> payload = new HashMap<String, Object>();
         payload.put(CHALLENGE_ID, challenge.getId());
@@ -54,23 +52,23 @@ public class MashServlet extends HttpServlet {
         HashMap<String, Object> result = new Gson().fromJson(json, HashMap.class);
 
         if (!result.containsKey(CHALLENGE_ID)
-             || !result.containsKey(PLAYER_1)
-             || !result.containsKey(PLAYER_2)
-             || !result.containsKey(WINNER_ID)
+                || !result.containsKey(PLAYER_1)
+                || !result.containsKey(PLAYER_2)
+                || !result.containsKey(WINNER_ID)
                 ) {
             return; // json not correct
         }
 
         long uiChallengeId = ((Double) result.get(CHALLENGE_ID)).longValue();
 
-        Player uiPlayer1 = new Gson().fromJson(result.get(PLAYER_1).toString(), Player.class);
-        Player uiPlayer2 = new Gson().fromJson(result.get(PLAYER_2).toString(), Player.class);
+        Player uiPlayer1 = new Gson().fromJson(new Gson().toJson(result.get(PLAYER_1)), Player.class);
+        Player uiPlayer2 = new Gson().fromJson(new Gson().toJson(result.get(PLAYER_2)), Player.class);
 
-        Challenge dbChallenge = dbMock.getChallenge(uiChallengeId);
+        Challenge dbChallenge = dbMash.getChallenge(uiChallengeId);
 
         if (dbChallenge == null
-            || !dbChallenge.getPlayer1Id().equals(uiPlayer1.getId())
-            || !dbChallenge.getPlayer2Id().equals(uiPlayer2.getId())) {
+                || !dbChallenge.getPlayer1Id().equals(uiPlayer1.getId())
+                || !dbChallenge.getPlayer2Id().equals(uiPlayer2.getId())) {
             return; // data not correct
         }
 
@@ -98,9 +96,9 @@ public class MashServlet extends HttpServlet {
     }
 
     void savePlayerRating(long playerId, double ratingDiff) {
-        Player playerDB = dbMock.getPlayer(playerId);
+        Player playerDB = dbMash.getPlayer(playerId);
         playerDB.setRating((int) (playerDB.getRating() + ratingDiff));
-        dbMock.savePlayer(playerDB);
+        dbMash.savePlayer(playerDB);
     }
 
     private String getJsonFromData(HttpServletRequest req) {

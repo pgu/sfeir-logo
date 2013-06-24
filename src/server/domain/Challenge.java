@@ -1,7 +1,12 @@
 package server.domain;
 
+import javax.persistence.Id;
+
 public class Challenge {
+
+    @Id
     private Long id;
+
     private Long player1Id;
     private Long player2Id;
     private Long winnerId;

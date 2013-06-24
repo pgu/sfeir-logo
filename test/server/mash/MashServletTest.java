@@ -1,8 +1,8 @@
 package server.mash;
 
+import com.google.gson.Gson;
 import org.fest.assertions.Assertions;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -34,7 +35,7 @@ public class MashServletTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        servlet.dbMock = dbMock;
+        servlet.dbMash = dbMock;
         servlet.eloRatingService = eloRatingService;
     }
 
@@ -143,5 +144,18 @@ public class MashServletTest {
         }));
 
     }
+
+    @Test
+    public void shouldParseJson() {
+        String json = "{\"player1\":{\"id\":1,\"text\":\"Networking is one letter from Not working\",\"pictureUrl\":\"http://25.media.tumblr.com/f74d771d1fc640d6eb32d4f7242b4b71/tumblr_moca9xWmSv1rcufs7o1_1280.png\",\"rating\":2000},\"player2\":{\"id\":2,\"text\":\"Teamwork: Tackle life side by side.\",\"pictureUrl\":\"http://24.media.tumblr.com/9eed7a0ca40b301569a67fe29e3d3cc6/tumblr_mnotrbV7Hz1rcufs7o1_1280.png\",\"rating\":2000},\"challengeId\":10,\"winnerId\":1}";
+
+        HashMap<String, Object> result = new Gson().fromJson(json, HashMap.class);
+
+        Assertions.assertThat(result.keySet()).contains(MashServlet.CHALLENGE_ID);
+        Assertions.assertThat(result.keySet()).contains(MashServlet.PLAYER_1);
+        Assertions.assertThat(result.keySet()).contains(MashServlet.PLAYER_2);
+        Assertions.assertThat(result.keySet()).contains(MashServlet.WINNER_ID);
+    }
+
 
 }

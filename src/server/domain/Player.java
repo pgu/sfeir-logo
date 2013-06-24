@@ -1,8 +1,12 @@
 package server.domain;
 
+import javax.persistence.Id;
+
 public class Player {
 
+    @Id
     private Long id;
+
     private String text;
     private String pictureUrl;
     private int rating = 2000;

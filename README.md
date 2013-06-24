@@ -46,6 +46,13 @@ Why these slides?
 After viewing the awesome [presentation] [2] of Marting Gorner's team, it obviously makes you want to use all those new features.
 And the [Sfeir] [3] logo, especially this form [≡], inspires some funny moves :-)
 
+Server side
+-----------
+google-gson-2.2
+junit-4.10
+fest-assert-1.4
+mockito-all-1.9.5
+
 [1]: http://sfeir-logo.appspot.com/ "Slides with the Sfeir logo"
 [2]: http://animateyourhtml5.appspot.com/ "Animate your html5"
 [3]: http://www.sfeir.com/ "Sfeir"
