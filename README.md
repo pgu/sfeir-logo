@@ -50,12 +50,12 @@ Server side
 -----------
 google-gson-2.2
 junit-4.10
-fest-assert-1.4
+fest-assert-1.4 [festassert]
 mockito-all-1.9.5
 objectify-3.1
 
 [1]: http://sfeir-logo.appspot.com/ "Slides with the Sfeir logo"
 [2]: http://animateyourhtml5.appspot.com/ "Animate your html5"
 [3]: http://www.sfeir.com/ "Sfeir"
-
+[festassert]: http://code.google.com/p/fest/downloads/detail?name=fest-assert-1.4.zip&can=2&q=
 
