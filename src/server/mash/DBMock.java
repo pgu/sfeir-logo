@@ -59,6 +59,11 @@ public class DBMock implements DBMash {
         System.out.println("Networking: " + g1.getRating() + ", Teamwork: " + g2.getRating() + ", Crash: " + g3.getRating());
     }
 
+    @Override
+    public void deleteChallenge(long challengeId) {
+        challenges.remove(challengeId);
+    }
+
     public Challenge getChallenge(long id) {
         return challenges.get(id);
     }

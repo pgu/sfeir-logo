@@ -48,32 +48,26 @@ public class MashServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String json = getJsonFromData(req);
-        HashMap<String, Object> result = new Gson().fromJson(json, HashMap.class);
+        String json = getJsonFromPost(req);
+        HashMap<String, Object> dataFromJson = new Gson().fromJson(json, HashMap.class);
 
-        if (!result.containsKey(CHALLENGE_ID)
-                || !result.containsKey(PLAYER_1)
-                || !result.containsKey(PLAYER_2)
-                || !result.containsKey(WINNER_ID)
-                ) {
-            return; // json not correct
+        if (!isDataFromJsonCorrect(dataFromJson)) {
+            return;
         }
 
-        long uiChallengeId = ((Double) result.get(CHALLENGE_ID)).longValue();
+        long uiChallengeId = ((Double) dataFromJson.get(CHALLENGE_ID)).longValue();
 
-        Player uiPlayer1 = new Gson().fromJson(new Gson().toJson(result.get(PLAYER_1)), Player.class);
-        Player uiPlayer2 = new Gson().fromJson(new Gson().toJson(result.get(PLAYER_2)), Player.class);
+        Player uiPlayer1 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_1)), Player.class);
+        Player uiPlayer2 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_2)), Player.class);
 
         Challenge dbChallenge = dbMash.getChallenge(uiChallengeId);
 
-        if (dbChallenge == null
-                || !dbChallenge.getPlayer1Id().equals(uiPlayer1.getId())
-                || !dbChallenge.getPlayer2Id().equals(uiPlayer2.getId())) {
-            return; // data not correct
+        if (!isDataFromChallengeCorrect(uiPlayer1, uiPlayer2, dbChallenge)) {
+            return;
         }
 
         // get diff ratings
-        long winnerId = ((Double) result.get(WINNER_ID)).longValue();
+        long winnerId = ((Double) dataFromJson.get(WINNER_ID)).longValue();
 
         Player uiWinner, uiLoser;
         if (uiPlayer1.getId() == winnerId) {
@@ -93,6 +87,22 @@ public class MashServlet extends HttpServlet {
         // update players
         savePlayerRating(uiWinner.getId(), eloResult.winnerRatingDiff);
         savePlayerRating(uiLoser.getId(), eloResult.loserRatingDiff);
+
+        // clean this challenge
+        dbMash.deleteChallenge(uiChallengeId);
+    }
+
+    private boolean isDataFromChallengeCorrect(Player uiPlayer1, Player uiPlayer2, Challenge dbChallenge) {
+        return dbChallenge != null //
+                && dbChallenge.getPlayer1Id().equals(uiPlayer1.getId()) //
+                && dbChallenge.getPlayer2Id().equals(uiPlayer2.getId());
+    }
+
+    private boolean isDataFromJsonCorrect(HashMap<String, Object> data) {
+        return data.containsKey(CHALLENGE_ID) //
+                && data.containsKey(PLAYER_1) //
+                && data.containsKey(PLAYER_2) //
+                && data.containsKey(WINNER_ID);
     }
 
     void savePlayerRating(long playerId, double ratingDiff) {
@@ -101,7 +111,7 @@ public class MashServlet extends HttpServlet {
         dbMash.savePlayer(playerDB);
     }
 
-    private String getJsonFromData(HttpServletRequest req) {
+    private String getJsonFromPost(HttpServletRequest req) {
 
         BufferedReader reader = null;
         try {

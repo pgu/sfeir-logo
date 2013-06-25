@@ -9,10 +9,11 @@ public interface DBMash {
 
     void saveChallenge(Challenge challenge);
 
-    Challenge getChallenge(long uiChallengeId);
+    Challenge getChallenge(long challengeId);
 
     Player getPlayer(long playerId);
 
-    void savePlayer(Player playerDB);
+    void savePlayer(Player player);
 
+    void deleteChallenge(long challengeId);
 }

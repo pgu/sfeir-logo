@@ -52,4 +52,9 @@ public class DAO extends DAOBase implements DBMash {
     public void savePlayer(Player playerDB) {
         ofy().put(playerDB);
     }
+
+    @Override
+    public void deleteChallenge(long challengeId) {
+        ofy().async().delete(Challenge.class, challengeId);
+    }
 }
