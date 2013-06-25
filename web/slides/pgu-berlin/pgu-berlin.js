@@ -69,6 +69,8 @@
 
             fetchAChallenge();
 
+            // TODO
+            // + https://github.com/pgu/pgu-track/blob/master/war/Pgu_track.html
             var highers = [
                 {text: 'Networking is one letter from Not working'},
                 {text: 'N2tworking is one letter from Not working'},
