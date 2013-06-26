@@ -26,70 +26,87 @@ public class MashServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Player[] players = dbMash.getPlayers();
-        Player player1 = players[0];
-        Player player2 = players[1];
+        String pathInfo = req.getPathInfo();
+        if ("/challenge".equals(pathInfo)) {
 
-        Challenge challenge = new Challenge();
-        challenge.setPlayer1Id(player1.getId());
-        challenge.setPlayer2Id(player2.getId());
-        dbMash.saveChallenge(challenge);
+            Player[] players = dbMash.getPlayers();
+            Player player1 = players[0];
+            Player player2 = players[1];
 
-        HashMap<String, Object> payload = new HashMap<String, Object>();
-        payload.put(CHALLENGE_ID, challenge.getId());
-        payload.put(PLAYER_1, player1);
-        payload.put(PLAYER_2, player2);
+            Challenge challenge = new Challenge();
+            challenge.setPlayer1Id(player1.getId());
+            challenge.setPlayer2Id(player2.getId());
+            dbMash.saveChallenge(challenge);
 
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json; charset=UTF-8");
-        resp.getWriter().write(new Gson().toJson(payload));
+            HashMap<String, Object> payload = new HashMap<String, Object>();
+            payload.put(CHALLENGE_ID, challenge.getId());
+            payload.put(PLAYER_1, player1);
+            payload.put(PLAYER_2, player2);
+
+            resp.setCharacterEncoding("UTF-8");
+            resp.setContentType("application/json; charset=UTF-8");
+            resp.getWriter().write(new Gson().toJson(payload));
+
+        } else if("/ranking".equals(pathInfo)) {
+            // TODO
+        } else {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String json = getJsonFromPost(req);
-        HashMap<String, Object> dataFromJson = new Gson().fromJson(json, HashMap.class);
+        String pathInfo = req.getPathInfo();
+        if ("/challenge".equals(pathInfo)) {
 
-        if (!isDataFromJsonCorrect(dataFromJson)) {
-            return;
-        }
+            String json = getJsonFromPost(req);
+            HashMap<String, Object> dataFromJson = new Gson().fromJson(json, HashMap.class);
 
-        long uiChallengeId = ((Double) dataFromJson.get(CHALLENGE_ID)).longValue();
+            if (!isDataFromJsonCorrect(dataFromJson)) {
+                return;
+            }
 
-        Player uiPlayer1 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_1)), Player.class);
-        Player uiPlayer2 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_2)), Player.class);
+            long uiChallengeId = ((Double) dataFromJson.get(CHALLENGE_ID)).longValue();
 
-        Challenge dbChallenge = dbMash.getChallenge(uiChallengeId);
+            Player uiPlayer1 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_1)), Player.class);
+            Player uiPlayer2 = new Gson().fromJson(new Gson().toJson(dataFromJson.get(PLAYER_2)), Player.class);
 
-        if (!isDataFromChallengeCorrect(uiPlayer1, uiPlayer2, dbChallenge)) {
-            return;
-        }
+            Challenge dbChallenge = dbMash.getChallenge(uiChallengeId);
 
-        // get diff ratings
-        long winnerId = ((Double) dataFromJson.get(WINNER_ID)).longValue();
+            if (!isDataFromChallengeCorrect(uiPlayer1, uiPlayer2, dbChallenge)) {
+                return;
+            }
 
-        Player uiWinner, uiLoser;
-        if (uiPlayer1.getId() == winnerId) {
-            uiWinner = uiPlayer1;
-            uiLoser = uiPlayer2;
+            // get diff ratings
+            long winnerId = ((Double) dataFromJson.get(WINNER_ID)).longValue();
 
-        } else if (uiPlayer2.getId() == winnerId) {
-            uiWinner = uiPlayer2;
-            uiLoser = uiPlayer1;
+            Player uiWinner, uiLoser;
+            if (uiPlayer1.getId() == winnerId) {
+                uiWinner = uiPlayer1;
+                uiLoser = uiPlayer2;
+
+            } else if (uiPlayer2.getId() == winnerId) {
+                uiWinner = uiPlayer2;
+                uiLoser = uiPlayer1;
+
+            } else {
+                throw new UnsupportedOperationException("winner id is not correct: " + winnerId);
+            }
+
+            EloRatingService.Result eloResult = eloRatingService.updateRating(uiWinner, uiLoser);
+
+            // update players
+            savePlayerRating(uiWinner.getId(), eloResult.winnerRatingDiff);
+            savePlayerRating(uiLoser.getId(), eloResult.loserRatingDiff);
+
+            // clean this challenge
+            dbMash.deleteChallenge(uiChallengeId);
 
         } else {
-            throw new UnsupportedOperationException("winner id is not correct: " + winnerId);
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
 
-        EloRatingService.Result eloResult = eloRatingService.updateRating(uiWinner, uiLoser);
-
-        // update players
-        savePlayerRating(uiWinner.getId(), eloResult.winnerRatingDiff);
-        savePlayerRating(uiLoser.getId(), eloResult.loserRatingDiff);
-
-        // clean this challenge
-        dbMash.deleteChallenge(uiChallengeId);
     }
 
     private boolean isDataFromChallengeCorrect(Player uiPlayer1, Player uiPlayer2, Challenge dbChallenge) {
@@ -131,5 +148,6 @@ public class MashServlet extends HttpServlet {
         }
 
         return sb.toString();
+
     }
 }

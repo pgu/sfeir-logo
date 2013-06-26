@@ -29,13 +29,13 @@
     var sendWinnerOfChallenge = function(winner, data) {
 
         data.winnerId = winner.id;
-        $.post('mash', JSON.stringify(data));
+        $.post('mash/challenge', JSON.stringify(data));
 
         fetchAChallenge();
     };
 
     var fetchAChallenge = function() {
-        $.getJSON('mash', function (data) {
+        $.getJSON('mash/challenge', function (data) {
 
             console.log(data);
 

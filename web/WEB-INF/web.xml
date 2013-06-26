@@ -12,7 +12,7 @@
 
     <servlet-mapping>
         <servlet-name>mash</servlet-name>
-        <url-pattern>/mash</url-pattern>
+        <url-pattern>/mash/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

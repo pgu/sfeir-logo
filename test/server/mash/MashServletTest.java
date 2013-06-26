@@ -41,6 +41,8 @@ public class MashServletTest {
 
     @Test
     public void shouldGiveNewChallengeForGET() throws ServletException, IOException {
+        // given request
+        BDDMockito.given(req.getPathInfo()).willReturn("/challenge");
         // given writer
         StringWriter writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -86,6 +88,8 @@ public class MashServletTest {
 
     @Test
     public void shouldSaveChallengeForPOST() throws ServletException, IOException {
+        // given request
+        BDDMockito.given(req.getPathInfo()).willReturn("/challenge");
         // given input json
         String json = ("" + //
                 "{'player1':{'id':1,'text':'p1','pictureUrl':'picture1','rating':2000}," + //
