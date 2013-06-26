@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class MashServlet extends HttpServlet {
 
@@ -25,6 +26,8 @@ public class MashServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json; charset=UTF-8");
 
         String pathInfo = req.getPathInfo();
         if ("/challenge".equals(pathInfo)) {
@@ -43,12 +46,19 @@ public class MashServlet extends HttpServlet {
             payload.put(PLAYER_1, player1);
             payload.put(PLAYER_2, player2);
 
-            resp.setCharacterEncoding("UTF-8");
-            resp.setContentType("application/json; charset=UTF-8");
             resp.getWriter().write(new Gson().toJson(payload));
 
         } else if("/ranking".equals(pathInfo)) {
-            // TODO
+
+            List<Player> highests = dbMash.getHighestPlayers(5);
+            List<Player> lowests = dbMash.getLowestPlayers(5);
+
+            HashMap<String, Object> payload = new HashMap<String, Object>();
+            payload.put("highests", highests);
+            payload.put("lowests", lowests);
+
+            resp.getWriter().write(new Gson().toJson(payload));
+
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }

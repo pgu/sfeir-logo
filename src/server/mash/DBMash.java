@@ -3,6 +3,8 @@ package server.mash;
 import server.domain.Challenge;
 import server.domain.Player;
 
+import java.util.List;
+
 public interface DBMash {
 
     Player[] getPlayers();
@@ -16,4 +18,8 @@ public interface DBMash {
     void savePlayer(Player player);
 
     void deleteChallenge(long challengeId);
+
+    List<Player> getHighestPlayers(int nb);
+
+    List<Player> getLowestPlayers(int nb);
 }

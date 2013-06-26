@@ -57,4 +57,14 @@ public class DAO extends DAOBase implements DBMash {
     public void deleteChallenge(long challengeId) {
         ofy().async().delete(Challenge.class, challengeId);
     }
+
+    @Override
+    public List<Player> getHighestPlayers(int nb) {
+        return ofy().query(Player.class).order("-rating").limit(nb).list();
+    }
+
+    @Override
+    public List<Player> getLowestPlayers(int nb) {
+        return ofy().query(Player.class).order("rating").limit(nb).list();
+    }
 }

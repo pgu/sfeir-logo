@@ -3,7 +3,7 @@ package server.mash;
 import server.domain.Challenge;
 import server.domain.Player;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class DBMock implements DBMash {
 
@@ -62,6 +62,49 @@ public class DBMock implements DBMash {
     @Override
     public void deleteChallenge(long challengeId) {
         challenges.remove(challengeId);
+    }
+
+    @Override
+    public List<Player> getHighestPlayers(int nb) {
+
+        List<Player> allPlayers = new ArrayList<Player>(players.values());
+        Collections.sort(allPlayers, new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p1.getRating() - p2.getRating();
+            }
+        });
+
+        List<Player> highests = new ArrayList<Player>(nb);
+        for (int i = 0; i < allPlayers.size(); i++)       {
+            if (i < nb) {
+                highests.add(allPlayers.get(i));
+            } else {
+                break;
+            }
+        }
+        return highests;
+    }
+
+    @Override
+    public List<Player> getLowestPlayers(int nb) {
+        List<Player> allPlayers = new ArrayList<Player>(players.values());
+        Collections.sort(allPlayers, new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p2.getRating() - p1.getRating();
+            }
+        });
+
+        List<Player> lowests = new ArrayList<Player>(nb);
+        for (int i = 0; i < allPlayers.size(); i++)       {
+            if (i < nb) {
+                lowests.add(allPlayers.get(i));
+            } else {
+                break;
+            }
+        }
+        return lowests;
     }
 
     public Challenge getChallenge(long id) {
