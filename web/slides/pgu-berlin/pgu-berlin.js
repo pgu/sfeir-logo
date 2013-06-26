@@ -32,6 +32,8 @@
 
     var sendWinnerOfChallenge = function(winner, data) {
 
+        $('.mash_col').fadeOut('fast');
+
         data.winnerId = winner.id;
         $.post('mash/challenge', JSON.stringify(data));
 
@@ -58,6 +60,7 @@
                 sendWinnerOfChallenge(player2, data);
             });
 
+            $('.mash_col').fadeIn('fast');
         });
     }
 
@@ -73,7 +76,6 @@
                 return '<div class="low_ranking ranking_cell" title="' + lowest.text + ' [' + lowest.rating + ']">' + lowest.text + '</div>';
             });
             $('#ranking_col_lower').html(lowest_rankings.join(''));
-
         });
     }
 
