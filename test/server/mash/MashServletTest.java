@@ -80,8 +80,8 @@ public class MashServletTest {
         verify(resp).setContentType("application/json; charset=UTF-8");
 
         Assertions.assertThat(writer.getBuffer().toString()).isEqualTo(("" + //
-                "{'player1':{'id':1,'text':'p1','pictureUrl':'picture1','rating':2000}," + //
-                "'player2':{'id':2,'text':'p2','pictureUrl':'picture2','rating':2000}," + //
+                "{'player1':{'id':1,'text':'p1','pictureUrl':'picture1','rating':2000,'won':0,'lost':0}," + //
+                "'player2':{'id':2,'text':'p2','pictureUrl':'picture2','rating':2000,'won':0,'lost':0}," + //
                 "'challengeId':10}") //
                 .replace("'", "\""));
     }
@@ -92,8 +92,8 @@ public class MashServletTest {
         BDDMockito.given(req.getPathInfo()).willReturn("/challenge");
         // given input json
         String json = ("" + //
-                "{'player1':{'id':1,'text':'p1','pictureUrl':'picture1','rating':2000}," + //
-                "'player2':{'id':2,'text':'p2','pictureUrl':'picture2','rating':2000}," + //
+                "{'player1':{'id':1,'text':'p1','pictureUrl':'picture1','rating':2000,'won':0,'lost':0}," + //
+                "'player2':{'id':2,'text':'p2','pictureUrl':'picture2','rating':2000,'won':0,'lost':0}," + //
                 "'challengeId':10,'winnerId':2}") //
                 .replace("'", "\"");
 
@@ -135,9 +135,13 @@ public class MashServletTest {
 
                 if (player.getId() == 1) { // loser
                     Assertions.assertThat(player.getRating()).isEqualTo(1990);
+                    Assertions.assertThat(player.getWon()).isEqualTo(0);
+                    Assertions.assertThat(player.getLost()).isEqualTo(1);
 
                 } else if (player.getId() == 2) { // winner
                     Assertions.assertThat(player.getRating()).isEqualTo(2005);
+                    Assertions.assertThat(player.getWon()).isEqualTo(1);
+                    Assertions.assertThat(player.getLost()).isEqualTo(0);
 
                 } else {
                     return false;

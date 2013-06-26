@@ -114,8 +114,8 @@ public class MashServlet extends HttpServlet {
             EloRatingService.Result eloResult = eloRatingService.updateRating(uiWinner, uiLoser);
 
             // update players
-            savePlayerRating(uiWinner.getId(), eloResult.winnerRatingDiff);
-            savePlayerRating(uiLoser.getId(), eloResult.loserRatingDiff);
+            savePlayerRating(uiWinner.getId(), eloResult.winnerRatingDiff, true /* is winner */);
+            savePlayerRating(uiLoser.getId(), eloResult.loserRatingDiff, false);
 
             // clean this challenge
             dbMash.deleteChallenge(uiChallengeId);
@@ -139,9 +139,16 @@ public class MashServlet extends HttpServlet {
                 && data.containsKey(WINNER_ID);
     }
 
-    void savePlayerRating(long playerId, double ratingDiff) {
+    void savePlayerRating(long playerId, double ratingDiff, boolean isWinner) {
         Player playerDB = dbMash.getPlayer(playerId);
         playerDB.setRating((int) (playerDB.getRating() + ratingDiff));
+
+        if (isWinner) {
+            playerDB.setWon(playerDB.getWon() + 1);
+        } else {
+            playerDB.setLost(playerDB.getLost() + 1);
+        }
+
         dbMash.savePlayer(playerDB);
     }
 

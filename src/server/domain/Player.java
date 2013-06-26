@@ -11,6 +11,9 @@ public class Player {
     private String pictureUrl;
     private int rating = 2000;
 
+    private int won;
+    private int lost;
+
     public Player() {
     }
 
@@ -44,6 +47,8 @@ public class Player {
                 ", text='" + text + '\'' +
                 ", pictureUrl='" + pictureUrl + '\'' +
                 ", rating=" + rating +
+                ", won=" + won +
+                ", lost=" + lost +
                 '}';
     }
 
@@ -77,5 +82,21 @@ public class Player {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getWon() {
+        return won;
+    }
+
+    public void setWon(int won) {
+        this.won = won;
+    }
+
+    public int getLost() {
+        return lost;
+    }
+
+    public void setLost(int lost) {
+        this.lost = lost;
     }
 }
