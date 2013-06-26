@@ -23,7 +23,8 @@
     border-radius: 5px;
 }
 .mash_col:hover {
-    box-shadow: 0 0 1em darkorange;
+    border: 1px solid darkorange;
+    box-shadow: 0 0 0.8em darkorange, inset 0 0 0.5em darkorange;
 }
 .pic_mash {
     width: 250px;
