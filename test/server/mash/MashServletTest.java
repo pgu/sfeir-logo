@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import server.access.DBMock;
 import server.domain.Challenge;
 import server.domain.Player;
 

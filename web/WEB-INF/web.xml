@@ -12,7 +12,7 @@
 
     <servlet>
         <servlet-name>channel</servlet-name>
-        <servlet-class>server.ChannelServlet</servlet-class>
+        <servlet-class>server.channel.ChannelServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

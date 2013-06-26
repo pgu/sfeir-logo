@@ -1,13 +1,10 @@
-package server.domain;
+package server.access;
 
-import com.google.appengine.api.datastore.QueryResultIterable;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.DAOBase;
-import server.mash.DBMash;
+import server.domain.Challenge;
+import server.domain.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;

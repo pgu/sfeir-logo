@@ -1,4 +1,4 @@
-package server.mash;
+package server.access;
 
 import server.domain.Challenge;
 import server.domain.Player;

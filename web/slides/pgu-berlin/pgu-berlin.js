@@ -62,25 +62,25 @@
 
             $('.mash_col').fadeIn('fast');
         });
-    }
+    };
+
+    var buildRankingCol = function(id_col, class_cell, players) {
+        var dom_players = players.map(function(player) {
+            return '<div data-playerid="' +  player.id + '" class="' + class_cell + ' ranking_cell" title="' + player.text + ' [' + player.rating + ']">' + player.text + '</div>';
+        });
+        $(id_col).html(dom_players.join(''));
+    };
 
     var buildRankingTable = function(data) {
-        var highest_rankings = data.highests.map(function(highest) {
-            return '<div data-playerid="' +  highest.id + '" class="high_ranking ranking_cell" title="' + highest.text + ' [' + highest.rating + ']">' + highest.text + '</div>';
-        });
-        $('#ranking_col_higher').html(highest_rankings.join(''));
-
-        var lowest_rankings = data.lowests.map(function(lowest) {
-            return '<div data-playerid="' +  lowest.id + '" class="low_ranking ranking_cell" title="' + lowest.text + ' [' + lowest.rating + ']">' + lowest.text + '</div>';
-        });
-        $('#ranking_col_lower').html(lowest_rankings.join(''));
-    }
+        buildRankingCol('#ranking_col_higher', 'high_ranking', data.highests);
+        buildRankingCol('#ranking_col_lower', 'low_ranking', data.lowests);
+    };
 
     var fetchRanking = function() {
         $.getJSON('mash/ranking', function (data) {
             buildRankingTable(data);
         });
-    }
+    };
 
     window.SLIDES['pgu-berlin'] = {
         id: 'pgu-berlin'
@@ -93,53 +93,50 @@
         }
     };
 
-    window.SOCKET_LISTENERS.push(function(data) {
-        console.log('berlin got json');
-        console.log(data);
-
-
-        var ids_new_highs = [];
+    var getDiffFromNewRanks = function(class_rank, new_ranks) {
+        var ids_new = [];
         var idx = 0;
 
-        $('.high_ranking').each(function() {
-            console.log($(this)[0].dataset['playerid']);
-            var is_the_same = $(this)[0].dataset['playerid'] === data.highests[idx].id + '';
+        $(class_rank).each(function() {
+            var is_the_same = $(this)[0].dataset['playerid'] === new_ranks[idx].id + '';
 
             if (!is_the_same) {
-                ids_new_highs.push(data.highests[idx].id);
+                ids_new.push(new_ranks[idx].id);
             }
 
             idx++;
         });
 
-        var ids_new_lows = [];
-        idx = 0;
-        $('.low_ranking').each(function() {
-            var is_the_same = $(this)[0].dataset['playerid'] === data.lowests[idx].id + '';
+        return ids_new;
+    };
 
-            if (!is_the_same) {
-                ids_new_lows.push(data.highests[idx].id);
-            }
+    var highlightNewRanks = function(class_rank, ids_new_ranks) {
+        for (var i = 0, ii = ids_new_ranks.length; i < ii; i++) {
 
-            idx++;
-        });
+            $(class_rank + '[data-playerid="' + ids_new_ranks[i] + '"]') //
+                .animate({color: '#FF8C00 !important'},
+                    {
+                        duration: 1000,
+                        complete: function() {
+                            $(this).css('color', '');
+                        }
+                    }
+                );
+        }
+    }
 
+    window.SOCKET_LISTENERS.push(function(data) {
+
+        // identify new ranks
+        var ids_new_highs = getDiffFromNewRanks('.high_ranking', data.highests);
+        var ids_new_lows = getDiffFromNewRanks('.low_ranking', data.lowests);
+
+        // display new table
         buildRankingTable(data);
 
-        console.log("low..");
-        for (var i = 0, ii = ids_new_lows.length; i < ii; i++) {
-            console.log($('.low_ranking[data-playerid="' + ids_new_lows[i] + '"]'));
-            $('.low_ranking[data-playerid="' + ids_new_lows[i] + '"]').animate({color: '#FF8C00 !important'});
-        }
-
-        console.log("high..");
-        for (var i = 0, ii = ids_new_highs.length; i < ii; i++) {
-            console.log($('.high_ranking[data-playerid="' + ids_new_highs[i] + '"]'));
-            $('.high_ranking[data-playerid="' + ids_new_highs[i] + '"]').animate({color: '#FF8C00 !important'}, {duration: 1000, complete: function() {
-                $(this).css('color', '');
-            }});
-        }
-
+        // highlight the identified new ranks
+        highlightNewRanks('.high_ranking', ids_new_highs);
+        highlightNewRanks('.low_ranking', ids_new_lows);
     });
 
 })();

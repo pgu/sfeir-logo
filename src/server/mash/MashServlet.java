@@ -4,9 +4,10 @@ import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
 import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.gson.Gson;
-import server.ChannelServlet;
+import server.channel.ChannelServlet;
+import server.access.DBMash;
 import server.domain.Challenge;
-import server.domain.DAO;
+import server.access.DAO;
 import server.domain.Player;
 
 import javax.servlet.ServletException;

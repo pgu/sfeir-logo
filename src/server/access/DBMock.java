@@ -1,5 +1,6 @@
-package server.mash;
+package server.access;
 
+import server.access.DBMash;
 import server.domain.Challenge;
 import server.domain.Player;
 

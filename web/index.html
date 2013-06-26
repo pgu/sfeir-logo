@@ -147,10 +147,6 @@
 
 <script type="text/javascript">
 
-    function socket_onOpened() {
-        console.log('channel is opened!');
-    }
-
     function socket_onMessage(message) {
         var json = JSON.parse(message.data);
 
@@ -162,14 +158,12 @@
     function open_channel(token) {
         var channel = new goog.appengine.Channel(token);
         var handler = {
-            'onopen': socket_onOpened,
+            'onopen': function() {},
             'onmessage': socket_onMessage,
             'onerror': function() {},
             'onclose': function() {}
         };
-        var socket = channel.open(handler);
-        //            socket.onopen = socket_onOpened;
-        //            socket.onmessage = socket_onMessage;
+        channel.open(handler);
     }
 
     $( document ).ready(function() {
