@@ -62,24 +62,6 @@
     var fetchRanking = function() {
         $.getJSON('mash/ranking', function (data) {
 
-//            data = {
-//                highests : [
-//                    {text: 'Networking is one letter from Not working'},
-//                    {text: 'N2tworking is one letter from Not working'},
-//                    {text: 'N3tworking is one letter from Not working'},
-//                    {text: 'N4tworking is one letter from Not working'},
-//                    {text: 'N5tworking is one letter from Not working'}
-//                ],
-//                lowests : [
-//                    {text: 'Teamwork: tackle life side by side'},
-//                    {text: 'T2amwork: tackle life side by side'},
-//                    {text: 'T3amwork: tackle life side by side'},
-//                    {text: 'T4amwork: tackle life side by side'},
-//                    {text: 'T5amwork: tackle life side by side'}
-//                ]
-//            }
-//            ;
-            console.log(data);
             var highest_rankings = data.highests.map(function(highest) {
                 return '<div class="high_ranking ranking_cell" title="' + highest.text + '">' + highest.text + '</div>';
             });
