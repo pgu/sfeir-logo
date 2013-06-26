@@ -71,7 +71,7 @@ public class DBMock implements DBMash {
         Collections.sort(allPlayers, new Comparator<Player>() {
             @Override
             public int compare(Player p1, Player p2) {
-                return p1.getRating() - p2.getRating();
+                return p2.getRating() - p1.getRating();
             }
         });
 
@@ -92,7 +92,7 @@ public class DBMock implements DBMash {
         Collections.sort(allPlayers, new Comparator<Player>() {
             @Override
             public int compare(Player p1, Player p2) {
-                return p2.getRating() - p1.getRating();
+                return p1.getRating() - p2.getRating();
             }
         });
 
@@ -105,6 +105,18 @@ public class DBMock implements DBMash {
             }
         }
         return lowests;
+    }
+
+    @Override
+    public List<Player> getAllPlayersFromHighestToLowestScore() {
+        List<Player> allPlayers = new ArrayList<Player>(players.values());
+        Collections.sort(allPlayers, new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p2.getRating() - p1.getRating();
+            }
+        });
+        return allPlayers;
     }
 
     public Challenge getChallenge(long id) {

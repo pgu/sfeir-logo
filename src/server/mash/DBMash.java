@@ -22,4 +22,6 @@ public interface DBMash {
     List<Player> getHighestPlayers(int nb);
 
     List<Player> getLowestPlayers(int nb);
+
+    List<Player> getAllPlayersFromHighestToLowestScore();
 }

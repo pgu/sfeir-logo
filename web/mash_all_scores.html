@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All scores</title>
+    <meta charset='utf-8'>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-responsive.min.css" />
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div id="players" class="span9">
+        </div>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js" ></script>
+
+<script>
+    $(document).ready(function() {
+        $.getJSON('mash/all_ranks', function (players) {
+
+            var div_content = [];
+            var counter = 0;
+
+            players.forEach(function(player) {
+                var starts_new_row = counter % 3 === 0;
+                var ends_new_row = counter % 3 === 2;
+
+                if (starts_new_row) {
+                    div_content.push('<div class="row-fluid">');
+                    div_content.push(' <ul class="thumbnails">');
+                }
+
+                div_content.push('<li class="span4">');
+                div_content.push(' <div class="thumbnail">');
+                div_content.push('  <img style="width: 250px; height: 250px" src="' + player.pictureUrl + '">');
+                div_content.push('  <div class="caption">');
+                div_content.push('   <h3>' + player.text + '</h3>');
+                div_content.push('   <p>');
+                div_content.push('    <span class="label label-info">Score: ' + player.rating + '</span>');
+                div_content.push('    <span class="label label-success">Won:  ' + player.won + '</span>');
+                div_content.push('    <span class="label">Lost: '+ player.lost + '</span>');
+                div_content.push('   </p>');
+                div_content.push('  </div>');
+                div_content.push(' </div>');
+                div_content.push('</li>');
+
+                if (ends_new_row) {
+                    div_content.push(' </div>');
+                    div_content.push('</ul>');
+                }
+
+                counter++;
+            });
+
+            $('#players').html(div_content.join(''));
+        });
+    });
+</script>
+
+</body>
+</html>

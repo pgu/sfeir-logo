@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class MashServlet extends HttpServlet {
 
             resp.getWriter().write(new Gson().toJson(payload));
 
-        } else if("/ranking".equals(pathInfo)) {
+        } else if ("/ranking".equals(pathInfo)) {
 
             List<Player> highests = dbMash.getHighestPlayers(3);
             List<Player> lowests = dbMash.getLowestPlayers(3);
@@ -58,6 +60,11 @@ public class MashServlet extends HttpServlet {
             payload.put("lowests", lowests);
 
             resp.getWriter().write(new Gson().toJson(payload));
+
+        } else if ("/all_ranks".equals(pathInfo)) {
+
+            List<Player> players = dbMash.getAllPlayersFromHighestToLowestScore();
+            resp.getWriter().write(new Gson().toJson(players));
 
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -67,4 +67,10 @@ public class DAO extends DAOBase implements DBMash {
     public List<Player> getLowestPlayers(int nb) {
         return ofy().query(Player.class).order("rating").limit(nb).list();
     }
+
+    @Override
+    public List<Player> getAllPlayersFromHighestToLowestScore() {
+        return ofy().query(Player.class).order("-rating").list();
+    }
+
 }
