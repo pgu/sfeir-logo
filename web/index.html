@@ -32,38 +32,8 @@
 
 <script src="/js/sfeir-logo.js" ></script>
 
-</head>
-<body style='display: none; transition: 2s'>
-
-<section id="slides_container" class='slides layout-regular template-default'>
-    <article id='pgu-berlin' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
-    <article id='pgu-nantes' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
-    <article id='pgu-madrid' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
-    <article id='pgu-new-york' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
-    <article id='pgu-london' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
-</section>
-
-<div id="sfeir_social_bar" class="sfeir-social-bar">
-    <div class="sfeir-social-bar-bg"></div>
-    <div class="sfeir-social-btns">
-        <div id="sfeir_recruit" class="sfeir-social-button" style="width: 30px;">
-            <a href="http://www.sfeir.com/rejoignez-sfeir-2/" target="_blank" class="logo-of-careers"></a>
-        </div>
-        <div id="sfeir_twitter" class="sfeir-social-button" >
-            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Oserez-vous cliquer?" data-lang="fr" data-url="http://sfeir-logo.appspot.com/" data-related="SFEIRfr" data-count="none" data-hashtags="html5,css3,Three.js,sfeir">Tweet</a>
-        </div>
-        <div id="sfeir_g_plus" class="sfeir-social-button">
-            <div class="g-plusone" data-annotation="none" data-href="http://sfeir-logo.appspot.com/"></div>
-        </div>
-        <div id="sfeir_linkedin" class="sfeir-social-button">
-            <script type="IN/Share" data-url="http://sfeir-logo.appspot.com/"></script>
-        </div>
-    </div>
-</div>
-
-<a href="https://github.com/pgu/sfeir-logo"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
-
 <script>
+    var SOCKET_LISTENERS = {};
     var SLIDES = {};
     var current_slide = null;
 
@@ -88,12 +58,59 @@
         reset_current_slide();
     }
 
-    $('#sfeir_social_bar').fadeOut();
+    function socket_onMessage(message) {
+        var json = JSON.parse(message.data);
 
-    // for the socket
-    var SOCKET_LISTENERS = [];
+        for (var listener in SOCKET_LISTENERS) {
+            if (SOCKET_LISTENERS.hasOwnProperty(listener)) {
+                SOCKET_LISTENERS[listener](json);
+            }
+        }
+    }
+
+    function open_channel(token) {
+        var channel = new goog.appengine.Channel(token);
+        var handler = {
+            'onopen': function() {},
+            'onmessage': socket_onMessage,
+            'onerror': function() {},
+            'onclose': function() {}
+        };
+        channel.open(handler);
+    }
 
 </script>
+
+</head>
+<body style='display: none; transition: 2s'>
+
+<section id="slides_container" class='slides layout-regular template-default'>
+    <article id='pgu-nantes' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
+    <article id='pgu-madrid' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
+    <article id='pgu-new-york' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
+    <article id='pgu-london' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
+    <article id='pgu-berlin' onslideenter="on_slide_enter(this);" onslideleave="on_slide_leave();"></article>
+</section>
+
+<div id="sfeir_social_bar" class="sfeir-social-bar">
+    <div class="sfeir-social-bar-bg"></div>
+    <div class="sfeir-social-btns">
+        <div id="sfeir_recruit" class="sfeir-social-button" style="width: 30px;">
+            <a href="http://www.sfeir.com/rejoignez-sfeir-2/" target="_blank" class="logo-of-careers"></a>
+        </div>
+        <div id="sfeir_twitter" class="sfeir-social-button" >
+            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Oserez-vous cliquer?" data-lang="fr" data-url="http://sfeir-logo.appspot.com/" data-related="SFEIRfr" data-count="none" data-hashtags="html5,css3,Three.js,sfeir">Tweet</a>
+        </div>
+        <div id="sfeir_g_plus" class="sfeir-social-button">
+            <div class="g-plusone" data-annotation="none" data-href="http://sfeir-logo.appspot.com/"></div>
+        </div>
+        <div id="sfeir_linkedin" class="sfeir-social-button">
+            <script type="IN/Share" data-url="http://sfeir-logo.appspot.com/"></script>
+        </div>
+    </div>
+</div>
+
+<a href="https://github.com/pgu/sfeir-logo"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 <!-- LOGOs -->
 <link rel="stylesheet" type="text/css" href="/css/pgu.css" />
@@ -147,31 +164,13 @@
 
 <script type="text/javascript">
 
-    function socket_onMessage(message) {
-        var json = JSON.parse(message.data);
-
-        for (var i = 0, ii = SOCKET_LISTENERS.length; i < ii; i++) {
-            SOCKET_LISTENERS[i](json);
-        }
-    }
-
-    function open_channel(token) {
-        var channel = new goog.appengine.Channel(token);
-        var handler = {
-            'onopen': function() {},
-            'onmessage': socket_onMessage,
-            'onerror': function() {},
-            'onclose': function() {}
-        };
-        channel.open(handler);
-    }
-
-    $( document ).ready(function() {
+    $(document).ready(function() {
         $.get('channel/token', function(token) {
             open_channel(token);
         });
     });
 
+    $('#sfeir_social_bar').fadeOut();
 </script>
 
 </body>

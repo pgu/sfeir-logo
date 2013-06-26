@@ -85,9 +85,10 @@
     window.SLIDES['pgu-berlin'] = {
         id: 'pgu-berlin'
         , reset: function() {
-            console.log('reset');
+            delete window.SOCKET_LISTENERS['mash_listener'];
         }
         , execute: function() {
+            registerSocketListener();
             fetchAChallenge();
             fetchRanking();
         }
@@ -116,7 +117,7 @@
             $(class_rank + '[data-playerid="' + ids_new_ranks[i] + '"]') //
                 .animate({color: '#FF8C00 !important'},
                     {
-                        duration: 1000,
+                        duration: 600,
                         complete: function() {
                             $(this).css('color', '');
                         }
@@ -125,18 +126,23 @@
         }
     }
 
-    window.SOCKET_LISTENERS.push(function(data) {
+    var registerSocketListener = function() {
+        window.SOCKET_LISTENERS['mash_listener'] = function(data) {
+            if (data.type !== 'mash') {
+                return;
+            }
 
-        // identify new ranks
-        var ids_new_highs = getDiffFromNewRanks('.high_ranking', data.highests);
-        var ids_new_lows = getDiffFromNewRanks('.low_ranking', data.lowests);
+            // identify new ranks
+            var ids_new_highs = getDiffFromNewRanks('.high_ranking', data.highests);
+            var ids_new_lows = getDiffFromNewRanks('.low_ranking', data.lowests);
 
-        // display new table
-        buildRankingTable(data);
+            // display new table
+            buildRankingTable(data);
 
-        // highlight the identified new ranks
-        highlightNewRanks('.high_ranking', ids_new_highs);
-        highlightNewRanks('.low_ranking', ids_new_lows);
-    });
+            // highlight the identified new ranks
+            highlightNewRanks('.high_ranking', ids_new_highs);
+            highlightNewRanks('.low_ranking', ids_new_lows);
+        };
+    }
 
 })();

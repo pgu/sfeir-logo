@@ -56,8 +56,8 @@ public class MashServlet extends HttpServlet {
 
         } else if ("/ranking".equals(pathInfo)) {
 
-            String json = getJsonOfHighestAndLowestPlayers();
-            resp.getWriter().write(json);
+            HashMap<String, Object> payload = getPayloadForHighestAndLowestPlayers();
+            resp.getWriter().write(new Gson().toJson(payload));
 
         } else if ("/all_ranks".equals(pathInfo)) {
 
@@ -69,7 +69,7 @@ public class MashServlet extends HttpServlet {
         }
     }
 
-    private String getJsonOfHighestAndLowestPlayers() {
+    private HashMap<String, Object> getPayloadForHighestAndLowestPlayers() {
         List<Player> highests = dbMash.getHighestPlayers(3);
         List<Player> lowests = dbMash.getLowestPlayers(3);
 
@@ -77,7 +77,7 @@ public class MashServlet extends HttpServlet {
         payload.put("highests", highests);
         payload.put("lowests", lowests);
 
-        return new Gson().toJson(payload);
+        return payload;
     }
 
     @Override
@@ -130,7 +130,10 @@ public class MashServlet extends HttpServlet {
             dbMash.deleteChallenge(uiChallengeId);
 
             // send update of the ranking
-            String channelMessage = getJsonOfHighestAndLowestPlayers();
+            HashMap<String, Object> payload = getPayloadForHighestAndLowestPlayers();
+            payload.put("type", "mash");
+
+            String channelMessage = new Gson().toJson(payload);
             channelService.sendMessage(new ChannelMessage(ChannelServlet.PUBLIC_TOKEN, channelMessage));
 
         } else {
