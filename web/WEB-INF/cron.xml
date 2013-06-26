@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+    <cron>
+        <url>/cron/challenges/clean</url>
+        <description>clean the challenges not used</description>
+        <schedule>every day 01:00</schedule>
+    </cron>
+</cronentries>

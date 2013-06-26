@@ -15,6 +15,11 @@
         <servlet-class>server.channel.ChannelServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>cron</servlet-name>
+        <servlet-class>server.cron.CronServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>mash</servlet-name>
         <url-pattern>/mash/*</url-pattern>
@@ -23,6 +28,11 @@
     <servlet-mapping>
         <servlet-name>channel</servlet-name>
         <url-pattern>/channel/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cron</servlet-name>
+        <url-pattern>/cron/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -39,5 +49,15 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>cron jobs</web-resource-name>
+            <url-pattern>/cron/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 
 </web-app>

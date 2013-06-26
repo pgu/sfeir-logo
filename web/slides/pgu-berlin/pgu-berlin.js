@@ -86,6 +86,19 @@
         id: 'pgu-berlin'
         , reset: function() {
             delete window.SOCKET_LISTENERS['mash_listener'];
+
+            $('.mash_col').fadeOut('fast');
+            $('#pic_a').attr('src', '');
+            $('#pic_b').attr('src', '');
+
+            $('#txt_a').text('');
+            $('#txt_b').text('');
+
+            $('#col_a').off('click');
+            $('#col_b').off('click');
+
+            $('#ranking_col_higher').html('');
+            $('#ranking_col_lower').html('');
         }
         , execute: function() {
             registerSocketListener();
