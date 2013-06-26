@@ -9,7 +9,7 @@ public class DBMock implements DBMash {
 
     static Long challengeId = 10L;
 
-    static Player g1 = new Player(1L ,"Networking is one letter from Not working", "http://25.media.tumblr.com/f74d771d1fc640d6eb32d4f7242b4b71/tumblr_moca9xWmSv1rcufs7o1_1280.png");
+    static Player g1 = new Player(1L, "Networking is one letter from Not working", "http://25.media.tumblr.com/f74d771d1fc640d6eb32d4f7242b4b71/tumblr_moca9xWmSv1rcufs7o1_1280.png");
     static Player g2 = new Player(2L, "Teamwork: Tackle life side by side.", "http://24.media.tumblr.com/9eed7a0ca40b301569a67fe29e3d3cc6/tumblr_mnotrbV7Hz1rcufs7o1_1280.png");
     static Player g3 = new Player(3L, "Crash: it does not just happen to computers.", "http://24.media.tumblr.com/a1dfdda0494a2506a3fc4bb9184540f0/tumblr_mnryxtDBMu1rcufs7o1_1280.jpg");
 
@@ -42,7 +42,7 @@ public class DBMock implements DBMash {
             player2 = g3;
         }
 
-        return new Player[] {player1, player2};
+        return new Player[]{player1, player2};
     }
 
     public void saveChallenge(Challenge challenge) {
@@ -68,15 +68,10 @@ public class DBMock implements DBMash {
     public List<Player> getHighestPlayers(int nb) {
 
         List<Player> allPlayers = new ArrayList<Player>(players.values());
-        Collections.sort(allPlayers, new Comparator<Player>() {
-            @Override
-            public int compare(Player p1, Player p2) {
-                return p2.getRating() - p1.getRating();
-            }
-        });
+        sortPlayersFromHighestToLowestRating(allPlayers);
 
         List<Player> highests = new ArrayList<Player>(nb);
-        for (int i = 0; i < allPlayers.size(); i++)       {
+        for (int i = 0; i < allPlayers.size(); i++) {
             if (i < nb) {
                 highests.add(allPlayers.get(i));
             } else {
@@ -89,33 +84,33 @@ public class DBMock implements DBMash {
     @Override
     public List<Player> getLowestPlayers(int nb) {
         List<Player> allPlayers = new ArrayList<Player>(players.values());
-        Collections.sort(allPlayers, new Comparator<Player>() {
-            @Override
-            public int compare(Player p1, Player p2) {
-                return p1.getRating() - p2.getRating();
-            }
-        });
+        sortPlayersFromHighestToLowestRating(allPlayers);
 
         List<Player> lowests = new ArrayList<Player>(nb);
-        for (int i = 0; i < allPlayers.size(); i++)       {
-            if (i < nb) {
+        for (int i = allPlayers.size() - 1; i > -1; i--) {
+            if (lowests.size() < nb) {
                 lowests.add(allPlayers.get(i));
             } else {
                 break;
             }
         }
+        Collections.reverse(lowests);
         return lowests;
     }
 
-    @Override
-    public List<Player> getAllPlayersFromHighestToLowestScore() {
-        List<Player> allPlayers = new ArrayList<Player>(players.values());
+    void sortPlayersFromHighestToLowestRating(List<Player> allPlayers) {
         Collections.sort(allPlayers, new Comparator<Player>() {
             @Override
             public int compare(Player p1, Player p2) {
                 return p2.getRating() - p1.getRating();
             }
         });
+    }
+
+    @Override
+    public List<Player> getAllPlayersFromHighestToLowestScore() {
+        List<Player> allPlayers = new ArrayList<Player>(players.values());
+        sortPlayersFromHighestToLowestRating(allPlayers);
         return allPlayers;
     }
 

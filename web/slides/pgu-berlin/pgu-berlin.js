@@ -41,8 +41,6 @@
     var fetchAChallenge = function() {
         $.getJSON('mash/challenge', function (data) {
 
-            console.log(data);
-
             var player1 = data.player1;
             var player2 = data.player2;
 
@@ -67,12 +65,12 @@
         $.getJSON('mash/ranking', function (data) {
 
             var highest_rankings = data.highests.map(function(highest) {
-                return '<div class="high_ranking ranking_cell" title="' + highest.text + '">' + highest.text + '</div>';
+                return '<div class="high_ranking ranking_cell" title="' + highest.text + ' [' + highest.rating + ']">' + highest.text + '</div>';
             });
             $('#ranking_col_higher').html(highest_rankings.join(''));
 
             var lowest_rankings = data.lowests.map(function(lowest) {
-                return '<div class="low_ranking ranking_cell" title="' + lowest.text + '">' + lowest.text + '</div>';
+                return '<div class="low_ranking ranking_cell" title="' + lowest.text + ' [' + lowest.rating + ']">' + lowest.text + '</div>';
             });
             $('#ranking_col_lower').html(lowest_rankings.join(''));
 
@@ -85,10 +83,7 @@
             console.log('reset');
         }
         , execute: function() {
-            console.log('execute');
-
             fetchAChallenge();
-
             fetchRanking();
 
             // TODO

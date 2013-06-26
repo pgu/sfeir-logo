@@ -8,6 +8,7 @@ import com.googlecode.objectify.util.DAOBase;
 import server.mash.DBMash;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -65,7 +66,9 @@ public class DAO extends DAOBase implements DBMash {
 
     @Override
     public List<Player> getLowestPlayers(int nb) {
-        return ofy().query(Player.class).order("rating").limit(nb).list();
+        List<Player> players = ofy().query(Player.class).order("rating").limit(nb).list();
+        Collections.reverse(players);
+        return players;
     }
 
     @Override
