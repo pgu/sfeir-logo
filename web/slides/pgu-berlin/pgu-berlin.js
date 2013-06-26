@@ -21,7 +21,7 @@
         , '  <div id="ranking_col_higher" class="ranking_col"></div>'
         , '  <div id="ranking_col_lower"  class="ranking_col"></div>'
         , '  <div class="clearfix"></div>'
-        , '  <div class="ranking_dl"><a href="mash_all_scores.html" target="_blank" class="ranking_dl_btn" title="Download the whole ranking">&#9660</a></div>'
+        , '  <div class="ranking_dl"><a href="mash_all_scores.html" target="_blank" class="ranking_dl_btn" title="Open the whole ranking">&#9660</a></div>'
         , ' </div>'
         , '</div>'
     ];

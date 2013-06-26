@@ -68,14 +68,16 @@
     text-align: center;
 
     text-decoration: none;
-    border : 3px rgba(0, 102, 204, .75) solid;
+    border : 3px white solid !important;
     border-radius: 20px;
+
+    color: white !important;
 }
 .ranking_dl_btn:hover {
-    color: darkorange;
-    border : 3px darkorange solid;
+    color: darkorange !important;
+    border : 3px darkorange solid !important;
 }
 .ranking_dl_btn:active {
-    color: orangered;
-    border : 3px orangered solid;
+    color: orangered !important;
+    border : 3px orangered solid !important;
 }
