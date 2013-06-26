@@ -10,9 +10,19 @@
         <servlet-class>server.mash.MashServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>channel</servlet-name>
+        <servlet-class>server.ChannelServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>mash</servlet-name>
         <url-pattern>/mash/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>channel</servlet-name>
+        <url-pattern>/channel/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

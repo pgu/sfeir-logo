@@ -64,18 +64,21 @@
         });
     }
 
+    var buildRankingTable = function(data) {
+        var highest_rankings = data.highests.map(function(highest) {
+            return '<div data-playerid="' +  highest.id + '" class="high_ranking ranking_cell" title="' + highest.text + ' [' + highest.rating + ']">' + highest.text + '</div>';
+        });
+        $('#ranking_col_higher').html(highest_rankings.join(''));
+
+        var lowest_rankings = data.lowests.map(function(lowest) {
+            return '<div data-playerid="' +  lowest.id + '" class="low_ranking ranking_cell" title="' + lowest.text + ' [' + lowest.rating + ']">' + lowest.text + '</div>';
+        });
+        $('#ranking_col_lower').html(lowest_rankings.join(''));
+    }
+
     var fetchRanking = function() {
         $.getJSON('mash/ranking', function (data) {
-
-            var highest_rankings = data.highests.map(function(highest) {
-                return '<div class="high_ranking ranking_cell" title="' + highest.text + ' [' + highest.rating + ']">' + highest.text + '</div>';
-            });
-            $('#ranking_col_higher').html(highest_rankings.join(''));
-
-            var lowest_rankings = data.lowests.map(function(lowest) {
-                return '<div class="low_ranking ranking_cell" title="' + lowest.text + ' [' + lowest.rating + ']">' + lowest.text + '</div>';
-            });
-            $('#ranking_col_lower').html(lowest_rankings.join(''));
+            buildRankingTable(data);
         });
     }
 
@@ -87,11 +90,56 @@
         , execute: function() {
             fetchAChallenge();
             fetchRanking();
-
-            // TODO
-            // + https://github.com/pgu/pgu-track/blob/master/war/Pgu_track.html
-
         }
     };
+
+    window.SOCKET_LISTENERS.push(function(data) {
+        console.log('berlin got json');
+        console.log(data);
+
+
+        var ids_new_highs = [];
+        var idx = 0;
+
+        $('.high_ranking').each(function() {
+            console.log($(this)[0].dataset['playerid']);
+            var is_the_same = $(this)[0].dataset['playerid'] === data.highests[idx].id + '';
+
+            if (!is_the_same) {
+                ids_new_highs.push(data.highests[idx].id);
+            }
+
+            idx++;
+        });
+
+        var ids_new_lows = [];
+        idx = 0;
+        $('.low_ranking').each(function() {
+            var is_the_same = $(this)[0].dataset['playerid'] === data.lowests[idx].id + '';
+
+            if (!is_the_same) {
+                ids_new_lows.push(data.highests[idx].id);
+            }
+
+            idx++;
+        });
+
+        buildRankingTable(data);
+
+        console.log("low..");
+        for (var i = 0, ii = ids_new_lows.length; i < ii; i++) {
+            console.log($('.low_ranking[data-playerid="' + ids_new_lows[i] + '"]'));
+            $('.low_ranking[data-playerid="' + ids_new_lows[i] + '"]').animate({color: '#FF8C00 !important'});
+        }
+
+        console.log("high..");
+        for (var i = 0, ii = ids_new_highs.length; i < ii; i++) {
+            console.log($('.high_ranking[data-playerid="' + ids_new_highs[i] + '"]'));
+            $('.high_ranking[data-playerid="' + ids_new_highs[i] + '"]').animate({color: '#FF8C00 !important'}, {duration: 1000, complete: function() {
+                $(this).css('color', '');
+            }});
+        }
+
+    });
 
 })();

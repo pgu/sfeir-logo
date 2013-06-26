@@ -1,6 +1,10 @@
 package server.mash;
 
+import com.google.appengine.api.channel.ChannelMessage;
+import com.google.appengine.api.channel.ChannelService;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.gson.Gson;
+import server.ChannelServlet;
 import server.domain.Challenge;
 import server.domain.DAO;
 import server.domain.Player;
@@ -11,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class MashServlet extends HttpServlet {
 
     EloRatingService eloRatingService = new EloRatingService();
     DBMash dbMash = new DAO();
+    ChannelService channelService = ChannelServiceFactory.getChannelService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,14 +55,8 @@ public class MashServlet extends HttpServlet {
 
         } else if ("/ranking".equals(pathInfo)) {
 
-            List<Player> highests = dbMash.getHighestPlayers(3);
-            List<Player> lowests = dbMash.getLowestPlayers(3);
-
-            HashMap<String, Object> payload = new HashMap<String, Object>();
-            payload.put("highests", highests);
-            payload.put("lowests", lowests);
-
-            resp.getWriter().write(new Gson().toJson(payload));
+            String json = getJsonOfHighestAndLowestPlayers();
+            resp.getWriter().write(json);
 
         } else if ("/all_ranks".equals(pathInfo)) {
 
@@ -69,6 +66,17 @@ public class MashServlet extends HttpServlet {
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+
+    private String getJsonOfHighestAndLowestPlayers() {
+        List<Player> highests = dbMash.getHighestPlayers(3);
+        List<Player> lowests = dbMash.getLowestPlayers(3);
+
+        HashMap<String, Object> payload = new HashMap<String, Object>();
+        payload.put("highests", highests);
+        payload.put("lowests", lowests);
+
+        return new Gson().toJson(payload);
     }
 
     @Override
@@ -119,6 +127,10 @@ public class MashServlet extends HttpServlet {
 
             // clean this challenge
             dbMash.deleteChallenge(uiChallengeId);
+
+            // send update of the ranking
+            String channelMessage = getJsonOfHighestAndLowestPlayers();
+            channelService.sendMessage(new ChannelMessage(ChannelServlet.PUBLIC_TOKEN, channelMessage));
 
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
