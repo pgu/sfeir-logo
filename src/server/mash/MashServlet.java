@@ -50,8 +50,8 @@ public class MashServlet extends HttpServlet {
 
         } else if("/ranking".equals(pathInfo)) {
 
-            List<Player> highests = dbMash.getHighestPlayers(5);
-            List<Player> lowests = dbMash.getLowestPlayers(5);
+            List<Player> highests = dbMash.getHighestPlayers(3);
+            List<Player> lowests = dbMash.getLowestPlayers(3);
 
             HashMap<String, Object> payload = new HashMap<String, Object>();
             payload.put("highests", highests);

@@ -14,15 +14,15 @@
     width: 360px;
     cursor: pointer;
 
-    margin-top: 50px;
+    margin-top: 20px;
     margin-right: 20px;
 }
 .mash_col:hover {
-    box-shadow: 0 0 1em white;
+    box-shadow: 0 0 1em darkorange;
 }
 .pic_mash {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
 
     display: block;
     margin: 0px auto;
@@ -38,6 +38,9 @@
     float: left;
     width: 360px;
     margin-right: 20px;
+}
+.ranking_col_header {
+    text-align: center;
 }
 .ranking_cell {
     white-space: nowrap;
@@ -60,5 +63,19 @@
     margin: 0px auto;
     display: block;
 
-    cursor: pointer;
+    width: 36px;
+    font-size: smaller;
+    text-align: center;
+
+    text-decoration: none;
+    border : 3px rgba(0, 102, 204, .75) solid;
+    border-radius: 20px;
+}
+.ranking_dl_btn:hover {
+    color: darkorange;
+    border : 3px darkorange solid;
+}
+.ranking_dl_btn:active {
+    color: orangered;
+    border : 3px orangered solid;
 }
