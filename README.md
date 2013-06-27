@@ -46,13 +46,16 @@ Why these slides?
 After viewing the awesome [presentation] [2] of Marting Gorner's team, it obviously makes you want to use all those new features.
 And the [Sfeir] [3] logo, especially this form [≡], inspires some funny moves :-)
 
-Server side
+Miscellaneous
 -----------
-google-gson-2.2
-junit-4.10
-fest-assert-1.4 [festassert]
-mockito-all-1.9.5
-objectify-3.1
+* Server side
+ * google-gson-2.2
+ * junit-4.10
+ * [fest-assert-1.4] [festassert]
+ * mockito-all-1.9.5
+ * objectify-3.1
+* Slide 'Sfeir-invaders': html5 canvas, animation
+* Slide 'Geek mash': webp pictures on Chrome, websocket from AppEngine, EloRating service
 
 [1]: http://sfeir-logo.appspot.com/ "Slides with the Sfeir logo"
 [2]: http://animateyourhtml5.appspot.com/ "Animate your html5"
