@@ -40,14 +40,28 @@
         fetchAChallenge();
     };
 
+    var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+
+    var getPictureUrl = function(originalPictureUrl) {
+        if (!is_chrome) {
+            return originalPictureUrl;
+        }
+
+        var lastSlashIdx = originalPictureUrl.lastIndexOf('/');
+        var pictureName = originalPictureUrl.substring(lastSlashIdx +1, originalPictureUrl.length);
+        var pictureNameWebp = pictureName.replace('.png', '').replace('.jpg', '') + '.webp';
+
+        return 'http://ec2-46-137-59-67.eu-west-1.compute.amazonaws.com:8080/pictures/' + pictureNameWebp;
+    }
+
     var fetchAChallenge = function() {
         $.getJSON('mash/challenge', function (data) {
 
             var player1 = data.player1;
             var player2 = data.player2;
 
-            $('#pic_a').attr('src', player1.pictureUrl);
-            $('#pic_b').attr('src', player2.pictureUrl);
+            $('#pic_a').attr('src', getPictureUrl(player1.pictureUrl));
+            $('#pic_b').attr('src', getPictureUrl(player2.pictureUrl));
 
             $('#txt_a').text(player1.text);
             $('#txt_b').text(player2.text);

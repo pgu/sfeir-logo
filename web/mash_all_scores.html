@@ -22,6 +22,21 @@
 
 <script>
     $(document).ready(function() {
+
+        var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+
+        var getPictureUrl = function(originalPictureUrl) {
+            if (!is_chrome) {
+                return originalPictureUrl;
+            }
+
+            var lastSlashIdx = originalPictureUrl.lastIndexOf('/');
+            var pictureName = originalPictureUrl.substring(lastSlashIdx +1, originalPictureUrl.length);
+            var pictureNameWebp = pictureName.replace('.png', '').replace('.jpg', '') + '.webp';
+
+            return 'http://ec2-46-137-59-67.eu-west-1.compute.amazonaws.com:8080/pictures/' + pictureNameWebp;
+        }
+
         $.getJSON('mash/all_ranks', function (players) {
 
             var div_content = [];
@@ -38,7 +53,7 @@
 
                 div_content.push('<li class="span4">');
                 div_content.push(' <div class="thumbnail">');
-                div_content.push('  <img style="width: 250px; height: 250px" src="' + player.pictureUrl + '">');
+                div_content.push('  <img style="width: 250px; height: 220px" src="' + getPictureUrl(player.pictureUrl) + '">');
                 div_content.push('  <div class="caption">');
                 div_content.push('   <h3>' + player.text + '</h3>');
                 div_content.push('   <p>');
