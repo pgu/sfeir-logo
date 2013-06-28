@@ -77,7 +77,7 @@
 
 .pgu-nt-rotate {
 
-    color: #F1471D;
+    color: #F1471D !important;
 
     -moz-transform:rotate(180deg);
     -webkit-transform:rotate(180deg);

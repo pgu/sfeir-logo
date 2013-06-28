@@ -67,7 +67,7 @@
                     if (!pgu_nantes.is_ON()) {return;}
 
                     $('#pgu-nt-e').addClass('pgu-nt-rotate');
-                }, 400);
+                }, 200);
 
                 $('#pgu-nt-e').delay(2700).fadeOut('slow',
                     function() {

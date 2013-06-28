@@ -35,6 +35,7 @@
 <script>
     var SOCKET_LISTENERS = {};
     var SLIDES = {};
+
     var current_slide = null;
 
     function reset_current_slide() {
@@ -51,32 +52,19 @@
         reset_current_slide();
 
         current_slide = SLIDES[el.id];
+
+        if (!current_slide) { // still not loaded
+            setTimeout(function() {
+                on_slide_enter(el);
+            }, 300);
+            return;
+        }
+
         current_slide.execute();
     }
 
     function on_slide_leave() {
         reset_current_slide();
-    }
-
-    function socket_onMessage(message) {
-        var json = JSON.parse(message.data);
-
-        for (var listener in SOCKET_LISTENERS) {
-            if (SOCKET_LISTENERS.hasOwnProperty(listener)) {
-                SOCKET_LISTENERS[listener](json);
-            }
-        }
-    }
-
-    function open_channel(token) {
-        var channel = new goog.appengine.Channel(token);
-        var handler = {
-            'onopen': function() {},
-            'onmessage': socket_onMessage,
-            'onerror': function() {},
-            'onclose': function() {}
-        };
-        channel.open(handler);
     }
 
 </script>
@@ -116,20 +104,56 @@
 <link rel="stylesheet" type="text/css" href="/css/pgu.css" />
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Source+Code+Pro|Bangers">
 
-<link rel="stylesheet" type="text/css" href="/slides/pgu-nantes/pgu-nantes.css" />
-<script src="/slides/pgu-nantes/pgu-nantes.js" ></script>
+<script>
+    (function() {
 
-<link rel="stylesheet" type="text/css" href="/slides/pgu-madrid/pgu-madrid.css" />
-<script src="/slides/pgu-madrid/pgu-madrid.js" ></script>
+        var create_script_tag = function(slide_import) {
+            var tag_script = document.createElement('script');
+            tag_script.type = 'text/javascript';
+            tag_script.src = '/slides/' + slide_import + '/' + slide_import + '.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(tag_script, s);
+        };
 
-<link rel="stylesheet" type="text/css" href="/slides/pgu-new-york/pgu-new-york.css" />
-<script src="/slides/pgu-new-york/pgu-new-york.js" ></script>
+        var create_link_tag = function(slide_import) {
+            var tag_link = document.createElement('link');
+            tag_link.rel = 'stylesheet';
+            tag_link.type = 'text/css';
+            tag_link.href = '/slides/' + slide_import + '/' + slide_import + '.css';
+            var s = document.getElementsByTagName('head')[0];
+            s.appendChild(tag_link, s);
+        };
 
-<link rel="stylesheet" type="text/css" href="/slides/pgu-london/pgu-london.css" />
-<script src="/slides/pgu-london/pgu-london.js" ></script>
+        var slides_import = [
+            'pgu-nantes',
+            'pgu-madrid',
+            'pgu-new-york',
+            'pgu-london',
+            'pgu-berlin'
+        ];
 
-<link rel="stylesheet" type="text/css" href="/slides/pgu-berlin/pgu-berlin.css" />
-<script src="/slides/pgu-berlin/pgu-berlin.js" ></script>
+        var idx = 1; // hash is 1-based
+        if (location.hash.indexOf('#') > -1) {
+            idx = parseInt(location.hash.replace('#', ''), 10);
+        }
+        var first_slide_import = slides_import[idx - 1];
+
+        create_script_tag(first_slide_import);
+        create_link_tag(first_slide_import);
+
+        slides_import.splice(idx - 1, 1);
+
+        setTimeout(function() {
+            for (var i = 0, ii = slides_import.length; i < ii; i++) {
+                var slide_import = slides_import[i];
+
+                create_script_tag(slide_import);
+                create_link_tag(slide_import);
+            }
+        }, 500);
+
+    })();
+</script>
 
 <!-- Twitter -->
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -165,12 +189,34 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
+
+        $('#sfeir_social_bar').fadeOut();
+
+        function socket_onMessage(message) {
+            var json = JSON.parse(message.data);
+
+            for (var listener in SOCKET_LISTENERS) {
+                if (SOCKET_LISTENERS.hasOwnProperty(listener)) {
+                    SOCKET_LISTENERS[listener](json);
+                }
+            }
+        }
+
+        function open_channel(token) {
+            var channel = new goog.appengine.Channel(token);
+            var handler = {
+                'onopen': function() {},
+                'onmessage': socket_onMessage,
+                'onerror': function() {},
+                'onclose': function() {}
+            };
+            channel.open(handler);
+        }
+
         $.get('channel/token', function(token) {
             open_channel(token);
         });
     });
-
-    $('#sfeir_social_bar').fadeOut();
 </script>
 
 </body>

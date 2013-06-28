@@ -38,6 +38,7 @@
 
         }
         , execute: function() {
+            SpriteSheet.loadAllPictures();
             Game.initialize("sfeir-invaders",sprites,startGame);
         }
     }
@@ -184,14 +185,18 @@
             .concat(pictures_enemies_missiles)
             ;
 
-        for (var i = 0; i < picture_names.length; i++) {
+        this.loadAllPictures = function() {
+            if ($.isEmptyObject(this.pictures)) {
+                for (var i = 0; i < picture_names.length; i++) {
 
-            var pic_name = picture_names[i];
+                    var pic_name = picture_names[i];
 
-            var img = new Image();
-            img.src = '/slides/pgu-london/img/' + pic_name + '.png';
+                    var img = new Image();
+                    img.src = '/slides/pgu-london/img/' + pic_name + '.png';
 
-            this.pictures[pic_name] = img;
+                    this.pictures[pic_name] = img;
+                }
+            }
         }
 
         this.load = function(spriteData,callback) {
