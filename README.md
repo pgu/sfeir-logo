@@ -54,11 +54,13 @@ Miscellaneous
  * [fest-assert-1.4] [festassert]
  * mockito-all-1.9.5
  * objectify-3.1
-* Slide 'Sfeir-invaders': html5 canvas, animation
-* Slide 'Geek mash': webp pictures on Chrome, websocket from AppEngine, EloRating service
+* Slide [Sfeir-invaders][invaders]: html5 canvas, animation
+* Slide [Geekmash][geekmash]: webp pictures on Chrome, websocket from AppEngine, EloRating service
 
 [1]: http://sfeir-logo.appspot.com/ "Slides with the Sfeir logo"
 [2]: http://animateyourhtml5.appspot.com/ "Animate your html5"
 [3]: http://www.sfeir.com/ "Sfeir"
 [festassert]: http://code.google.com/p/fest/downloads/detail?name=fest-assert-1.4.zip&can=2&q=
+[invaders]: http://sfeir-logo.appspot.com/#4
+[geekmash]: http://sfeir-logo.appspot.com/#5
 
