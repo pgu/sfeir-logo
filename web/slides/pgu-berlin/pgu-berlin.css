@@ -41,6 +41,9 @@
     text-align: center;
     color: white;
 }
+.ranking_row_headers {
+    margin-top: 10px;
+}
 .ranking_row {
 
 }
