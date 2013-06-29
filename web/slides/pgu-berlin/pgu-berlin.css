@@ -28,10 +28,14 @@
 }
 .pic_mash {
     width: 250px;
-    height: 220px;
+    height: 250px;
 
     display: block;
     margin: 0px auto;
+}
+.pic_sfeir {
+    width: 280px;
+    height: 180px;
 }
 .txt_mash {
     text-align: center;

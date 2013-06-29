@@ -6,7 +6,16 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico" >
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-responsive.min.css" />
-
+    <style>
+        .pic_mash {
+            width: 250px;
+            height: 250px;
+        }
+        .pic_sfeir {
+            width: 280px;
+            height: 180px;
+        }
+    </style>
 </head>
 <body>
 
@@ -37,6 +46,10 @@
             return 'http://ec2-46-137-59-67.eu-west-1.compute.amazonaws.com:8080/pictures/' + pictureNameWebp;
         }
 
+        var getPictureStyle = function(picture_url) {
+            return picture_url.indexOf('tumblr') === -1 ? 'pic_sfeir' : 'pic_mash';
+        }
+
         $.getJSON('mash/all_ranks', function (players) {
 
             var div_content = [];
@@ -53,7 +66,7 @@
 
                 div_content.push('<li class="span4">');
                 div_content.push(' <div class="thumbnail">');
-                div_content.push('  <img style="width: 250px; height: 220px" src="' + getPictureUrl(player.pictureUrl) + '">');
+                div_content.push('  <img class="' + getPictureStyle(player.pictureUrl) + '" src="' + getPictureUrl(player.pictureUrl) + '">');
                 div_content.push('  <div class="caption">');
                 div_content.push('   <h3>' + player.text + '</h3>');
                 div_content.push('   <p>');

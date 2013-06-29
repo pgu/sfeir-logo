@@ -54,17 +54,29 @@
         return 'http://ec2-46-137-59-67.eu-west-1.compute.amazonaws.com:8080/pictures/' + pictureNameWebp;
     }
 
+    var updatePictureSize = function(picture_id, picture_url) {
+        var picture = $(picture_id);
+        if (picture.prop('src').indexOf('tumblr') === -1) {
+            picture.addClass('pic_sfeir');
+        } else {
+            picture.removeClass('pic_sfeir');
+        }
+    }
+
     var fetchAChallenge = function() {
         $.getJSON('mash/challenge', function (data) {
 
             var player1 = data.player1;
             var player2 = data.player2;
 
+            $('#txt_a').text(player1.text);
+            $('#txt_b').text(player2.text);
+
             $('#pic_a').attr('src', getPictureUrl(player1.pictureUrl));
             $('#pic_b').attr('src', getPictureUrl(player2.pictureUrl));
 
-            $('#txt_a').text(player1.text);
-            $('#txt_b').text(player2.text);
+            updatePictureSize('#pic_a', player1.pictureUrl);
+            updatePictureSize('#pic_b', player2.pictureUrl);
 
             $('#col_a').off('click').on('click', function () {
                 sendWinnerOfChallenge(player1, data);
