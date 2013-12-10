@@ -51,7 +51,7 @@
         var pictureName = originalPictureUrl.substring(lastSlashIdx +1, originalPictureUrl.length);
         var pictureNameWebp = pictureName.replace('.png', '').replace('.jpg', '') + '.webp';
 
-        return 'http://ec2-46-137-59-67.eu-west-1.compute.amazonaws.com:8080/pictures/' + pictureNameWebp;
+        return '/slides/pgu-berlin/pictures/' + pictureNameWebp;
     }
 
     var updatePictureSize = function(picture_id, picture_url) {
