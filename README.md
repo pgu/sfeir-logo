@@ -5,6 +5,11 @@ Where to see the slides?
 ------------------------
 [Right here] [1]
 
+![](logo-1.gif)
+
+![](logo-game.gif)
+
+
 Want to add a slide?
 --------------------
 
@@ -29,10 +34,10 @@ Here are the steps to follow:
     var your_dom = 'something...';   // Here is the dom that will be appended to your 'article'
     var article = $('#my-awesome-slide');
     article.html(your_dom);
-    
+
     window.SLIDES['my-awesome-slide'] = {  // register your slide in order to get called when the user gets in and out
         id: 'my-awesome-slide'    
-      , reset: function() {...}         // 'reset' is called when leaving the slide 
+      , reset: function() {...}         // 'reset' is called when leaving the slide
       , execute: function() {...}       // 'execute' is called when entering the slide
     }
 })();
@@ -63,4 +68,3 @@ Miscellaneous
 [festassert]: http://code.google.com/p/fest/downloads/detail?name=fest-assert-1.4.zip&can=2&q=
 [invaders]: http://sfeir-logo.appspot.com/#4
 [geekmash]: http://sfeir-logo.appspot.com/#5
-
